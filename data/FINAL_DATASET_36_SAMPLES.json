@@ -1,0 +1,606 @@
+[
+  {
+    "id": 1,
+    "commit": "093a56e3",
+    "commit_msg": "Remove function overhead in area (#2233)\n\n* remove function overhead\r\nadd type hints\r\n\r\n* remove unu",
+    "file": "maths/area.py",
+    "function": "surface_area_cube",
+    "bug_type": "wrong_return_value",
+    "pl": "def surface_area_cube(side_length: Union[int, float]) -> float:\r\n    \"\"\"\r\n    Calculate the Surface Area of a Cube.\r\n\r\n    >>> surface_area_cube(1)\r\n    6\r\n    >>> surface_area_cube(3)\r\n    54\r\n    \"\"\"\r\n    return 6 * pow(side_length, 2)\r",
+    "fixed_code": "def surface_area_cube(side_length: float) -> float:\r\n    \"\"\"\r\n    Calculate the Surface Area of a Cube.\r\n\r\n    >>> surface_area_cube(1)\r\n    6\r\n    >>> surface_area_cube(3)\r\n    54\r\n    \"\"\"\r\n    return 6 * side_length ** 2\r",
+    "tests": [
+      "assert surface_area_cube(1) == 6",
+      "assert surface_area_cube(3) == 54"
+    ],
+    "nl": "Fix wrong_return_value in surface_area_cube: Remove function overhead in area (#2233)\n\n* remove function overhead\r\nadd type h"
+  },
+  {
+    "id": 2,
+    "commit": "d687030d",
+    "commit_msg": "fix number_of_digits bug (#2301)\n\n* fix bug\r\n\r\n* test larger negative\r\n\r\n* fixup! Format Python code",
+    "file": "maths/number_of_digits.py",
+    "function": "num_digits",
+    "bug_type": "wrong_initialization",
+    "pl": "def num_digits(n: int) -> int:\n    \"\"\"\n    Find the number of digits in a number.\n\n    >>> num_digits(12345)\n    5\n    >>> num_digits(123)\n    3\n    \"\"\"\n    digits = 0\n    while n > 0:\n        n = n // 10\n        digits += 1\n    return digits",
+    "fixed_code": "def num_digits(n: int) -> int:\n    \"\"\"\n    Find the number of digits in a number.\n\n    >>> num_digits(12345)\n    5\n    >>> num_digits(123)\n    3\n    >>> num_digits(0)\n    1\n    >>> num_digits(-1)\n    1\n    >>> num_digits(-123456)\n    6\n    \"\"\"\n    digits = 0\n    n = abs(n)\n    while True:\n        n = n // 10\n        digits += 1\n        if n == 0:\n            break\n    return digits",
+    "tests": [
+      "assert num_digits(12345) == 5",
+      "assert num_digits(123) == 3",
+      "assert num_digits(0) == 1",
+      "assert num_digits(-1) == 1",
+      "assert num_digits(-123456) == 6"
+    ],
+    "nl": "Fix wrong_initialization in num_digits: fix number_of_digits bug (#2301)\n\n* fix bug\r\n\r\n* test larger negative\r\n\r\n* fixup"
+  },
+  {
+    "id": 3,
+    "commit": "fcc8a28c",
+    "commit_msg": "Gnome sort : type hints, docstrings, doctests (#2307)\n\n* gnome_sort : type hints, docstring, doctest",
+    "file": "sorts/gnome_sort.py",
+    "function": "gnome_sort",
+    "bug_type": "wrong_initialization",
+    "pl": "def gnome_sort(unsorted):\n    \"\"\"Pure implementation of the gnome sort algorithm in Python.\"\"\"\n    if len(unsorted) <= 1:\n        return unsorted\n\n    i = 1\n\n    while i < len(unsorted):\n        if unsorted[i - 1] <= unsorted[i]:\n            i += 1\n        else:\n            unsorted[i - 1], unsorted[i] = unsorted[i], unsorted[i - 1]\n            i -= 1\n            if i == 0:\n                i = 1",
+    "fixed_code": "def gnome_sort(lst: list) -> list:\n    \"\"\"\n    Pure implementation of the gnome sort algorithm in Python\n\n    Take some mutable ordered collection with heterogeneous comparable items inside as\n    arguments, return the same collection ordered by ascending.\n\n    Examples:\n    >>> gnome_sort([0, 5, 3, 2, 2])\n    [0, 2, 2, 3, 5]\n\n    >>> gnome_sort([])\n    []\n\n    >>> gnome_sort([-2, -5, -45])\n    [-45, -5, -2]\n\n    >>> \"\".join(gnome_sort(list(set(\"Gnomes are stupid!\"))))\n    ' !Gadeimnoprstu'\n    \"\"\"\n    if len(lst) <= 1:\n        return lst\n\n    i = 1\n\n    while i < len(lst):\n        if lst[i - 1] <= lst[i]:\n            i += 1\n        else:\n            lst[i - 1], lst[i] = lst[i], lst[i - 1]\n            i -= 1\n            if i == 0:\n                i = 1\n\n    return lst",
+    "tests": [
+      "assert gnome_sort([0, 5, 3, 2, 2]) == [0, 2, 2, 3, 5]",
+      "assert gnome_sort([]) == []",
+      "assert gnome_sort([-2, -5, -45]) == [-45, -5, -2]",
+      "assert \"\".join(gnome_sort(list(set(\"Gnomes are stupid!\")))) == ' !Gadeimnoprstu'"
+    ],
+    "nl": "Fix wrong_initialization in gnome_sort: Gnome sort : type hints, docstrings, doctests (#2307)\n\n* gnome_sort : type hints"
+  },
+  {
+    "id": 4,
+    "commit": "34294b56",
+    "commit_msg": "Update sum_of_digits.py (#2319)\n\n* * support negative number\r\n* add different version\r\n\r\n* fixup! Fo",
+    "file": "maths/sum_of_digits.py",
+    "function": "sum_of_digits",
+    "bug_type": "missing_edge_case",
+    "pl": "def sum_of_digits(n: int) -> int:\n    \"\"\"\n    Find the sum of digits of a number.\n\n    >>> sum_of_digits(12345)\n    15\n    >>> sum_of_digits(123)\n    6\n    \"\"\"\n    res = 0\n    while n > 0:\n        res += n % 10\n        n = n // 10\n    return res",
+    "fixed_code": "def sum_of_digits(n: int) -> int:\n    \"\"\"\n    Find the sum of digits of a number.\n\n    >>> sum_of_digits(12345)\n    15\n    >>> sum_of_digits(123)\n    6\n    >>> sum_of_digits(-123)\n    6\n    >>> sum_of_digits(0)\n    0\n    \"\"\"\n    n = -n if n < 0 else n\n    res = 0\n    while n > 0:\n        res += n % 10\n        n = n // 10\n    return res",
+    "tests": [
+      "assert sum_of_digits(12345) == 15",
+      "assert sum_of_digits(123) == 6",
+      "assert sum_of_digits(-123) == 6",
+      "assert sum_of_digits(0) == 0"
+    ],
+    "nl": "Fix missing_edge_case in sum_of_digits: Update sum_of_digits.py (#2319)\n\n* * support negative number\r\n* add different ve"
+  },
+  {
+    "id": 5,
+    "commit": "799fde4c",
+    "commit_msg": "Update linear_search.py (#2422)\n\n* Update linear_search.py\r\n\r\nPython implementation of recursive lin",
+    "file": "searches/linear_search.py",
+    "function": "linear_search",
+    "bug_type": "wrong_return_value",
+    "pl": "def linear_search(sequence, target):\n    \"\"\"Pure implementation of linear search algorithm in Python\n\n    :param sequence: a collection with comparable items (as sorted items not required\n        in Linear Search)\n    :param target: item value to search\n    :return: index of found item or None if item is not found\n\n    Examples:\n    >>> linear_search([0, 5, 7, 10, 15], 0)\n    0\n\n    >>> linear_search([0, 5, 7, 10, 15], 15)\n    4\n\n    >>> linear_search([0, 5, 7, 10, 15], 5)\n    1\n\n    >>> linear_search([0, 5, 7, 10, 15], 6)\n\n    \"\"\"\n    for index, item in enumerate(sequence):\n        if item == target:\n            return index\n    return None",
+    "fixed_code": "def linear_search(sequence: list, target: int) -> int:\n    \"\"\"A pure Python implementation of a linear search algorithm\n\n    :param sequence: a collection with comparable items (as sorted items not required\n        in Linear Search)\n    :param target: item value to search\n    :return: index of found item or None if item is not found\n\n    Examples:\n    >>> linear_search([0, 5, 7, 10, 15], 0)\n    0\n    >>> linear_search([0, 5, 7, 10, 15], 15)\n    4\n    >>> linear_search([0, 5, 7, 10, 15], 5)\n    1\n    >>> linear_search([0, 5, 7, 10, 15], 6)\n    -1\n    \"\"\"\n    for index, item in enumerate(sequence):\n        if item == target:\n            return index\n    return -1",
+    "tests": [
+      "assert linear_search([0, 5, 7, 10, 15], 0) == 0",
+      "assert linear_search([0, 5, 7, 10, 15], 15) == 4",
+      "assert linear_search([0, 5, 7, 10, 15], 5) == 1",
+      "assert linear_search([0, 5, 7, 10, 15], 6) == -1"
+    ],
+    "nl": "Fix wrong_return_value in linear_search: Update linear_search.py (#2422)\n\n* Update linear_search.py\r\n\r\nPython implementat"
+  },
+  {
+    "id": 6,
+    "commit": "902fe1c9",
+    "commit_msg": "Fixed reverse words algorithm (#2469)\n\n* updated reversed words\r\n\r\n* fixup! Format Python code with ",
+    "file": "strings/reverse_words.py",
+    "function": "reverse_words",
+    "bug_type": "wrong_return_value",
+    "pl": "def reverse_words(input_str: str) -> str:\n    \"\"\"\n    Reverses words in a given string\n    >>> sentence = \"I love Python\"\n    >>> reverse_words(sentence) == \" \".join(sentence.split()[::-1])\n    True\n    >>> reverse_words(sentence)\n    'Python love I'\n    \"\"\"\n    return \" \".join(reversed(input_str.split(\" \")))",
+    "fixed_code": "def reverse_words(input_str: str) -> str:\n    \"\"\"\n    Reverses words in a given string\n    >>> reverse_words(\"I love Python\")\n    'Python love I'\n    >>> reverse_words(\"I     Love          Python\")\n    'Python Love I'\n    \"\"\"\n    return \" \".join(input_str.split()[::-1])",
+    "tests": [
+      "assert reverse_words(\"I love Python\") == 'Python love I'",
+      "assert reverse_words(\"I     Love          Python\") == 'Python Love I'"
+    ],
+    "nl": "Fix wrong_return_value in reverse_words: Fixed reverse words algorithm (#2469)\n\n* updated reversed words\r\n\r\n* fixup! Form"
+  },
+  {
+    "id": 7,
+    "commit": "3a275caf",
+    "commit_msg": "Fixed remove duplicate (#2470)\n\n* fixed remove duplicate\r\n\r\n* fixup! Format Python code with psf/bla",
+    "file": "strings/remove_duplicate.py",
+    "function": "remove_duplicates",
+    "bug_type": "logic_error",
+    "pl": "def remove_duplicates(sentence: str) -> str:\n    \"\"\"\n    Reomove duplicates from sentence\n    >>> remove_duplicates(\"Python is great and Java is also great\")\n    'Java Python also and great is'\n    \"\"\"\n    return \" \".join(sorted(set(sentence.split(\" \"))))",
+    "fixed_code": "def remove_duplicates(sentence: str) -> str:\n    \"\"\"\n    Remove duplicates from sentence\n    >>> remove_duplicates(\"Python is great and Java is also great\")\n    'Java Python also and great is'\n    >>> remove_duplicates(\"Python   is      great and Java is also great\")\n    'Java Python also and great is'\n    \"\"\"\n    return \" \".join(sorted(set(sentence.split())))",
+    "tests": [
+      "assert remove_duplicates(\"Python is great and Java is also great\") == 'Java Python also and great is'",
+      "assert remove_duplicates(\"Python   is      great and Java is also great\") == 'Java Python also and great is'"
+    ],
+    "nl": "Fix logic_error in remove_duplicates: Fixed remove duplicate (#2470)\n\n* fixed remove duplicate\r\n\r\n* fixup! Format Pyth"
+  },
+  {
+    "id": 8,
+    "commit": "f564c9d7",
+    "commit_msg": "Wiggle sort (#2419)\n\n* wiggle sort : type hint + doctest\r\n\r\n* fixed function name in docstring\r\n\r\n* ",
+    "file": "sorts/wiggle_sort.py",
+    "function": "wiggle_sort",
+    "bug_type": "other",
+    "pl": "def wiggle_sort(nums):\n    \"\"\"Perform Wiggle Sort.\"\"\"\n    for i in range(len(nums)):\n        if (i % 2 == 1) == (nums[i - 1] > nums[i]):\n            nums[i - 1], nums[i] = nums[i], nums[i - 1]",
+    "fixed_code": "def wiggle_sort(nums: list) -> list:\n    \"\"\"\n    Python implementation of wiggle.\n    Example:\n    >>> wiggle_sort([0, 5, 3, 2, 2])\n    [0, 5, 2, 3, 2]\n    >>> wiggle_sort([])\n    []\n    >>> wiggle_sort([-2, -5, -45])\n    [-45, -2, -5]\n    >>> wiggle_sort([-2.1, -5.68, -45.11])\n    [-45.11, -2.1, -5.68]\n    \"\"\"\n    for i, _ in enumerate(nums):\n        if (i % 2 == 1) == (nums[i - 1] > nums[i]):\n            nums[i - 1], nums[i] = nums[i], nums[i - 1]\n\n    return nums",
+    "tests": [
+      "assert wiggle_sort([0, 5, 3, 2, 2]) == [0, 5, 2, 3, 2]",
+      "assert wiggle_sort([]) == []",
+      "assert wiggle_sort([-2, -5, -45]) == [-45, -2, -5]",
+      "assert wiggle_sort([-2.1, -5.68, -45.11]) == [-45.11, -2.1, -5.68]"
+    ],
+    "nl": "Fix other in wiggle_sort: Wiggle sort (#2419)\n\n* wiggle sort : type hint + doctest\r\n\r\n* fixed function nam"
+  },
+  {
+    "id": 9,
+    "commit": "a196a365",
+    "commit_msg": "Fixed bugs (#2474)\n\n* fixed bug\r\n\r\n* fixup! Format Python code with psf/black push\r\n\r\nCo-authored-by",
+    "file": "strings/check_anagrams.py",
+    "function": "check_anagrams",
+    "bug_type": "wrong_return_value",
+    "pl": "def check_anagrams(a: str, b: str) -> bool:\r\n    \"\"\"\r\n    Two strings are anagrams if they are made of the same letters\r\n    arranged differently (ignoring the case).\r\n    >>> check_anagrams('Silent', 'Listen')\r\n    True\r\n    >>> check_anagrams('This is a string', 'Is this a string')\r\n    True\r\n    >>> check_anagrams('There', 'Their')\r\n    False\r\n    \"\"\"\r\n    return sorted(a.lower()) == sorted(b.lower())\r",
+    "fixed_code": "def check_anagrams(first_str: str, second_str: str) -> bool:\r\n    \"\"\"\r\n    Two strings are anagrams if they are made of the same letters\r\n    arranged differently (ignoring the case).\r\n    >>> check_anagrams('Silent', 'Listen')\r\n    True\r\n    >>> check_anagrams('This is a string', 'Is this a string')\r\n    True\r\n    >>> check_anagrams('This is    a      string', 'Is     this a string')\r\n    True\r\n    >>> check_anagrams('There', 'Their')\r\n    False\r\n    \"\"\"\r\n    return (\r\n        \"\".join(sorted(first_str.lower())).strip()\r\n        == \"\".join(sorted(second_str.lower())).strip()\r\n    )\r",
+    "tests": [
+      "assert check_anagrams('Silent', 'Listen') == True",
+      "assert check_anagrams('This is a string', 'Is this a string') == True",
+      "assert check_anagrams('This is    a      string', 'Is     this a string') == True",
+      "assert check_anagrams('There', 'Their') == False"
+    ],
+    "nl": "Fix wrong_return_value in check_anagrams: Fixed bugs (#2474)\n\n* fixed bug\r\n\r\n* fixup! Format Python code with psf/black pu"
+  },
+  {
+    "id": 10,
+    "commit": "46af42d4",
+    "commit_msg": "Fix coin change (#2571)\n\n* Removed unused variable m.\r\n\r\n* Doctests are modified to match functions.",
+    "file": "dynamic_programming/coin_change.py",
+    "function": "dp_count",
+    "bug_type": "off_by_one",
+    "pl": "def dp_count(S, m, n):\n    \"\"\"\n    >>> dp_count([1, 2, 3], 3, 4)\n    4\n    >>> dp_count([1, 2, 3], 3, 7)\n    8\n    >>> dp_count([2, 5, 3, 6], 4, 10)\n    5\n    >>> dp_count([10], 1, 99)\n    0\n    >>> dp_count([4, 5, 6], 3, 0)\n    1\n    \"\"\"\n\n    # table[i] represents the number of ways to get to amount i\n    table = [0] * (n + 1)\n\n    # There is exactly 1 way to get to zero(You pick no coins).\n    table[0] = 1\n\n    # Pick all coins one by one and update table[] values\n    # after the index greater than or equal to the value of the\n    # picked coin\n    for coin_val in S:\n        for j in range(coin_val, n + 1):\n            table[j] += table[j - coin_val]\n\n    return table[n]",
+    "fixed_code": "def dp_count(S, n):\n    \"\"\"\n    >>> dp_count([1, 2, 3], 4)\n    4\n    >>> dp_count([1, 2, 3], 7)\n    8\n    >>> dp_count([2, 5, 3, 6], 10)\n    5\n    >>> dp_count([10], 99)\n    0\n    >>> dp_count([4, 5, 6], 0)\n    1\n    >>> dp_count([1, 2, 3], -5)\n    0\n    \"\"\"\n    if n < 0:\n        return 0\n    # table[i] represents the number of ways to get to amount i\n    table = [0] * (n + 1)\n\n    # There is exactly 1 way to get to zero(You pick no coins).\n    table[0] = 1\n\n    # Pick all coins one by one and update table[] values\n    # after the index greater than or equal to the value of the\n    # picked coin\n    for coin_val in S:\n        for j in range(coin_val, n + 1):\n            table[j] += table[j - coin_val]\n\n    return table[n]",
+    "tests": [
+      "assert dp_count([1, 2, 3], 4) == 4",
+      "assert dp_count([1, 2, 3], 7) == 8",
+      "assert dp_count([2, 5, 3, 6], 10) == 5",
+      "assert dp_count([10], 99) == 0",
+      "assert dp_count([4, 5, 6], 0) == 1",
+      "assert dp_count([1, 2, 3], -5) == 0"
+    ],
+    "nl": "Fix off_by_one in dp_count: Fix coin change (#2571)\n\n* Removed unused variable m.\r\n\r\n* Doctests are modified"
+  },
+  {
+    "id": 11,
+    "commit": "a6831c89",
+    "commit_msg": "math/greatest_common_divisor: add support for negative numbers (#2628)\n\n* add type hints to math/gcd",
+    "file": "maths/greatest_common_divisor.py",
+    "function": "greatest_common_divisor",
+    "bug_type": "wrong_return_value",
+    "pl": "def greatest_common_divisor(a, b):\n    \"\"\"\n    Calculate Greatest Common Divisor (GCD).\n    >>> greatest_common_divisor(24, 40)\n    8\n    >>> greatest_common_divisor(1, 1)\n    1\n    >>> greatest_common_divisor(1, 800)\n    1\n    >>> greatest_common_divisor(11, 37)\n    1\n    >>> greatest_common_divisor(3, 5)\n    1\n    >>> greatest_common_divisor(16, 4)\n    4\n    \"\"\"\n    return b if a == 0 else greatest_common_divisor(b % a, a)",
+    "fixed_code": "def greatest_common_divisor(a: int, b: int) -> int:\n    \"\"\"\n    Calculate Greatest Common Divisor (GCD).\n    >>> greatest_common_divisor(24, 40)\n    8\n    >>> greatest_common_divisor(1, 1)\n    1\n    >>> greatest_common_divisor(1, 800)\n    1\n    >>> greatest_common_divisor(11, 37)\n    1\n    >>> greatest_common_divisor(3, 5)\n    1\n    >>> greatest_common_divisor(16, 4)\n    4\n    >>> greatest_common_divisor(-3, 9)\n    3\n    >>> greatest_common_divisor(9, -3)\n    3\n    >>> greatest_common_divisor(3, -9)\n    3\n    >>> greatest_common_divisor(-3, -9)\n    3\n    \"\"\"\n    return abs(b) if a == 0 else greatest_common_divisor(b % a, a)",
+    "tests": [
+      "assert greatest_common_divisor(24, 40) == 8",
+      "assert greatest_common_divisor(1, 1) == 1",
+      "assert greatest_common_divisor(1, 800) == 1",
+      "assert greatest_common_divisor(11, 37) == 1",
+      "assert greatest_common_divisor(3, 5) == 1",
+      "assert greatest_common_divisor(16, 4) == 4",
+      "assert greatest_common_divisor(-3, 9) == 3",
+      "assert greatest_common_divisor(9, -3) == 3",
+      "assert greatest_common_divisor(3, -9) == 3",
+      "assert greatest_common_divisor(-3, -9) == 3"
+    ],
+    "nl": "Fix wrong_return_value in greatest_common_divisor: math/greatest_common_divisor: add support for negative numbers (#2628)\n\n* add ty"
+  },
+  {
+    "id": 12,
+    "commit": "c0d88d7f",
+    "commit_msg": "Fix handling of non ascii characters in swap case (fixes: #3847) (#3848)\n\n* #3847 fix handling of no",
+    "file": "strings/swap_case.py",
+    "function": "swap_case",
+    "bug_type": "logic_error",
+    "pl": "def swap_case(sentence):\n    \"\"\"\n    This function will convert all lowercase letters to uppercase letters\n    and vice versa.\n\n    >>> swap_case('Algorithm.Python@89')\n    'aLGORITHM.pYTHON@89'\n    \"\"\"\n    new_string = \"\"\n    for char in sentence:\n        if char.isupper():\n            new_string += char.lower()\n        if char.islower():\n            new_string += char.upper()\n        if regexp.search(char):\n            new_string += char\n\n    return new_string",
+    "fixed_code": "def swap_case(sentence: str) -> str:\n    \"\"\"\n    This function will convert all lowercase letters to uppercase letters\n    and vice versa.\n\n    >>> swap_case('Algorithm.Python@89')\n    'aLGORITHM.pYTHON@89'\n    \"\"\"\n    new_string = \"\"\n    for char in sentence:\n        if char.isupper():\n            new_string += char.lower()\n        elif char.islower():\n            new_string += char.upper()\n        else:\n            new_string += char\n\n    return new_string",
+    "tests": [
+      "assert swap_case('Algorithm.Python@89') == 'aLGORITHM.pYTHON@89'"
+    ],
+    "nl": "Fix logic_error in swap_case: Fix handling of non ascii characters in swap case (fixes: #3847) (#3848)\n\n* #384"
+  },
+  {
+    "id": 13,
+    "commit": "97b6ca2b",
+    "commit_msg": "[mypy] Add/fix type annotations for boolean_algebra (#4172)\n\n* [mypy] Add/fix type annotations for b",
+    "file": "boolean_algebra/quine_mc_cluskey.py",
+    "function": "compare_string",
+    "bug_type": "off_by_one",
+    "pl": "def compare_string(string1: str, string2: str) -> str:\n    \"\"\"\n    >>> compare_string('0010','0110')\n    '0_10'\n\n    >>> compare_string('0110','1101')\n    -1\n    \"\"\"\n    l1 = list(string1)\n    l2 = list(string2)\n    count = 0\n    for i in range(len(l1)):\n        if l1[i] != l2[i]:\n            count += 1\n            l1[i] = \"_\"\n    if count > 1:\n        return -1\n    else:\n        return \"\".join(l1)",
+    "fixed_code": "def compare_string(string1: str, string2: str) -> str:\n    \"\"\"\n    >>> compare_string('0010','0110')\n    '0_10'\n\n    >>> compare_string('0110','1101')\n    'X'\n    \"\"\"\n    l1 = list(string1)\n    l2 = list(string2)\n    count = 0\n    for i in range(len(l1)):\n        if l1[i] != l2[i]:\n            count += 1\n            l1[i] = \"_\"\n    if count > 1:\n        return \"X\"\n    else:\n        return \"\".join(l1)",
+    "tests": [
+      "assert compare_string('0010','0110') == '0_10'",
+      "assert compare_string('0110','1101') == 'X'"
+    ],
+    "nl": "Fix off_by_one in compare_string: [mypy] Add/fix type annotations for boolean_algebra (#4172)\n\n* [mypy] Add/fix ty"
+  },
+  {
+    "id": 14,
+    "commit": "727341e3",
+    "commit_msg": "Create check_pangram.py (#4389)",
+    "file": "strings/check_pangram.py",
+    "function": "check_pangram_faster",
+    "bug_type": "missing_edge_case",
+    "pl": "def check_pangram_faster(\n    input_str: str = \"The quick brown fox jumps over the lazy dog\",\n) -> bool:\n    \"\"\"\n    >>> check_pangram_faster(\"The quick brown fox jumps over the lazy dog\")\n    True\n    >>> check_pangram(\"Waltz, bad nymph, for quick jigs vex.\")\n    True\n    >>> check_pangram(\"Jived fox nymph grabs quick waltz.\")\n    True\n    >>> check_pangram_faster(\"The quick brown fox jumps over the la_y dog\")\n    False\n    >>> check_pangram_faster()\n    True\n    \"\"\"\n    flag = [False] * 26\n    for char in input_str:\n        if char.islower():\n            flag[ord(char) - ord(\"a\")] = True\n    return all(flag)",
+    "fixed_code": "def check_pangram_faster(\n    input_str: str = \"The quick brown fox jumps over the lazy dog\",\n) -> bool:\n    \"\"\"\n    >>> check_pangram_faster(\"The quick brown fox jumps over the lazy dog\")\n    True\n    >>> check_pangram_faster(\"Waltz, bad nymph, for quick jigs vex.\")\n    True\n    >>> check_pangram_faster(\"Jived fox nymph grabs quick waltz.\")\n    True\n    >>> check_pangram_faster(\"The quick brown fox jumps over the la_y dog\")\n    False\n    >>> check_pangram_faster()\n    True\n    \"\"\"\n    flag = [False] * 26\n    for char in input_str:\n        if char.islower():\n            flag[ord(char) - 97] = True\n        elif char.isupper():\n            flag[ord(char) - 65] = True\n    return all(flag)",
+    "tests": [
+      "assert check_pangram_faster(\"The quick brown fox jumps over the lazy dog\") == True",
+      "assert check_pangram_faster(\"Waltz, bad nymph, for quick jigs vex.\") == True",
+      "assert check_pangram_faster(\"Jived fox nymph grabs quick waltz.\") == True",
+      "assert check_pangram_faster(\"The quick brown fox jumps over the la_y dog\") == False",
+      "assert check_pangram_faster() == True"
+    ],
+    "nl": "Fix missing_edge_case in check_pangram_faster: Create check_pangram.py (#4389)"
+  },
+  {
+    "id": 15,
+    "commit": "cc10b20b",
+    "commit_msg": "Remove some print statements within algorithmic functions (#7499)\n\n* Remove commented-out print stat",
+    "file": "machine_learning/forecasting/run.py",
+    "function": "data_safety_checker",
+    "bug_type": "wrong_initialization",
+    "pl": "def data_safety_checker(list_vote: list, actual_result: float) -> None:\n    \"\"\"\n    Used to review all the votes (list result prediction)\n    and compare it to the actual result.\n    input : list of predictions\n    output : print whether it's safe or not\n    >>> data_safety_checker([2,3,4],5.0)\n    Today's data is not safe.\n    \"\"\"\n    safe = 0\n    not_safe = 0\n    for i in list_vote:\n        if i > actual_result:\n            safe = not_safe + 1\n        else:\n            if abs(abs(i) - abs(actual_result)) <= 0.1:\n                safe = safe + 1\n            else:\n                not_safe = not_safe + 1\n    print(f\"Today's data is {'not ' if safe <= not_safe else ''}safe.\")",
+    "fixed_code": "def data_safety_checker(list_vote: list, actual_result: float) -> bool:\n    \"\"\"\n    Used to review all the votes (list result prediction)\n    and compare it to the actual result.\n    input : list of predictions\n    output : print whether it's safe or not\n    >>> data_safety_checker([2, 3, 4], 5.0)\n    False\n    \"\"\"\n    safe = 0\n    not_safe = 0\n    for i in list_vote:\n        if i > actual_result:\n            safe = not_safe + 1\n        else:\n            if abs(abs(i) - abs(actual_result)) <= 0.1:\n                safe += 1\n            else:\n                not_safe += 1\n    return safe > not_safe",
+    "tests": [
+      "assert data_safety_checker([2, 3, 4], 5.0) == False"
+    ],
+    "nl": "Fix wrong_initialization in data_safety_checker: Remove some print statements within algorithmic functions (#7499)\n\n* Remove comm"
+  },
+  {
+    "id": 16,
+    "commit": "abf0909b",
+    "commit_msg": "Write a proper implementation for base16 (#6909)\n\nAccording to CONTRIBUTING.md:\r\n\"Algorithms in this",
+    "file": "ciphers/base16.py",
+    "function": "base16_encode",
+    "bug_type": "logic_error",
+    "pl": "def base16_encode(inp: str) -> bytes:\n    \"\"\"\n    Encodes a given utf-8 string into base-16.\n\n    >>> base16_encode('Hello World!')\n    b'48656C6C6F20576F726C6421'\n    >>> base16_encode('HELLO WORLD!')\n    b'48454C4C4F20574F524C4421'\n    >>> base16_encode('')\n    b''\n    \"\"\"\n    # encode the input into a bytes-like object and then encode b16encode that\n    return base64.b16encode(inp.encode(\"utf-8\"))",
+    "fixed_code": "def base16_encode(data: bytes) -> str:\n    \"\"\"\n    Encodes the given bytes into base16.\n\n    >>> base16_encode(b'Hello World!')\n    '48656C6C6F20576F726C6421'\n    >>> base16_encode(b'HELLO WORLD!')\n    '48454C4C4F20574F524C4421'\n    >>> base16_encode(b'')\n    ''\n    \"\"\"\n    # Turn the data into a list of integers (where each integer is a byte),\n    # Then turn each byte into its hexadecimal representation, make sure\n    # it is uppercase, and then join everything together and return it.\n    return \"\".join([hex(byte)[2:].zfill(2).upper() for byte in list(data)])",
+    "tests": [
+      "assert base16_encode(b'Hello World!') == '48656C6C6F20576F726C6421'",
+      "assert base16_encode(b'HELLO WORLD!') == '48454C4C4F20574F524C4421'",
+      "assert base16_encode(b'') == ''"
+    ],
+    "nl": "Fix logic_error in base16_encode: Write a proper implementation for base16 (#6909)\n\nAccording to CONTRIBUTING.md:\r"
+  },
+  {
+    "id": 17,
+    "commit": "fa077e67",
+    "commit_msg": "Add doctests, type hints; fix bug for dynamic_programming/minimum_partition.py (#10012)\n\n* Add docte",
+    "file": "dynamic_programming/minimum_partition.py",
+    "function": "find_min",
+    "bug_type": "off_by_one",
+    "pl": "def find_min(arr):\n    n = len(arr)\n    s = sum(arr)\n\n    dp = [[False for x in range(s + 1)] for y in range(n + 1)]\n\n    for i in range(1, n + 1):\n        dp[i][0] = True\n\n    for i in range(1, s + 1):\n        dp[0][i] = False\n\n    for i in range(1, n + 1):\n        for j in range(1, s + 1):\n            dp[i][j] = dp[i][j - 1]\n\n            if arr[i - 1] <= j:\n                dp[i][j] = dp[i][j] or dp[i - 1][j - arr[i - 1]]\n\n    for j in range(int(s / 2), -1, -1):\n        if dp[n][j] is True:\n            diff = s - 2 * j\n            break\n\n    return diff",
+    "fixed_code": "def find_min(arr: list[int]) -> int:\n    \"\"\"\n    >>> find_min([1, 2, 3, 4, 5])\n    1\n    >>> find_min([5, 5, 5, 5, 5])\n    5\n    >>> find_min([5, 5, 5, 5])\n    0\n    >>> find_min([3])\n    3\n    >>> find_min([])\n    0\n    \"\"\"\n    n = len(arr)\n    s = sum(arr)\n\n    dp = [[False for x in range(s + 1)] for y in range(n + 1)]\n\n    for i in range(n + 1):\n        dp[i][0] = True\n\n    for i in range(1, s + 1):\n        dp[0][i] = False\n\n    for i in range(1, n + 1):\n        for j in range(1, s + 1):\n            dp[i][j] = dp[i - 1][j]\n\n            if arr[i - 1] <= j:\n                dp[i][j] = dp[i][j] or dp[i - 1][j - arr[i - 1]]\n\n    for j in range(int(s / 2), -1, -1):\n        if dp[n][j] is True:\n            diff = s - 2 * j\n            break\n\n    return diff",
+    "tests": [
+      "assert find_min([1, 2, 3, 4, 5]) == 1",
+      "assert find_min([5, 5, 5, 5, 5]) == 5",
+      "assert find_min([5, 5, 5, 5]) == 0",
+      "assert find_min([3]) == 3",
+      "assert find_min([]) == 0"
+    ],
+    "nl": "Fix off_by_one in find_min: Add doctests, type hints; fix bug for dynamic_programming/minimum_partition.py ("
+  },
+  {
+    "id": 18,
+    "commit": "3ecad36f",
+    "commit_msg": "fix: incorrect range detection in find_missing_number (#10361)\n\n* Fix incorrect range detection in f",
+    "file": "bit_manipulation/missing_number.py",
+    "function": "find_missing_number",
+    "bug_type": "off_by_one",
+    "pl": "def find_missing_number(nums: list[int]) -> int:\n    \"\"\"\n    Finds the missing number in a list of consecutive integers.\n\n    Args:\n        nums: A list of integers.\n\n    Returns:\n        The missing number.\n\n    Example:\n        >>> find_missing_number([0, 1, 3, 4])\n        2\n    \"\"\"\n    n = len(nums)\n    missing_number = n\n\n    for i in range(n):\n        missing_number ^= i ^ nums[i]\n\n    return missing_number",
+    "fixed_code": "def find_missing_number(nums: list[int]) -> int:\n    \"\"\"\n    Finds the missing number in a list of consecutive integers.\n\n    Args:\n        nums: A list of integers.\n\n    Returns:\n        The missing number.\n\n    Example:\n        >>> find_missing_number([0, 1, 3, 4])\n        2\n        >>> find_missing_number([1, 3, 4, 5, 6])\n        2\n        >>> find_missing_number([6, 5, 4, 2, 1])\n        3\n        >>> find_missing_number([6, 1, 5, 3, 4])\n        2\n    \"\"\"\n    low = min(nums)\n    high = max(nums)\n    missing_number = high\n\n    for i in range(low, high):\n        missing_number ^= i ^ nums[i - low]\n\n    return missing_number",
+    "tests": [
+      "assert find_missing_number([0, 1, 3, 4]) == 2",
+      "assert find_missing_number([1, 3, 4, 5, 6]) == 2",
+      "assert find_missing_number([6, 5, 4, 2, 1]) == 3",
+      "assert find_missing_number([6, 1, 5, 3, 4]) == 2"
+    ],
+    "nl": "Fix off_by_one in find_missing_number: fix: incorrect range detection in find_missing_number (#10361)\n\n* Fix incorrect "
+  },
+  {
+    "id": 19,
+    "commit": "b814cf37",
+    "commit_msg": "add exponential search algorithm (#10732)\n\n* add exponential_search algorithm\r\n\r\n* replace binary_se",
+    "file": "searches/binary_search.py",
+    "function": "binary_search",
+    "bug_type": "boundary_condition",
+    "pl": "def binary_search(sorted_collection: list[int], item: int) -> int | None:\n    \"\"\"Pure implementation of binary search algorithm in Python\n\n    Be careful collection must be ascending sorted, otherwise result will be\n    unpredictable\n\n    :param sorted_collection: some ascending sorted collection with comparable items\n    :param item: item value to search\n    :return: index of found item or None if item is not found\n\n    Examples:\n    >>> binary_search([0, 5, 7, 10, 15], 0)\n    0\n\n    >>> binary_search([0, 5, 7, 10, 15], 15)\n    4\n\n    >>> binary_search([0, 5, 7, 10, 15], 5)\n    1\n\n    >>> binary_search([0, 5, 7, 10, 15], 6)\n\n    \"\"\"\n    left = 0\n    right = len(sorted_collection) - 1\n\n    while left <= right:\n        midpoint = left + (right - left) // 2\n        current_item = sorted_collection[midpoint]\n        if current_item == item:\n            return midpoint\n        elif item < current_item:\n            right = midpoint - 1\n        else:\n            left = midpoint + 1\n    return None",
+    "fixed_code": "def binary_search(sorted_collection: list[int], item: int) -> int:\n    \"\"\"Pure implementation of a binary search algorithm in Python\n\n    Be careful collection must be ascending sorted otherwise, the result will be\n    unpredictable\n\n    :param sorted_collection: some ascending sorted collection with comparable items\n    :param item: item value to search\n    :return: index of the found item or -1 if the item is not found\n\n    Examples:\n    >>> binary_search([0, 5, 7, 10, 15], 0)\n    0\n    >>> binary_search([0, 5, 7, 10, 15], 15)\n    4\n    >>> binary_search([0, 5, 7, 10, 15], 5)\n    1\n    >>> binary_search([0, 5, 7, 10, 15], 6)\n    -1\n    \"\"\"\n    if list(sorted_collection) != sorted(sorted_collection):\n        raise ValueError(\"sorted_collection must be sorted in ascending order\")\n    left = 0\n    right = len(sorted_collection) - 1\n\n    while left <= right:\n        midpoint = left + (right - left) // 2\n        current_item = sorted_collection[midpoint]\n        if current_item == item:\n            return midpoint\n        elif item < current_item:\n            right = midpoint - 1\n        else:\n            left = midpoint + 1\n    return -1",
+    "tests": [
+      "assert binary_search([0, 5, 7, 10, 15], 0) == 0",
+      "assert binary_search([0, 5, 7, 10, 15], 15) == 4",
+      "assert binary_search([0, 5, 7, 10, 15], 5) == 1",
+      "assert binary_search([0, 5, 7, 10, 15], 6) == -1"
+    ],
+    "nl": "Fix boundary_condition in binary_search: add exponential search algorithm (#10732)\n\n* add exponential_search algorithm\r\n\r"
+  },
+  {
+    "id": 20,
+    "commit": "b814cf37",
+    "commit_msg": "add exponential search algorithm (#10732)\n\n* add exponential_search algorithm\r\n\r\n* replace binary_se",
+    "file": "searches/binary_search.py",
+    "function": "binary_search_by_recursion",
+    "bug_type": "logic_error",
+    "pl": "def binary_search_by_recursion(\n    sorted_collection: list[int], item: int, left: int, right: int\n) -> int | None:\n    \"\"\"Pure implementation of binary search algorithm in Python by recursion\n\n    Be careful collection must be ascending sorted, otherwise result will be\n    unpredictable\n    First recursion should be started with left=0 and right=(len(sorted_collection)-1)\n\n    :param sorted_collection: some ascending sorted collection with comparable items\n    :param item: item value to search\n    :return: index of found item or None if item is not found\n\n    Examples:\n    >>> binary_search_by_recursion([0, 5, 7, 10, 15], 0, 0, 4)\n    0\n\n    >>> binary_search_by_recursion([0, 5, 7, 10, 15], 15, 0, 4)\n    4\n\n    >>> binary_search_by_recursion([0, 5, 7, 10, 15], 5, 0, 4)\n    1\n\n    >>> binary_search_by_recursion([0, 5, 7, 10, 15], 6, 0, 4)\n\n    \"\"\"\n    if right < left:\n        return None\n\n    midpoint = left + (right - left) // 2\n\n    if sorted_collection[midpoint] == item:\n        return midpoint\n    elif sorted_collection[midpoint] > item:\n        return binary_search_by_recursion(sorted_collection, item, left, midpoint - 1)\n    else:\n        return binary_search_by_recursion(sorted_collection, item, midpoint + 1, right)",
+    "fixed_code": "def binary_search_by_recursion(\n    sorted_collection: list[int], item: int, left: int = 0, right: int = -1\n) -> int:\n    \"\"\"Pure implementation of a binary search algorithm in Python by recursion\n\n    Be careful collection must be ascending sorted otherwise, the result will be\n    unpredictable\n    First recursion should be started with left=0 and right=(len(sorted_collection)-1)\n\n    :param sorted_collection: some ascending sorted collection with comparable items\n    :param item: item value to search\n    :return: index of the found item or -1 if the item is not found\n\n    Examples:\n    >>> binary_search_by_recursion([0, 5, 7, 10, 15], 0, 0, 4)\n    0\n    >>> binary_search_by_recursion([0, 5, 7, 10, 15], 15, 0, 4)\n    4\n    >>> binary_search_by_recursion([0, 5, 7, 10, 15], 5, 0, 4)\n    1\n    >>> binary_search_by_recursion([0, 5, 7, 10, 15], 6, 0, 4)\n    -1\n    \"\"\"\n    if right < 0:\n        right = len(sorted_collection) - 1\n    if list(sorted_collection) != sorted(sorted_collection):\n        raise ValueError(\"sorted_collection must be sorted in ascending order\")\n    if right < left:\n        return -1\n\n    midpoint = left + (right - left) // 2\n\n    if sorted_collection[midpoint] == item:\n        return midpoint\n    elif sorted_collection[midpoint] > item:\n        return binary_search_by_recursion(sorted_collection, item, left, midpoint - 1)\n    else:\n        return binary_search_by_recursion(sorted_collection, item, midpoint + 1, right)",
+    "tests": [
+      "assert binary_search_by_recursion([0, 5, 7, 10, 15], 0, 0, 4) == 0",
+      "assert binary_search_by_recursion([0, 5, 7, 10, 15], 15, 0, 4) == 4",
+      "assert binary_search_by_recursion([0, 5, 7, 10, 15], 5, 0, 4) == 1",
+      "assert binary_search_by_recursion([0, 5, 7, 10, 15], 6, 0, 4) == -1"
+    ],
+    "nl": "Fix logic_error in binary_search_by_recursion: add exponential search algorithm (#10732)\n\n* add exponential_search algorithm\r\n\r"
+  },
+  {
+    "id": 21,
+    "commit": "3d0a409c",
+    "commit_msg": "Improved Equilibrium Index of an Array. (#10899)\n\n* Improved Equilibrium Index of an Array.\r\n\r\nThis ",
+    "file": "data_structures/arrays/equilibrium_index_in_array.py",
+    "function": "equilibrium_index",
+    "bug_type": "other",
+    "pl": "def equilibrium_index(arr: list[int], size: int) -> int:\n    \"\"\"\n    Find the equilibrium index of an array.\n\n    Args:\n        arr : The input array of integers.\n        size : The size of the array.\n\n    Returns:\n        int: The equilibrium index or -1 if no equilibrium index exists.\n\n    Examples:\n        >>> equilibrium_index([-7, 1, 5, 2, -4, 3, 0], 7)\n        3\n        >>> equilibrium_index([1, 2, 3, 4, 5], 5)\n        -1\n        >>> equilibrium_index([1, 1, 1, 1, 1], 5)\n        2\n        >>> equilibrium_index([2, 4, 6, 8, 10, 3], 6)\n        -1\n    \"\"\"\n    total_sum = sum(arr)\n    left_sum = 0\n\n    for i in range(size):\n        total_sum -= arr[i]\n        if left_sum == total_sum:\n            return i\n        left_sum += arr[i]\n\n    return -1",
+    "fixed_code": "def equilibrium_index(arr: list[int]) -> int:\n    \"\"\"\n    Find the equilibrium index of an array.\n\n    Args:\n        arr (list[int]): The input array of integers.\n\n    Returns:\n        int: The equilibrium index or -1 if no equilibrium index exists.\n\n    Examples:\n        >>> equilibrium_index([-7, 1, 5, 2, -4, 3, 0])\n        3\n        >>> equilibrium_index([1, 2, 3, 4, 5])\n        -1\n        >>> equilibrium_index([1, 1, 1, 1, 1])\n        2\n        >>> equilibrium_index([2, 4, 6, 8, 10, 3])\n        -1\n    \"\"\"\n    total_sum = sum(arr)\n    left_sum = 0\n\n    for i, value in enumerate(arr):\n        total_sum -= value\n        if left_sum == total_sum:\n            return i\n        left_sum += value\n\n    return -1",
+    "tests": [
+      "assert equilibrium_index([-7, 1, 5, 2, -4, 3, 0]) == 3",
+      "assert equilibrium_index([1, 2, 3, 4, 5]) == -1",
+      "assert equilibrium_index([1, 1, 1, 1, 1]) == 2",
+      "assert equilibrium_index([2, 4, 6, 8, 10, 3]) == -1"
+    ],
+    "nl": "Fix other in equilibrium_index: Improved Equilibrium Index of an Array. (#10899)\n\n* Improved Equilibrium Index o"
+  },
+  {
+    "id": 22,
+    "commit": "8bbe8caa",
+    "commit_msg": "Improve test coverage for matrix exponentiation (#12388)\n\n* #9943 : Adding coverage test for basic_g",
+    "file": "maths/matrix_exponentiation.py",
+    "function": "simple_fibonacci",
+    "bug_type": "wrong_return_value",
+    "pl": "def simple_fibonacci(n, f1, f2):\n    # Trivial Cases\n    if n == 1:\n        return f1\n    elif n == 2:\n        return f2\n\n    fn_1 = f1\n    fn_2 = f2\n    n -= 2\n\n    while n > 0:\n        fn_1, fn_2 = fn_1 + fn_2, fn_1\n        n -= 1\n\n    return fn_1",
+    "fixed_code": "def simple_fibonacci(n, f1, f2):\n    \"\"\"\n    Returns the nth number of the Fibonacci sequence that\n    starts with f1 and f2\n    Uses the definition\n    >>> simple_fibonacci(1, 5, 6)\n    5\n    >>> simple_fibonacci(2, 10, 11)\n    11\n    >>> simple_fibonacci(13, 0, 1)\n    144\n    >>> simple_fibonacci(10, 5, 9)\n    411\n    >>> simple_fibonacci(9, 2, 3)\n    89\n    \"\"\"\n    # Trivial Cases\n    if n == 1:\n        return f1\n    elif n == 2:\n        return f2\n\n    n -= 2\n\n    while n > 0:\n        f2, f1 = f1 + f2, f2\n        n -= 1\n\n    return f2",
+    "tests": [
+      "assert simple_fibonacci(1, 5, 6) == 5",
+      "assert simple_fibonacci(2, 10, 11) == 11",
+      "assert simple_fibonacci(13, 0, 1) == 144",
+      "assert simple_fibonacci(10, 5, 9) == 411",
+      "assert simple_fibonacci(9, 2, 3) == 89"
+    ],
+    "nl": "Fix wrong_return_value in simple_fibonacci: Improve test coverage for matrix exponentiation (#12388)\n\n* #9943 : Adding cover"
+  },
+  {
+    "id": 23,
+    "commit": "1909f227",
+    "commit_msg": "adding doctests to maths/trapezoidal_rule.py (#12193)\n\n* adding doctests to trapezoidal_rule.py\n\n* a",
+    "file": "maths/trapezoidal_rule.py",
+    "function": "make_points",
+    "bug_type": "boundary_condition",
+    "pl": "def make_points(a, b, h):\n    x = a + h\n    while x < (b - h):\n        yield x\n        x = x + h",
+    "fixed_code": "def make_points(a, b, h):\n    \"\"\"\n    Generates points between 'a' and 'b' with step size 'h', excluding the end points.\n    Args:\n        a (float): Start value\n        b (float): End value\n        h (float): Step size\n    Examples:\n    >>> list(make_points(0, 10, 2.5))\n    [2.5, 5.0, 7.5]\n\n    >>> list(make_points(0, 10, 2))\n    [2, 4, 6, 8]\n\n    >>> list(make_points(1, 21, 5))\n    [6, 11, 16]\n\n    >>> list(make_points(1, 5, 2))\n    [3]\n\n    >>> list(make_points(1, 4, 3))\n    []\n    \"\"\"\n    x = a + h\n    while x <= (b - h):\n        yield x\n        x = x + h",
+    "tests": [
+      "assert list(make_points(0, 10, 2.5)) == [2.5, 5.0, 7.5]",
+      "assert list(make_points(0, 10, 2)) == [2, 4, 6, 8]",
+      "assert list(make_points(1, 21, 5)) == [6, 11, 16]",
+      "assert list(make_points(1, 5, 2)) == [3]",
+      "assert list(make_points(1, 4, 3)) == []"
+    ],
+    "nl": "Fix boundary_condition in make_points: adding doctests to maths/trapezoidal_rule.py (#12193)\n\n* adding doctests to trap"
+  },
+  {
+    "id": 24,
+    "commit": "2d68bb50",
+    "commit_msg": "Fix split function to handle trailing delimiters correctly (#12423)\n\n* Fix split function to handle ",
+    "file": "strings/split.py",
+    "function": "split",
+    "bug_type": "other",
+    "pl": "def split(string: str, separator: str = \" \") -> list:\n    \"\"\"\n    Will split the string up into all the values separated by the separator\n    (defaults to spaces)\n\n    >>> split(\"apple#banana#cherry#orange\",separator='#')\n    ['apple', 'banana', 'cherry', 'orange']\n\n    >>> split(\"Hello there\")\n    ['Hello', 'there']\n\n    >>> split(\"11/22/63\",separator = '/')\n    ['11', '22', '63']\n\n    >>> split(\"12:43:39\",separator = \":\")\n    ['12', '43', '39']\n    \"\"\"\n\n    split_words = []\n\n    last_index = 0\n    for index, char in enumerate(string):\n        if char == separator:\n            split_words.append(string[last_index:index])\n            last_index = index + 1\n        elif index + 1 == len(string):\n            split_words.append(string[last_index : index + 1])\n    return split_words",
+    "fixed_code": "def split(string: str, separator: str = \" \") -> list:\n    \"\"\"\n    Will split the string up into all the values separated by the separator\n    (defaults to spaces)\n\n    >>> split(\"apple#banana#cherry#orange\",separator='#')\n    ['apple', 'banana', 'cherry', 'orange']\n\n    >>> split(\"Hello there\")\n    ['Hello', 'there']\n\n    >>> split(\"11/22/63\",separator = '/')\n    ['11', '22', '63']\n\n    >>> split(\"12:43:39\",separator = \":\")\n    ['12', '43', '39']\n\n    >>> split(\";abbb;;c;\", separator=';')\n    ['', 'abbb', '', 'c', '']\n    \"\"\"\n\n    split_words = []\n\n    last_index = 0\n    for index, char in enumerate(string):\n        if char == separator:\n            split_words.append(string[last_index:index])\n            last_index = index + 1\n        if index + 1 == len(string):\n            split_words.append(string[last_index : index + 1])\n    return split_words",
+    "tests": [
+      "assert split(\"apple#banana#cherry#orange\",separator='#') == ['apple', 'banana', 'cherry', 'orange']",
+      "assert split(\"Hello there\") == ['Hello', 'there']",
+      "assert split(\"11/22/63\",separator = '/') == ['11', '22', '63']",
+      "assert split(\"12:43:39\",separator = \":\") == ['12', '43', '39']",
+      "assert split(\";abbb;;c;\", separator=';') == ['', 'abbb', '', 'c', '']"
+    ],
+    "nl": "Fix other in split: Fix split function to handle trailing delimiters correctly (#12423)\n\n* Fix split"
+  },
+  {
+    "id": 25,
+    "commit": "68b4c6b4",
+    "commit_msg": "fix is_ip_v4_address_valid.py (#12394)\n\n* fix is_ip_v4_address_valid\r\n\r\n* [pre-commit.ci] auto fixes",
+    "file": "maths/is_ip_v4_address_valid.py",
+    "function": "is_ip_v4_address_valid",
+    "bug_type": "logic_error",
+    "pl": "def is_ip_v4_address_valid(ip_v4_address: str) -> bool:\n    \"\"\"\n    print \"Valid IP address\" If IP is valid.\n    or\n    print \"Invalid IP address\" If IP is invalid.\n\n    >>> is_ip_v4_address_valid(\"192.168.0.23\")\n    True\n\n    >>> is_ip_v4_address_valid(\"192.255.15.8\")\n    False\n\n    >>> is_ip_v4_address_valid(\"172.100.0.8\")\n    True\n\n    >>> is_ip_v4_address_valid(\"254.255.0.255\")\n    False\n\n    >>> is_ip_v4_address_valid(\"1.2.33333333.4\")\n    False\n\n    >>> is_ip_v4_address_valid(\"1.2.-3.4\")\n    False\n\n    >>> is_ip_v4_address_valid(\"1.2.3\")\n    False\n\n    >>> is_ip_v4_address_valid(\"1.2.3.4.5\")\n    False\n\n    >>> is_ip_v4_address_valid(\"1.2.A.4\")\n    False\n\n    >>> is_ip_v4_address_valid(\"0.0.0.0\")\n    True\n\n    >>> is_ip_v4_address_valid(\"1.2.3.\")\n    False\n    \"\"\"\n    octets = [int(i) for i in ip_v4_address.split(\".\") if i.isdigit()]\n    return len(octets) == 4 and all(0 <= int(octet) <= 254 for octet in octets)",
+    "fixed_code": "def is_ip_v4_address_valid(ip: str) -> bool:\n    \"\"\"\n    print \"Valid IP address\" If IP is valid.\n    or\n    print \"Invalid IP address\" If IP is invalid.\n\n    >>> is_ip_v4_address_valid(\"192.168.0.23\")\n    True\n\n    >>> is_ip_v4_address_valid(\"192.256.15.8\")\n    False\n\n    >>> is_ip_v4_address_valid(\"172.100.0.8\")\n    True\n\n    >>> is_ip_v4_address_valid(\"255.256.0.256\")\n    False\n\n    >>> is_ip_v4_address_valid(\"1.2.33333333.4\")\n    False\n\n    >>> is_ip_v4_address_valid(\"1.2.-3.4\")\n    False\n\n    >>> is_ip_v4_address_valid(\"1.2.3\")\n    False\n\n    >>> is_ip_v4_address_valid(\"1.2.3.4.5\")\n    False\n\n    >>> is_ip_v4_address_valid(\"1.2.A.4\")\n    False\n\n    >>> is_ip_v4_address_valid(\"0.0.0.0\")\n    True\n\n    >>> is_ip_v4_address_valid(\"1.2.3.\")\n    False\n\n    >>> is_ip_v4_address_valid(\"1.2.3.05\")\n    False\n    \"\"\"\n    octets = ip.split(\".\")\n    if len(octets) != 4:\n        return False\n\n    for octet in octets:\n        if not octet.isdigit():\n            return False\n\n        number = int(octet)\n        if len(str(number)) != len(octet):\n            return False\n\n        if not 0 <= number <= 255:\n            return False\n\n    return True",
+    "tests": [
+      "assert is_ip_v4_address_valid(\"192.168.0.23\") == True",
+      "assert is_ip_v4_address_valid(\"192.256.15.8\") == False",
+      "assert is_ip_v4_address_valid(\"172.100.0.8\") == True",
+      "assert is_ip_v4_address_valid(\"255.256.0.256\") == False",
+      "assert is_ip_v4_address_valid(\"1.2.33333333.4\") == False",
+      "assert is_ip_v4_address_valid(\"1.2.-3.4\") == False",
+      "assert is_ip_v4_address_valid(\"1.2.3\") == False",
+      "assert is_ip_v4_address_valid(\"1.2.3.4.5\") == False",
+      "assert is_ip_v4_address_valid(\"1.2.A.4\") == False",
+      "assert is_ip_v4_address_valid(\"0.0.0.0\") == True",
+      "assert is_ip_v4_address_valid(\"1.2.3.\") == False",
+      "assert is_ip_v4_address_valid(\"1.2.3.05\") == False"
+    ],
+    "nl": "Fix logic_error in is_ip_v4_address_valid: fix is_ip_v4_address_valid.py (#12394)\n\n* fix is_ip_v4_address_valid\r\n\r\n* [pre-c"
+  },
+  {
+    "id": 26,
+    "commit": "4c92de5e",
+    "commit_msg": "Fix dynamic_programming/longest_increasing_subsequence.py (#12517)\n\n* Fix #12510\r\n\r\n* Added the doct",
+    "file": "dynamic_programming/longest_increasing_subsequence.py",
+    "function": "longest_subsequence",
+    "bug_type": "boundary_condition",
+    "pl": "def longest_subsequence(array: list[int]) -> list[int]:  # This function is recursive\n    \"\"\"\n    Some examples\n\n    >>> longest_subsequence([10, 22, 9, 33, 21, 50, 41, 60, 80])\n    [10, 22, 33, 41, 60, 80]\n    >>> longest_subsequence([4, 8, 7, 5, 1, 12, 2, 3, 9])\n    [1, 2, 3, 9]\n    >>> longest_subsequence([9, 8, 7, 6, 5, 7])\n    [8]\n    >>> longest_subsequence([1, 1, 1])\n    [1, 1, 1]\n    >>> longest_subsequence([])\n    []\n    \"\"\"\n    array_length = len(array)\n    # If the array contains only one element, we return it (it's the stop condition of\n    # recursion)\n    if array_length <= 1:\n        return array\n        # Else\n    pivot = array[0]\n    is_found = False\n    i = 1\n    longest_subseq: list[int] = []\n    while not is_found and i < array_length:\n        if array[i] < pivot:\n            is_found = True\n            temp_array = [element for element in array[i:] if element >= array[i]]\n            temp_array = longest_subsequence(temp_array)\n            if len(temp_array) > len(longest_subseq):\n                longest_subseq = temp_array\n        else:\n            i += 1\n\n    temp_array = [element for element in array[1:] if element >= pivot]\n    temp_array = [pivot, *longest_subsequence(temp_array)]\n    if len(temp_array) > len(longest_subseq):\n        return temp_array\n    else:\n        return longest_subseq",
+    "fixed_code": "def longest_subsequence(array: list[int]) -> list[int]:  # This function is recursive\n    \"\"\"\n    Some examples\n\n    >>> longest_subsequence([10, 22, 9, 33, 21, 50, 41, 60, 80])\n    [10, 22, 33, 41, 60, 80]\n    >>> longest_subsequence([4, 8, 7, 5, 1, 12, 2, 3, 9])\n    [1, 2, 3, 9]\n    >>> longest_subsequence([28, 26, 12, 23, 35, 39])\n    [12, 23, 35, 39]\n    >>> longest_subsequence([9, 8, 7, 6, 5, 7])\n    [5, 7]\n    >>> longest_subsequence([1, 1, 1])\n    [1, 1, 1]\n    >>> longest_subsequence([])\n    []\n    \"\"\"\n    array_length = len(array)\n    # If the array contains only one element, we return it (it's the stop condition of\n    # recursion)\n    if array_length <= 1:\n        return array\n        # Else\n    pivot = array[0]\n    is_found = False\n    i = 1\n    longest_subseq: list[int] = []\n    while not is_found and i < array_length:\n        if array[i] < pivot:\n            is_found = True\n            temp_array = array[i:]\n            temp_array = longest_subsequence(temp_array)\n            if len(temp_array) > len(longest_subseq):\n                longest_subseq = temp_array\n        else:\n            i += 1\n\n    temp_array = [element for element in array[1:] if element >= pivot]\n    temp_array = [pivot, *longest_subsequence(temp_array)]\n    if len(temp_array) > len(longest_subseq):\n        return temp_array\n    else:\n        return longest_subseq",
+    "tests": [
+      "assert longest_subsequence([10, 22, 9, 33, 21, 50, 41, 60, 80]) == [10, 22, 33, 41, 60, 80]",
+      "assert longest_subsequence([4, 8, 7, 5, 1, 12, 2, 3, 9]) == [1, 2, 3, 9]",
+      "assert longest_subsequence([28, 26, 12, 23, 35, 39]) == [12, 23, 35, 39]",
+      "assert longest_subsequence([9, 8, 7, 6, 5, 7]) == [5, 7]",
+      "assert longest_subsequence([1, 1, 1]) == [1, 1, 1]",
+      "assert longest_subsequence([]) == []"
+    ],
+    "nl": "Fix boundary_condition in longest_subsequence: Fix dynamic_programming/longest_increasing_subsequence.py (#12517)\n\n* Fix #12510"
+  },
+  {
+    "id": 27,
+    "commit": "183fa06f",
+    "commit_msg": "Fix n-queens problem (#12583)\n\n* Fix n-queens problem\n\n* [pre-commit.ci] auto fixes from pre-commit.",
+    "file": "backtracking/n_queens.py",
+    "function": "is_safe",
+    "bug_type": "logic_error",
+    "pl": "def is_safe(board: list[list[int]], row: int, column: int) -> bool:\n    \"\"\"\n    This function returns a boolean value True if it is safe to place a queen there\n    considering the current state of the board.\n\n    Parameters:\n    board (2D matrix): The chessboard\n    row, column: Coordinates of the cell on the board\n\n    Returns:\n    Boolean Value\n\n    >>> is_safe([[0, 0, 0], [0, 0, 0], [0, 0, 0]], 1, 1)\n    True\n    >>> is_safe([[1, 0, 0], [0, 0, 0], [0, 0, 0]], 1, 1)\n    False\n    \"\"\"\n\n    n = len(board)  # Size of the board\n\n    # Check if there is any queen in the same row, column,\n    # left upper diagonal, and right upper diagonal\n    return (\n        all(board[i][j] != 1 for i, j in zip(range(row, -1, -1), range(column, n)))\n        and all(\n            board[i][j] != 1 for i, j in zip(range(row, -1, -1), range(column, -1, -1))\n        )\n        and all(board[i][j] != 1 for i, j in zip(range(row, n), range(column, n)))\n        and all(board[i][j] != 1 for i, j in zip(range(row, n), range(column, -1, -1)))\n    )",
+    "fixed_code": "def is_safe(board: list[list[int]], row: int, column: int) -> bool:\n    \"\"\"\n    This function returns a boolean value True if it is safe to place a queen there\n    considering the current state of the board.\n\n    Parameters:\n    board (2D matrix): The chessboard\n    row, column: Coordinates of the cell on the board\n\n    Returns:\n    Boolean Value\n\n    >>> is_safe([[0, 0, 0], [0, 0, 0], [0, 0, 0]], 1, 1)\n    True\n    >>> is_safe([[0, 1, 0], [0, 0, 0], [0, 0, 0]], 1, 1)\n    False\n    >>> is_safe([[1, 0, 0], [0, 0, 0], [0, 0, 0]], 1, 1)\n    False\n    >>> is_safe([[0, 0, 1], [0, 0, 0], [0, 0, 0]], 1, 1)\n    False\n    \"\"\"\n\n    n = len(board)  # Size of the board\n\n    # Check if there is any queen in the same upper column,\n    # left upper diagonal and right upper diagonal\n    return (\n        all(board[i][j] != 1 for i, j in zip(range(row), [column] * row))\n        and all(\n            board[i][j] != 1\n            for i, j in zip(range(row - 1, -1, -1), range(column - 1, -1, -1))\n        )\n        and all(\n            board[i][j] != 1\n            for i, j in zip(range(row - 1, -1, -1), range(column + 1, n))\n        )\n    )",
+    "tests": [
+      "assert is_safe([[0, 0, 0], [0, 0, 0], [0, 0, 0]], 1, 1) == True",
+      "assert is_safe([[0, 1, 0], [0, 0, 0], [0, 0, 0]], 1, 1) == False",
+      "assert is_safe([[1, 0, 0], [0, 0, 0], [0, 0, 0]], 1, 1) == False",
+      "assert is_safe([[0, 0, 1], [0, 0, 0], [0, 0, 0]], 1, 1) == False"
+    ],
+    "nl": "Fix logic_error in is_safe: Fix n-queens problem (#12583)\n\n* Fix n-queens problem\n\n* [pre-commit.ci] auto fi"
+  },
+  {
+    "id": 28,
+    "commit": "a8c56168",
+    "commit_msg": "Simplify Capitalize Function (#12879)\n\n* Simplify the capitalize function using ASCII arithmetic to ",
+    "file": "strings/capitalize.py",
+    "function": "capitalize",
+    "bug_type": "wrong_return_value",
+    "pl": "def capitalize(sentence: str) -> str:\n    \"\"\"\n    Capitalizes the first letter of a sentence or word.\n\n    >>> capitalize(\"hello world\")\n    'Hello world'\n    >>> capitalize(\"123 hello world\")\n    '123 hello world'\n    >>> capitalize(\" hello world\")\n    ' hello world'\n    >>> capitalize(\"a\")\n    'A'\n    >>> capitalize(\"\")\n    ''\n    \"\"\"\n    if not sentence:\n        return \"\"\n\n    # Create a dictionary that maps lowercase letters to uppercase letters\n    # Capitalize the first character if it's a lowercase letter\n    # Concatenate the capitalized character with the rest of the string\n    lower_to_upper = dict(zip(ascii_lowercase, ascii_uppercase))\n    return lower_to_upper.get(sentence[0], sentence[0]) + sentence[1:]",
+    "fixed_code": "def capitalize(sentence: str) -> str:\n    \"\"\"\n    Capitalizes the first letter of a sentence or word.\n\n    >>> capitalize(\"hello world\")\n    'Hello world'\n    >>> capitalize(\"123 hello world\")\n    '123 hello world'\n    >>> capitalize(\" hello world\")\n    ' hello world'\n    >>> capitalize(\"a\")\n    'A'\n    >>> capitalize(\"\")\n    ''\n    \"\"\"\n    if not sentence:\n        return \"\"\n\n    # Capitalize the first character if it's a lowercase letter\n    # Concatenate the capitalized character with the rest of the string\n    return sentence[0].upper() + sentence[1:]",
+    "tests": [
+      "assert capitalize(\"hello world\") == 'Hello world'",
+      "assert capitalize(\"123 hello world\") == '123 hello world'",
+      "assert capitalize(\" hello world\") == ' hello world'",
+      "assert capitalize(\"a\") == 'A'",
+      "assert capitalize(\"\") == ''"
+    ],
+    "nl": "Fix wrong_return_value in capitalize: Simplify Capitalize Function (#12879)\n\n* Simplify the capitalize function using "
+  },
+  {
+    "id": 29,
+    "commit": "946f4cae",
+    "commit_msg": "Modify unique_everseen to be fast for mostly-hashable sequences.\n\n- Instead of switching from a set ",
+    "file": "more_itertools/recipes.py",
+    "function": "unique_everseen",
+    "bug_type": "other",
+    "pl": "def unique_everseen(iterable, key=None):\n    \"\"\"Yield unique elements, preserving order.\n\n        >>> list(unique_everseen('AAAABBBCCDAABBB'))\n        ['A', 'B', 'C', 'D']\n        >>> list(unique_everseen('ABBCcAD', str.lower))\n        ['A', 'B', 'C', 'D']\n\n    \"\"\"\n    seen = set()\n    seen_add = seen.add\n    if key is None:\n        for element in iterable:\n            try:\n                if element not in seen:\n                    seen_add(element)\n            except TypeError as e:\n                seen = list(seen)\n                seen_add = seen.append\n                if element not in seen:\n                    seen_add(element)\n            yield element\n    else:\n        for element in iterable:\n            k = key(element)\n            try:\n                if k not in seen:\n                    seen_add(k)\n            except TypeError as e:\n                seen = list(seen)\n                seen_add = seen.append\n                if k not in seen:\n                    seen_add(k)\n            yield element",
+    "fixed_code": "def unique_everseen(iterable, key=None):\n    \"\"\"Yield unique elements, preserving order.\n\n        >>> list(unique_everseen('AAAABBBCCDAABBB'))\n        ['A', 'B', 'C', 'D']\n        >>> list(unique_everseen('ABBCcAD', str.lower))\n        ['A', 'B', 'C', 'D']\n\n    \"\"\"\n    seenset = set()\n    seenset_add = seenset.add\n    seenlist = []\n    seenlist_add = seenlist.append\n    if key is None:\n        for element in iterable:\n            try:\n                if element not in seenset:\n                    seenset_add(element)\n                    yield element\n            except TypeError as e:\n                if element not in seenlist:\n                    seenlist_add(element)\n                    yield element\n    else:\n        for element in iterable:\n            k = key(element)\n            try:\n                if k not in seenset:\n                    seenset_add(k)\n                    yield element\n            except TypeError as e:\n                if k not in seenlist:\n                    seenlist_add(k)\n                    yield element",
+    "tests": [
+      "assert list(unique_everseen('AAAABBBCCDAABBB')) == ['A', 'B', 'C', 'D']",
+      "assert list(unique_everseen('ABBCcAD', str.lower)) == ['A', 'B', 'C', 'D']"
+    ],
+    "nl": "Fix other in unique_everseen: Modify unique_everseen to be fast for mostly-hashable sequences.\n\n- Instead of s"
+  },
+  {
+    "id": 30,
+    "commit": "cb0b3bdb",
+    "commit_msg": "Change distinct_permutations implementation: prune all\npermutations with repeated elements unordered",
+    "file": "more_itertools/more.py",
+    "function": "distinct_permutations",
+    "bug_type": "logic_error",
+    "pl": "def distinct_permutations(iterable):\n    \"\"\"Yield successive distinct permutations of the elements in *iterable*.\n\n        >>> sorted(distinct_permutations([1, 0, 1]))\n        [(0, 1, 1), (1, 0, 1), (1, 1, 0)]\n\n    Equivalent to ``set(permutations(iterable))``, except duplicates are not\n    generated and thrown away. For larger input sequences this is much more\n    efficient.\n\n    Duplicate permutations arise when there are duplicated elements in the\n    input iterable. The number of items returned is\n    `n! / (x_1! * x_2! * ... * x_n!)`, where `n` is the total number of\n    items input, and each `x_i` is the count of a distinct item in the input\n    sequence.\n\n    \"\"\"\n    def perm_unique_helper(item_counts, perm, i):\n        \"\"\"Internal helper function\n\n        :arg item_counts: Stores the unique items in ``iterable`` and how many\n            times they are repeated\n        :arg perm: The permutation that is being built for output\n        :arg i: The index of the permutation being modified\n\n        The output permutations are built up recursively; the distinct items\n        are placed until their repetitions are exhausted.\n        \"\"\"\n        if i < 0:\n            yield tuple(perm)\n        else:\n            for item in item_counts:\n                if item_counts[item] <= 0:\n                    continue\n                perm[i] = item\n                item_counts[item] -= 1\n                for x in perm_unique_helper(item_counts, perm, i - 1):\n                    yield x\n                item_counts[item] += 1\n\n    item_counts = Counter(iterable)\n\n    return perm_unique_helper(item_counts, [None] * len(iterable),\n                              len(iterable) - 1)",
+    "fixed_code": "def distinct_permutations(iterable):\n    \"\"\"Yield successive distinct permutations of the elements in *iterable*.\n        >>> sorted(distinct_permutations([1, 0, 1]))\n        [(0, 1, 1), (1, 0, 1), (1, 1, 0)]\n    Equivalent to ``set(permutations(iterable))``, except duplicates are not\n    generated and thrown away. For larger input sequences this is much more\n    efficient.\n    Duplicate permutations arise when there are duplicated elements in the\n    input iterable. The number of items returned is\n    `n! / (x_1! * x_2! * ... * x_n!)`, where `n` is the total number of\n    items input, and each `x_i` is the count of a distinct item in the input\n    sequence.\n    \"\"\"\n    def distinct_permutations_generator(permutations_generator, e):\n        \"\"\"Internal helper function\n        :arg permutations_generator: The previous generator\n        :arg e: The next element from iterable\n        The output permutations are built up by adding the next element to the\n        previous permutations at every possible position. The key idea is to\n        keep identical elements ordered: if e1 == e2 and e1 is before e2 in\n        the iterable, then all permutations with e2 on the right of e1 are\n        ignored.\"\"\"\n        for permutation in permutations_generator:\n            for j in range(len(permutation)):\n                yield permutation[:j] + [e] + permutation[j:]\n                if permutation[j] == e:\n                    break\n            else:\n                yield permutation + [e]\n\n\n    permutations_generator = [[]]\n    for e in iterable:\n        permutations_generator = distinct_permutations_generator(\n            permutations_generator, e)\n\n    return (tuple(t) for t in permutations_generator)",
+    "tests": [
+      "assert sorted(distinct_permutations([1, 0, 1])) == [(0, 1, 1), (1, 0, 1), (1, 1, 0)]"
+    ],
+    "nl": "Fix logic_error in distinct_permutations: Change distinct_permutations implementation: prune all\npermutations with repeate"
+  },
+  {
+    "id": 31,
+    "commit": "17d18f6d",
+    "commit_msg": "clarify ilen\n\nThis uses the same technique, but should be easier to follow.\r\nIt is around the same s",
+    "file": "more_itertools/more.py",
+    "function": "ilen",
+    "bug_type": "off_by_one",
+    "pl": "def ilen(iterable):\n    \"\"\"Return the number of items in *iterable*.\n\n        >>> ilen(x for x in range(1000000) if x % 3 == 0)\n        333334\n\n    This consumes the iterable, so handle with care.\n\n    \"\"\"\n    # maxlen=1 only stores the last item in the deque\n    d = deque(enumerate(iterable, 1), maxlen=1)\n    # since we started enumerate at 1,\n    # the first item of the last pair will be the length of the iterable\n    # (assuming there were items)\n    return d[0][0] if d else 0",
+    "fixed_code": "def ilen(iterable):\n    \"\"\"Return the number of items in *iterable*.\n\n        >>> ilen(x for x in range(1000000) if x % 3 == 0)\n        333334\n\n    This consumes the iterable, so handle with care.\n\n    \"\"\"\n    len = 0\n    for len, _ in enumerate(iterable, 1):\n        pass\n    return len",
+    "tests": [
+      "assert ilen(x for x in range(1000000) if x % 3 == 0) == 333334"
+    ],
+    "nl": "Fix off_by_one in ilen: clarify ilen\n\nThis uses the same technique, but should be easier to follow.\r\nIt "
+  },
+  {
+    "id": 32,
+    "commit": "0b97fbde",
+    "commit_msg": "Changes for zip_broadcast merge",
+    "file": "more_itertools/more.py",
+    "function": "zip_broadcast",
+    "bug_type": "logic_error",
+    "pl": "def zip_broadcast(*objects, scalar_types=(str, bytes), strict=False):\n    \"\"\"A version of :func:`zip` that \"broadcasts\" any scalar\n    (i.e., non-iterable) items into output tuples.\n\n    >>> iterable_1 = [1, 2, 3]\n    >>> iterable_2 = ['a', 'b', 'c']\n    >>> scalar = '_'\n    >>> list(zip_broadcast(iterable_1, iterable_2, scalar))\n    [(1, 'a', '_'), (2, 'b', '_'), (3, 'c', '_')]\n\n    The *scalar_types* keyword argument determines what types are considered\n    scalar. It is set to ``(str, bytes)`` by default. Set it to ``None`` to\n    treat strings and byte strings as iterable:\n\n    >>> list(zip_broadcast('abc', 0, 'xyz', scalar_types=None))\n    [('a', 0, 'x'), ('b', 0, 'y'), ('c', 0, 'z')]\n\n    If the *strict* keyword argument is ``True``, then\n    ``ValueError`` (``UnequalIterablesError`` in python<3.10) will be raised if\n    any of the iterables have different lengths.\n    \"\"\"\n\n    def is_scalar(obj):\n        if scalar_types and isinstance(obj, scalar_types):\n            return True\n        try:\n            iter(obj)\n        except TypeError:\n            return True\n        else:\n            return False\n\n    iterables = []\n    formatters = []\n\n    for obj in objects:\n        if is_scalar(obj):\n            # The double-lambda syntax is necessary to create a closure.\n            formatters.append((lambda x: lambda _: x)(obj))\n        else:\n            formatters.append(itemgetter(len(iterables)))\n            iterables.append(obj)\n\n    if not iterables:\n        if not objects:\n            return\n        else:\n            yield tuple(objects)\n            return\n\n    # Avoid deprecation warning.\n    if hexversion >= 0x30A00A6:\n        _zip = partial(zip, strict=strict)\n    else:\n        _zip = zip_equal if strict else zip\n\n    for values in _zip(*iterables):\n        yield tuple(f(values) for f in formatters)",
+    "fixed_code": "def zip_broadcast(*objects, scalar_types=(str, bytes), strict=False):\n    \"\"\"A version of :func:`zip` that \"broadcasts\" any scalar\n    (i.e., non-iterable) items into output tuples.\n\n    >>> iterable_1 = [1, 2, 3]\n    >>> iterable_2 = ['a', 'b', 'c']\n    >>> scalar = '_'\n    >>> list(zip_broadcast(iterable_1, iterable_2, scalar))\n    [(1, 'a', '_'), (2, 'b', '_'), (3, 'c', '_')]\n\n    The *scalar_types* keyword argument determines what types are considered\n    scalar. It is set to ``(str, bytes)`` by default. Set it to ``None`` to\n    treat strings and byte strings as iterable:\n\n    >>> list(zip_broadcast('abc', 0, 'xyz', scalar_types=None))\n    [('a', 0, 'x'), ('b', 0, 'y'), ('c', 0, 'z')]\n\n    If the *strict* keyword argument is ``True``, then\n    ``UnequalIterablesError`` will be raised if any of the iterables have\n    different lengthss.\n    \"\"\"\n    def is_scalar(obj):\n        if scalar_types and isinstance(obj, scalar_types):\n            return True\n        try:\n            iter(obj)\n        except TypeError:\n            return True\n        else:\n            return False\n\n    size = len(objects)\n    if not size:\n        return\n\n    iterables, iterable_positions = [], []\n    scalars, scalar_positions = [], []\n    for i, obj in enumerate(objects):\n        if is_scalar(obj):\n            scalars.append(obj)\n            scalar_positions.append(i)\n        else:\n            iterables.append(iter(obj))\n            iterable_positions.append(i)\n\n    if len(scalars) == size:\n        yield tuple(objects)\n        return\n\n    zipper = _zip_equal if strict else zip\n    for item in zipper(*iterables):\n        new_item = [None] * size\n\n        for i, elem in zip(iterable_positions, item):\n            new_item[i] = elem\n\n        for i, elem in zip(scalar_positions, scalars):\n            new_item[i] = elem\n\n        yield tuple(new_item)",
+    "tests": [
+      "assert list(zip_broadcast('abc', 0, 'xyz', scalar_types=None)) == [('a', 0, 'x'), ('b', 0, 'y'), ('c', 0, 'z')]"
+    ],
+    "nl": "Fix logic_error in zip_broadcast: Changes for zip_broadcast merge"
+  },
+  {
+    "id": 33,
+    "commit": "4332c7e5",
+    "commit_msg": "Remove unnecessary fillvalue trick from product_index()",
+    "file": "more_itertools/more.py",
+    "function": "product_index",
+    "bug_type": "off_by_one",
+    "pl": "def product_index(element, *args):\n    \"\"\"Equivalent to ``list(product(*args)).index(element)``\n\n    The products of *args* can be ordered lexicographically.\n    :func:`product_index` computes the first index of *element* without\n    computing the previous products.\n\n        >>> product_index([8, 2], range(10), range(5))\n        42\n\n    ``ValueError`` will be raised if the given *element* isn't in the product\n    of *args*.\n    \"\"\"\n    index = 0\n\n    for x, pool in zip_longest(element, args, fillvalue=_marker):\n        if x is _marker or pool is _marker:\n            raise ValueError('element is not a product of args')\n\n        pool = tuple(pool)\n        index = index * len(pool) + pool.index(x)\n\n    return index",
+    "fixed_code": "def product_index(element, *args):\n    \"\"\"Equivalent to ``list(product(*args)).index(element)``\n\n    The products of *args* can be ordered lexicographically.\n    :func:`product_index` computes the first index of *element* without\n    computing the previous products.\n\n        >>> product_index([8, 2], range(10), range(5))\n        42\n\n    ``ValueError`` will be raised if the given *element* isn't in the product\n    of *args*.\n    \"\"\"\n    elements = tuple(element)\n    pools = tuple(map(tuple, args))\n    if len(element) != len(args):\n        raise ValueError('element is not a product of args')\n\n    index = 0\n    for elem, pool in zip(elements, pools):\n        index = index * len(pool) + pool.index(elem)\n\n    return index",
+    "tests": [
+      "assert product_index([8, 2], range(10), range(5)) == 42"
+    ],
+    "nl": "Fix off_by_one in product_index: Remove unnecessary fillvalue trick from product_index()"
+  },
+  {
+    "id": 34,
+    "commit": "4ea66195",
+    "commit_msg": "Avoid overhead of islice.",
+    "file": "toolz/itertoolz.py",
+    "function": "second",
+    "bug_type": "wrong_return_value",
+    "pl": "def second(seq):\n    \"\"\" The second element in a sequence\n\n    >>> second('ABC')\n    'B'\n    \"\"\"\n    return next(itertools.islice(seq, 1, None))",
+    "fixed_code": "def second(seq):\n    \"\"\" The second element in a sequence\n\n    >>> second('ABC')\n    'B'\n    \"\"\"\n    seq = iter(seq)\n    next(seq)\n    return next(seq)",
+    "tests": [
+      "assert second('ABC') == 'B'"
+    ],
+    "nl": "Fix wrong_return_value in second: Avoid overhead of islice."
+  },
+  {
+    "id": 35,
+    "commit": "eb260302",
+    "commit_msg": "More efficient assoc.",
+    "file": "toolz/dicttoolz.py",
+    "function": "assoc",
+    "bug_type": "wrong_return_value",
+    "pl": "def assoc(d, key, value, factory=dict):\n    \"\"\" Return a new dict with new key value pair\n\n    New dict has d[key] set to value. Does not modify the initial dictionary.\n\n    >>> assoc({'x': 1}, 'x', 2)\n    {'x': 2}\n    >>> assoc({'x': 1}, 'y', 3)   # doctest: +SKIP\n    {'x': 1, 'y': 3}\n    \"\"\"\n    d2 = factory()\n    d2[key] = value\n    return merge(d, d2, factory=factory)",
+    "fixed_code": "def assoc(d, key, value, factory=dict):\n    \"\"\" Return a new dict with new key value pair\n\n    New dict has d[key] set to value. Does not modify the initial dictionary.\n\n    >>> assoc({'x': 1}, 'x', 2)\n    {'x': 2}\n    >>> assoc({'x': 1}, 'y', 3)   # doctest: +SKIP\n    {'x': 1, 'y': 3}\n    \"\"\"\n    d2 = factory()\n    d2.update(d)\n    d2[key] = value\n    return d2",
+    "tests": [
+      "assert assoc({'x': 1}, 'x', 2) == {'x': 2}",
+      "assert assoc({'x': 1}, 'y', 3)   # doctest: +SKIP == {'x': 1, 'y': 3}"
+    ],
+    "nl": "Fix wrong_return_value in assoc: More efficient assoc."
+  },
+  {
+    "id": 36,
+    "commit": "bb0389c3",
+    "commit_msg": "better signature for iterutils.redundant()",
+    "file": "boltons/iterutils.py",
+    "function": "redundant",
+    "bug_type": "wrong_return_value",
+    "pl": "def redundant(src, key=None, distinct=False, sort=True):\n    \"\"\"The complement of unique(), returns non-unique values. Pass\n    distinct=True to get a list of the *first* redundant value for\n    each key. Results are sorted by default.\n\n    >>> redundant(range(5))\n    []\n    >>> redundant([1, 2, 3, 2, 3, 3])\n    [[2, 2], [3, 3, 3]]\n    >>> redundant([1, 2, 3, 2, 3, 3], distinct=True)\n    [2, 3]\n    >>> redundant(['hi', 'Hi', 'HI', 'hello'], key=str.lower)\n    [['hi', 'Hi', 'HI']]\n    >>> redundant(['hi', 'Hi', 'HI', 'hello'], distinct=True, key=str.lower)\n    ['Hi']\n\n    .. note::\n\n       This output of this function is designed for reporting\n       duplicates in contexts when a unique input is desired. Due to\n       the more-powerful return type, however, there is no\n       streaming equivalent of this function.\n\n    \"\"\"\n    if key is None:\n        pass\n    elif callable(key):\n        key_func = key\n    elif isinstance(key, basestring):\n        key_func = lambda x: getattr(x, key, x)\n    else:\n        raise TypeError('\"key\" expected a string or callable, not %r' % key)\n    seen = {}  # key to first seen item\n    redundant_seen = {}\n    for i in src:\n        k = key_func(i) if key else i\n        if k not in seen:\n            seen[k] = i\n        else:\n            if k in redundant_seen:\n                if not distinct:\n                    redundant_seen[k].append(i)\n            else:\n                redundant_seen[k] = [seen[k], i]\n    if distinct:\n        ret = [r[1] for r in redundant_seen.values()]\n    else:\n        ret = redundant_seen.values()\n    return sorted(ret) if sort else ret",
+    "fixed_code": "def redundant(src, key=None, groups=False):\n    \"\"\"The complement of :func:`unique()`.\n\n    By default returns non-unique values as a list of the *first*\n    redundant value in *src*. Pass ``groups=True`` to get groups of\n    all values with redundancies, ordered by position of the first\n    redundant value. This is useful in conjunction with some\n    normalizing *key* function.\n\n    >>> redundant([1, 2, 3, 4])\n    []\n    >>> redundant([1, 2, 3, 2, 3, 3, 4])\n    [2, 3]\n    >>> redundant([1, 2, 3, 2, 3, 3, 4], groups=True)\n    [[2, 2], [3, 3, 3]]\n\n    An example using a *key* function to do case-insensitive\n    redundancy detection.\n\n    >>> redundant(['hi', 'Hi', 'HI', 'hello'], key=str.lower)\n    ['Hi']\n    >>> redundant(['hi', 'Hi', 'HI', 'hello'], groups=True, key=str.lower)\n    [['hi', 'Hi', 'HI']]\n\n    *key* should also be used when the values in *src* are not hashable.\n\n    .. note::\n\n       This output of this function is designed for reporting\n       duplicates in contexts when a unique input is desired. Due to\n       the grouped return type, there is no streaming equivalent of\n       this function at this time.\n\n    \"\"\"\n    if key is None:\n        pass\n    elif callable(key):\n        key_func = key\n    elif isinstance(key, basestring):\n        key_func = lambda x: getattr(x, key, x)\n    else:\n        raise TypeError('\"key\" expected a string or callable, not %r' % key)\n    seen = {}  # key to first seen item\n    redundant_order = []\n    redundant_groups = {}\n    for i in src:\n        k = key_func(i) if key else i\n        if k not in seen:\n            seen[k] = i\n        else:\n            if k in redundant_groups:\n                if groups:\n                    redundant_groups[k].append(i)\n            else:\n                redundant_order.append(k)\n                redundant_groups[k] = [seen[k], i]\n    if not groups:\n        ret = [redundant_groups[k][1] for k in redundant_order]\n    else:\n        ret = [redundant_groups[k] for k in redundant_order]\n    return ret",
+    "tests": [
+      "assert redundant([1, 2, 3, 4]) == []",
+      "assert redundant([1, 2, 3, 2, 3, 3, 4]) == [2, 3]",
+      "assert redundant([1, 2, 3, 2, 3, 3, 4], groups=True) == [[2, 2], [3, 3, 3]]",
+      "assert redundant(['hi', 'Hi', 'HI', 'hello'], key=str.lower) == ['Hi']",
+      "assert redundant(['hi', 'Hi', 'HI', 'hello'], groups=True, key=str.lower) == [['hi', 'Hi', 'HI']]"
+    ],
+    "nl": "Fix wrong_return_value in redundant: better signature for iterutils.redundant()"
+  }
+]
