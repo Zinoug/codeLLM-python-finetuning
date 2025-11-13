@@ -8,6 +8,7 @@ paginate: true
 ## Code Search, Repair, Summarization & Bug Detection
 
 **Mid-Project Presentation**
+**Team 5**
 November 13, 2025
 
 ---
@@ -57,6 +58,7 @@ November 13, 2025
   - TheAlgorithms/Python (28 samples)
   - more-itertools (5 samples)
   - toolz (2 samples)
+  - boltons/iterutils (1 sample)
 
 **Total**: 36 validated bug samples
 
@@ -86,7 +88,18 @@ Result: High-quality, real bugs with verified fixes
 }
 ```
 
+---
+## How Same Dataset Serves Both Tasks
+## Task Training Format
+```json
+// Code Repair : Pairs of buggy/fixed and fixed/fixed from the dataset
+{"input": "fix a bug:\ndef add(a,b): return a-b", 
+ "output": "def add(a,b): return a+b"}
 
+// Bug Detection : choose buggy and fixed code from the dataset
+{"input": "classify BUGGY OR CORRECT :\ndef add(a,b): return a-b",
+ "output": "BUGGY"}
+```
 ---
 
 ## Dataset 1: Data Augmentation Plan
@@ -115,8 +128,8 @@ Result: High-quality, real bugs with verified fixes
 
 **Selection Criteria**: 
 - Simple, focused functions (not complex classes)
-- Clear, concise docstrings
-- Educational/utility functions (easier to understand)
+- Clear, concise docstrings, Educational/utility functions (easier to understand)
+
 
 ---
 
@@ -202,7 +215,7 @@ Choices:
  "output": "def add(a,b): return a+b"}
 
 // Bug Detection
-{"input": "classify:\ndef add(a,b): return a-b",
+{"input": "classify BUGGY OR CORRECT :\ndef add(a,b): return a-b",
  "output": "BUGGY"}
 
 // Code Search
