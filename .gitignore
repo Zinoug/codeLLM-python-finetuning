@@ -1,3 +1,5 @@
 mining_cache/
 mining_venv/
 .mypy_cache/
+.venv/
+repos/
