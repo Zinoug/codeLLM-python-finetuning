@@ -3,3 +3,27 @@ mining_venv/
 .mypy_cache/
 .venv/
 repos/
+# Python
+__pycache__/
+*.pyc
+
+# Virtual env
+.venv/
+env/
+*.env
+
+# Checkpoints & outputs
+codet5_multitask_ckpt/
+wandb/
+repos/
+codet5_multitask_finetuned/
+
+# Google Drive / Colab temp
+.tmpdriveupload/
+.tmp.driveupload/
+*.tmpdriveupload*
+.tmp.drivedownload/
+
+# OS garbage
+.DS_Store
+Thumbs.db

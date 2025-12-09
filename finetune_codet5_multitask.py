@@ -12,9 +12,9 @@ from torch.utils.data import Dataset
 
 MODEL_NAME = "Salesforce/codet5-base"  # o el checkpoint que estés usando
 
-TRAIN_PATH = "multitask_dataset/train.jsonl"
-VAL_PATH = "multitask_dataset/val.jsonl"
-TEST_PATH = "multitask_dataset/test.jsonl"
+TRAIN_PATH = "multitask_datasett/train.jsonl"
+VAL_PATH = "multitask_datasett/val.jsonl"
+TEST_PATH = "multitask_datasett/test.jsonl"
 
 
 # -------- Dataset --------
@@ -101,7 +101,7 @@ def main():
     data_collator = DataCollator(tokenizer=tokenizer)
 
     training_args = TrainingArguments(
-        output_dir="codet5_multitask_ckpt",
+        output_dir="codet5_multitask_ckptt",
         per_device_train_batch_size=2,   # súbelo si tu GPU aguanta
         per_device_eval_batch_size=2,
         gradient_accumulation_steps=4,   # batch efectivo = 2 * 4 = 8
@@ -123,7 +123,7 @@ def main():
     )
 
     trainer.train()
-    trainer.save_model("codet5_multitask_finetuned")
+    trainer.save_model("codet5_multitask_finetunedd")
 
 
 if __name__ == "__main__":
