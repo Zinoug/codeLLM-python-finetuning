@@ -1,45 +1,65 @@
+"""
+Multi-Task CodeT5 Model Evaluation
+
+This script evaluates a fine-tuned CodeT5 model on 4 tasks:
+1. Code Search: Accuracy
+2. Bug Detection: Accuracy
+3. Code Summary: ROUGE + BLEU
+4. Code Repair: pass@1 (unit test execution) + BLEU
+
+The script uses the test split from final_data/test.jsonl
+"""
+
 import os
 import json
 import torch
+import sys
+from io import StringIO
+from contextlib import redirect_stdout, redirect_stderr
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
-
-# Para métricas
-import evaluate  # pip install evaluate rouge-score sacrebleu
+import evaluate
 
 
 # ===============================
-# CONFIGURACIÓN
+# CONFIGURATION
 # ===============================
 
-# Carpeta del checkpoint que quieres evaluar
-MODEL_DIR = "codet5_multitask_ckptt/checkpoint-4000"  # <-- AJUSTA si usas otro checkpoint
+# Model checkpoint to evaluate
+MODEL_DIR = "codet5_multitask_final"  # Adjust to your checkpoint path
 
-# Modelo base que usaste para entrenar (solo para el tokenizer)
+# Base model for tokenizer
 TOKENIZER_SOURCE = "Salesforce/codet5-base"
 
-# Ruta al archivo de test (ojo con el nombre de la carpeta: 'multitask_datasett')
-TEST_PATH = "multitask_datasett/test.jsonl"  # <-- cámbialo si renombraste la carpeta
+# Test data path
+TEST_PATH = "final_data/test.jsonl"
 
+# Output directory for results
+OUTPUT_DIR = "eval_outputs"
+
+# Device configuration
 device = "cuda" if torch.cuda.is_available() else "cpu"
-print("Using device:", device)
+print("=" * 70)
+print("🔍 CodeT5 Multi-Task Model Evaluation")
+print("=" * 70)
+print(f"Device: {device}")
 
 
 # ===============================
-# CARGAR MODELO Y TOKENIZER
+# LOAD MODEL AND TOKENIZER
 # ===============================
 
-print("\nLoading model & tokenizer...")
-
+print("\n📥 Loading model & tokenizer...")
 tokenizer = AutoTokenizer.from_pretrained(TOKENIZER_SOURCE)
 model = AutoModelForSeq2SeqLM.from_pretrained(MODEL_DIR).to(device)
 model.eval()
+print(f"   ✅ Model loaded from: {MODEL_DIR}")
 
 
 # ===============================
-# CARGAR DATASET DE TEST
+# LOAD TEST DATASET
 # ===============================
 
-print("\nLoading test dataset:", TEST_PATH)
+print(f"\n📂 Loading test dataset: {TEST_PATH}")
 test_samples = []
 with open(TEST_PATH, "r", encoding="utf8") as f:
     for line in f:
@@ -48,25 +68,27 @@ with open(TEST_PATH, "r", encoding="utf8") as f:
             continue
         test_samples.append(json.loads(line))
 
-print("Total test samples:", len(test_samples))
+print(f"   ✅ Total test samples: {len(test_samples)}")
 
-# Separar por tarea usando el campo "task"
-search_samples = [s for s in test_samples if s.get("task") == "code_search"]
-summary_samples = [s for s in test_samples if s.get("task") == "code_summary"]
-repair_samples = [s for s in test_samples if s.get("task") == "code_repair"]
-bugdet_samples = [s for s in test_samples if s.get("task") == "bug_detection"]
+# Separate by task
+search_samples = [s for s in test_samples if s.get("task") == "search"]
+summary_samples = [s for s in test_samples if s.get("task") == "summary"]
+repair_samples = [s for s in test_samples if s.get("task") == "repair"]
+detection_samples = [s for s in test_samples if s.get("task") == "detection"]
 
-print(" Code Search samples :", len(search_samples))
-print(" Code Summary samples:", len(summary_samples))
-print(" Code Repair samples :", len(repair_samples))
-print(" Bug Detection samples:", len(bugdet_samples))
+print(f"   • Code Search:     {len(search_samples)} samples")
+print(f"   • Code Summary:    {len(summary_samples)} samples")
+print(f"   • Code Repair:     {len(repair_samples)} samples")
+print(f"   • Bug Detection:   {len(detection_samples)} samples")
 
 
 # ===============================
-# FUNCIÓN DE PREDICCIÓN
+# PREDICTION FUNCTION
 # ===============================
+
 
 def predict_text(inp: str, max_new_tokens: int = 32) -> str:
+    """Generate prediction from model"""
     inputs = tokenizer(inp, return_tensors="pt", truncation=True).to(device)
     with torch.no_grad():
         out_ids = model.generate(
@@ -80,20 +102,98 @@ def predict_text(inp: str, max_new_tokens: int = 32) -> str:
 
 
 # ===============================
-# EVALUACIÓN: CODE SEARCH (ACCURACY)
+# UTILITY: TEST EXECUTION
 # ===============================
 
-print("\n=== Evaluating CODE SEARCH (Accuracy) ===\n")
+
+def execute_tests(code: str, tests: list) -> dict:
+    """
+    Execute unit tests on generated code
+
+    Args:
+        code: Generated Python code to test
+        tests: List of assert statements
+
+    Returns:
+        dict with passed, failed, error counts and details
+    """
+    if not tests:
+        return {"passed": 0, "failed": 0, "errors": 0, "total": 0, "details": []}
+
+    passed = 0
+    failed = 0
+    errors = 0
+    details = []
+
+    # Create a safe execution environment
+    exec_globals = {}
+
+    # First, execute the code to define functions
+    try:
+        exec(code, exec_globals)
+    except Exception as e:
+        return {
+            "passed": 0,
+            "failed": len(tests),
+            "errors": len(tests),
+            "total": len(tests),
+            "details": [
+                {
+                    "test": t,
+                    "status": "error",
+                    "message": f"Code execution failed: {str(e)}",
+                }
+                for t in tests
+            ],
+        }
+
+    # Run each test
+    for test in tests:
+        try:
+            # Capture output
+            stdout_capture = StringIO()
+            stderr_capture = StringIO()
+
+            with redirect_stdout(stdout_capture), redirect_stderr(stderr_capture):
+                exec(test, exec_globals)
+
+            passed += 1
+            details.append({"test": test, "status": "passed", "message": ""})
+
+        except AssertionError as e:
+            failed += 1
+            details.append({"test": test, "status": "failed", "message": str(e)})
+
+        except Exception as e:
+            errors += 1
+            details.append({"test": test, "status": "error", "message": str(e)})
+
+    return {
+        "passed": passed,
+        "failed": failed,
+        "errors": errors,
+        "total": len(tests),
+        "details": details,
+    }
+
+
+# ===============================
+# TASK 1: CODE SEARCH (ACCURACY)
+# ===============================
+
+print("\n" + "=" * 70)
+print("📌 TASK 1: CODE SEARCH (Accuracy)")
+print("=" * 70)
 
 correct = 0
 total = 0
 errors_search = []
 
 for s in search_samples:
-    gold = s["output"].strip()   # "0", "1", "2", ...
+    gold = s["output"].strip()
     pred_text = predict_text(s["input"], max_new_tokens=4)
 
-    # Extraer primer dígito de la predicción
+    # Extract first digit from prediction
     digits = [c for c in pred_text if c.isdigit()]
     pred = digits[0] if digits else None
 
@@ -101,54 +201,54 @@ for s in search_samples:
     if pred == gold:
         correct += 1
     else:
-        errors_search.append({
-            "input": s["input"],
-            "gold": gold,
-            "pred_raw": pred_text,
-            "pred_digit": pred,
-        })
+        errors_search.append(
+            {
+                "input": s["input"][:200],  # Truncate for readability
+                "gold": gold,
+                "pred_raw": pred_text,
+                "pred_digit": pred,
+            }
+        )
 
 accuracy_search = correct / total if total > 0 else 0.0
-print(f"RESULT → Code Search accuracy: {accuracy_search:.3f} ({correct}/{total})")
+print(f"\n✅ Code Search Accuracy: {accuracy_search:.4f} ({correct}/{total})")
 
-os.makedirs("eval_outputss", exist_ok=True)
-errors_search_path = os.path.join("eval_outputss", "search_errors.json")
-with open(errors_search_path, "w", encoding="utf8") as f:
+# Save errors
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+with open(os.path.join(OUTPUT_DIR, "search_errors.json"), "w", encoding="utf8") as f:
     json.dump(errors_search, f, indent=2)
-print(f"Saved Code Search mispredictions to {errors_search_path}")
+print(f"   💾 Errors saved to {OUTPUT_DIR}/search_errors.json")
 
 
 # ===============================
-# EVALUACIÓN: BUG DETECTION (ACCURACY)
+# TASK 2: BUG DETECTION (ACCURACY)
 # ===============================
 
-print("\n=== Evaluating BUG DETECTION (Accuracy) ===\n")
+print("\n" + "=" * 70)
+print("📌 TASK 2: BUG DETECTION (Accuracy)")
+print("=" * 70)
 
-correct = 0
-total = 0
-errors_bugdet = []
 
-def normalize_bug_label(text: str):
-    """
-    Intenta mapear la predicción a 'BUGGY' o 'CORRECT' usando heurísticas simples.
-    """
+def normalize_bug_label(text: str) -> str:
+    """Map prediction to 'BUGGY' or 'CORRECT'"""
     t = text.strip().upper()
-    # Buscar palabras clave
     if "BUGGY" in t:
         return "BUGGY"
     if "CORRECT" in t or "CORRECTLY" in t:
         return "CORRECT"
-    # fallback: si contiene 'BUG', lo contamos como BUGGY
     if "BUG" in t:
         return "BUGGY"
-    # si contiene 'OK' o 'GOOD', lo contamos como CORRECT
     if "OK" in t or "GOOD" in t:
         return "CORRECT"
-    # último recurso: devolver tal cual
     return t
 
-for s in bugdet_samples:
-    gold = s["output"].strip().upper()  # "BUGGY" o "CORRECT"
+
+correct = 0
+total = 0
+errors_detection = []
+
+for s in detection_samples:
+    gold = s["output"].strip().upper()
     pred_text = predict_text(s["input"], max_new_tokens=4)
     pred_norm = normalize_bug_label(pred_text)
 
@@ -156,125 +256,175 @@ for s in bugdet_samples:
     if pred_norm == gold:
         correct += 1
     else:
-        errors_bugdet.append({
-            "input": s["input"],
-            "gold": gold,
-            "pred_raw": pred_text,
-            "pred_norm": pred_norm,
-        })
+        errors_detection.append(
+            {
+                "input": s["input"][:200],
+                "gold": gold,
+                "pred_raw": pred_text,
+                "pred_norm": pred_norm,
+            }
+        )
 
-accuracy_bugdet = correct / total if total > 0 else 0.0
-print(f"RESULT → Bug Detection accuracy: {accuracy_bugdet:.3f} ({correct}/{total})")
+accuracy_detection = correct / total if total > 0 else 0.0
+print(f"\n✅ Bug Detection Accuracy: {accuracy_detection:.4f} ({correct}/{total})")
 
-errors_bugdet_path = os.path.join("eval_outputss", "bug_detection_errors.json")
-with open(errors_bugdet_path, "w", encoding="utf8") as f:
-    json.dump(errors_bugdet, f, indent=2)
-print(f"Saved Bug Detection mispredictions to {errors_bugdet_path}")
+with open(os.path.join(OUTPUT_DIR, "detection_errors.json"), "w", encoding="utf8") as f:
+    json.dump(errors_detection, f, indent=2)
+print(f"   💾 Errors saved to {OUTPUT_DIR}/detection_errors.json")
 
 
 # ===============================
-# EVALUACIÓN: CODE SUMMARY (ROUGE + BLEU)
+# TASK 3: CODE SUMMARY (ROUGE + BLEU)
 # ===============================
 
-print("\n=== Evaluating CODE SUMMARY (ROUGE + BLEU) ===\n")
+print("\n" + "=" * 70)
+print("📌 TASK 3: CODE SUMMARIZATION (ROUGE + BLEU)")
+print("=" * 70)
 
 summary_refs = [s["output"].strip() for s in summary_samples]
 summary_inputs = [s["input"] for s in summary_samples]
 summary_preds = []
 
+print("   Generating summaries...")
 for inp in summary_inputs:
-    pred = predict_text(inp, max_new_tokens=48)  # más largo para no truncar
+    pred = predict_text(inp, max_new_tokens=64)
     summary_preds.append(pred)
 
+# Compute ROUGE
 rouge = evaluate.load("rouge")
-bleu = evaluate.load("bleu")
-
 rouge_results = rouge.compute(
-    predictions=summary_preds,
-    references=summary_refs,
-    use_stemmer=True
+    predictions=summary_preds, references=summary_refs, use_stemmer=True
 )
 
+# Compute BLEU
+bleu = evaluate.load("bleu")
 bleu_results = bleu.compute(
-    predictions=summary_preds,
-    references=[[ref] for ref in summary_refs]
+    predictions=summary_preds, references=[[ref] for ref in summary_refs]
 )
 
-print("ROUGE results:")
-print(f"  ROUGE-1: {rouge_results['rouge1']:.4f}")
-print(f"  ROUGE-2: {rouge_results['rouge2']:.4f}")
-print(f"  ROUGE-L: {rouge_results['rougeL']:.4f}")
+print(f"\n✅ ROUGE Scores:")
+print(f"   • ROUGE-1: {rouge_results['rouge1']:.4f}")
+print(f"   • ROUGE-2: {rouge_results['rouge2']:.4f}")
+print(f"   • ROUGE-L: {rouge_results['rougeL']:.4f}")
 
-print("\nBLEU results:")
-print(f"  BLEU-4: {bleu_results['bleu']:.4f}")
+print(f"\n✅ BLEU Score: {bleu_results['bleu']:.4f}")
 
-summary_eval_path = os.path.join("eval_outputss", "summary_preds_refs.json")
-with open(summary_eval_path, "w", encoding="utf8") as f:
+# Save predictions
+with open(
+    os.path.join(OUTPUT_DIR, "summary_predictions.json"), "w", encoding="utf8"
+) as f:
     json.dump(
         [{"pred": p, "ref": r} for p, r in zip(summary_preds, summary_refs)],
         f,
-        indent=2
+        indent=2,
     )
-print(f"\nSaved summary predictions & references to {summary_eval_path}")
+print(f"\n   💾 Predictions saved to {OUTPUT_DIR}/summary_predictions.json")
 
 
 # ===============================
-# EVALUACIÓN: CODE REPAIR (Exact Match + BLEU)
+# TASK 4: CODE REPAIR (pass@1 + BLEU)
 # ===============================
 
-print("\n=== Evaluating CODE REPAIR (Exact Match + BLEU) ===\n")
+print("\n" + "=" * 70)
+print("📌 TASK 4: CODE REPAIR (pass@1 + BLEU)")
+print("=" * 70)
 
-repair_refs = [s["output"] for s in repair_samples]   # código fixed
-repair_inputs = [s["input"] for s in repair_samples]  # "fix a bug:\n<buggy/fixed_code>"
+repair_refs = [s["output"] for s in repair_samples]
+repair_inputs = [s["input"] for s in repair_samples]
 repair_preds = []
+repair_results = []
 
-for inp in repair_inputs:
-    # para reparación de código queremos permitir más tokens
+print("   Generating code repairs...")
+for i, (inp, sample) in enumerate(zip(repair_inputs, repair_samples)):
     pred = predict_text(inp, max_new_tokens=256)
     repair_preds.append(pred)
 
-# Exact match (string)
+    # Execute tests if available
+    tests = sample.get("tests", [])
+    if tests:
+        test_result = execute_tests(pred, tests)
+        repair_results.append(
+            {
+                "sample_id": i,
+                "input": inp[:200],
+                "prediction": pred,
+                "reference": sample["output"],
+                "tests": tests,
+                "test_results": test_result,
+            }
+        )
+
+# Calculate pass@1 (percentage of samples that pass all tests)
+samples_with_tests = [r for r in repair_results if r["test_results"]["total"] > 0]
+if samples_with_tests:
+    passed_all = sum(
+        1
+        for r in samples_with_tests
+        if r["test_results"]["passed"] == r["test_results"]["total"]
+    )
+    pass_at_1 = passed_all / len(samples_with_tests)
+
+    total_tests = sum(r["test_results"]["total"] for r in samples_with_tests)
+    total_passed = sum(r["test_results"]["passed"] for r in samples_with_tests)
+
+    print(
+        f"\n✅ pass@1 Score: {pass_at_1:.4f} ({passed_all}/{len(samples_with_tests)} samples)"
+    )
+    print(f"   • Samples passing all tests: {passed_all}/{len(samples_with_tests)}")
+    print(f"   • Individual tests passed: {total_passed}/{total_tests}")
+else:
+    print("\n⚠️  No test cases available for pass@1 evaluation")
+
+# Exact Match
 em_correct = sum(1 for p, r in zip(repair_preds, repair_refs) if p.strip() == r.strip())
-em_total = len(repair_refs)
-em_score = em_correct / em_total if em_total > 0 else 0.0
+em_score = em_correct / len(repair_refs) if repair_refs else 0.0
+print(f"\n✅ Exact Match: {em_score:.4f} ({em_correct}/{len(repair_refs)})")
 
-print(f"Exact Match (Code Repair): {em_score:.4f} ({em_correct}/{em_total})")
-
-# BLEU sobre código (tokenizado por espacios; no es perfecto pero sirve como proxy)
+# BLEU
 bleu_code = evaluate.load("bleu")
 bleu_code_results = bleu_code.compute(
-    predictions=repair_preds,
-    references=[[ref] for ref in repair_refs]
+    predictions=repair_preds, references=[[ref] for ref in repair_refs]
+)
+print(f"✅ BLEU Score: {bleu_code_results['bleu']:.4f}")
+
+# Save results
+with open(
+    os.path.join(OUTPUT_DIR, "repair_predictions.json"), "w", encoding="utf8"
+) as f:
+    json.dump(repair_results, f, indent=2)
+print(
+    f"\n   💾 Predictions with test results saved to {OUTPUT_DIR}/repair_predictions.json"
 )
 
-print(f"BLEU (Code Repair): {bleu_code_results['bleu']:.4f}")
-
-repair_eval_path = os.path.join("eval_outputss", "code_repair_preds_refs.json")
-with open(repair_eval_path, "w", encoding="utf8") as f:
-    json.dump(
-        [{"pred": p, "ref": r} for p, r in zip(repair_preds, repair_refs)],
-        f,
-        indent=2
-    )
-print(f"Saved code repair predictions & references to {repair_eval_path}")
-
 
 # ===============================
-# EJEMPLOS: CODE SUMMARY (GOLD vs PRED)
+# SUMMARY REPORT
 # ===============================
 
-print("\n=== Showing 5 Code Summary examples ===\n")
+print("\n" + "=" * 70)
+print("📊 EVALUATION SUMMARY")
+print("=" * 70)
 
-num_examples = min(5, len(summary_samples))
-for i in range(num_examples):
-    gold = summary_refs[i]
-    pred = summary_preds[i]
+print(f"\n1️⃣  Code Search:")
+print(f"   • Accuracy: {accuracy_search:.4f}")
 
-    print("=" * 80)
-    print(f"Example {i}")
-    print("- GOLD:")
-    print(gold)
-    print("- PRED:")
-    print(pred)
+print(f"\n2️⃣  Bug Detection:")
+print(f"   • Accuracy: {accuracy_detection:.4f}")
 
-print("\nDone.")
+print(f"\n3️⃣  Code Summarization:")
+print(f"   • ROUGE-1: {rouge_results['rouge1']:.4f}")
+print(f"   • ROUGE-2: {rouge_results['rouge2']:.4f}")
+print(f"   • ROUGE-L: {rouge_results['rougeL']:.4f}")
+print(f"   • BLEU: {bleu_results['bleu']:.4f}")
+
+print(f"\n4️⃣  Code Repair:")
+if samples_with_tests:
+    print(f"   • pass@1: {pass_at_1:.4f}")
+    print(f"   • Test pass rate: {total_passed}/{total_tests}")
+print(f"   • Exact Match: {em_score:.4f}")
+print(f"   • BLEU: {bleu_code_results['bleu']:.4f}")
+
+print("\n" + "=" * 70)
+print("✨ Evaluation completed!")
+print("=" * 70)
+print(f"\n📁 All results saved to: {OUTPUT_DIR}/")

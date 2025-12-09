@@ -12,10 +12,10 @@ from pydriller import Repository
 
 REPOSITORIES = [
     "https://github.com/TheAlgorithms/Python",
-    "https://github.com/more-itertools/more-itertools",
-    "https://github.com/pytoolz/toolz",
     "https://github.com/keon/algorithms",
     "https://github.com/OmkarPathak/pygorithm",
+    "https://github.com/geekcomputers/Python",
+    "https://github.com/zhiwehu/Python-programming-exercises",
 ]
 
 OUTPUT_FILE = "data/REAL_TOP_LEVEL_BUGS.json"
@@ -154,33 +154,43 @@ def classify_bug(buggy_code, fixed_code):
 def mine_repo(repo_url):
     """Mine repository for bug fixes."""
     repo_name = repo_url.split("/")[-1]
-    print(f"\nMining: {repo_name}")
+    print(f"\n{'='*70}")
+    print(f"🔍 Mining: {repo_name}")
+    print(f"{'='*70}")
 
     repo_path = os.path.join(CACHE_DIR, repo_name)
 
     if not os.path.exists(repo_path):
-        print("Cloning repository...")
+        print(f"📥 Cloning repository {repo_name}...")
         os.makedirs(CACHE_DIR, exist_ok=True)
         try:
             subprocess.run(
-                ["git", "clone", "--depth=2000", repo_url, repo_path],
+                ["git", "clone", "--depth=5000", repo_url, repo_path],
                 capture_output=True,
-                timeout=300,
+                timeout=600,
             )
+            print(f"✅ Clone completed for {repo_name}")
         except subprocess.TimeoutExpired:
-            print(f"Clone timeout - skipping {repo_name}")
+            print(f"⏱️  Clone timeout - skipping {repo_name}")
             return [], {}
     else:
-        print("Using cached repository")
+        print(f"💾 Using cached repository: {repo_name}")
 
     samples = []
     bug_types = {}
     sample_count = 0
+    commit_count = 0
 
     try:
         repo = Repository(repo_path, only_modifications_with_file_types=[".py"])
 
+        print(f"📊 Analyzing commits in {repo_name}...")
         for commit in repo.traverse_commits():
+            commit_count += 1
+            if commit_count % 50 == 0:
+                print(
+                    f"   ⏳ Processed {commit_count} commits, found {sample_count} samples..."
+                )
             try:
                 if commit.hash.startswith("5f4da5d6"):
                     continue
@@ -259,29 +269,30 @@ def mine_repo(repo_url):
 
                                     samples.append(sample)
 
-                                    if sample_count <= 20:
-                                        print(
-                                            f"  Found: {bug_type} "
-                                            f"in {buggy_func['name']}"
-                                        )
+                                    print(
+                                        f"✅ Found #{sample_count}: {bug_type} in {buggy_func['name']} ({mod.new_path})"
+                                    )
 
             except Exception:
                 continue
 
-            if len(samples) % 10 == 0 and samples:
-                with open(OUTPUT_FILE, "w") as f:
-                    json.dump(samples, f, indent=2)
-
     except Exception as e:
-        print(f"Error mining {repo_name}: {e}")
+        print(f"❌ Error mining {repo_name}: {e}")
 
+    print(
+        f"\n📈 {repo_name} Summary: {len(samples)} samples from {commit_count} commits"
+    )
     return samples, bug_types
 
 
 def main():
     """Main entry point."""
-    print("Mining bug fixes from GitHub repositories")
+    print("\n" + "=" * 70)
+    print("🚀 Mining Bug Fixes from GitHub Repositories")
     print("=" * 70)
+    print(f"📦 Target repositories: {len(REPOSITORIES)}")
+    print(f"💾 Output file: {OUTPUT_FILE}")
+    print("=" * 70 + "\n")
 
     os.makedirs("data", exist_ok=True)
 
@@ -289,15 +300,15 @@ def main():
     all_bug_types = {}
     repo_stats = {}
 
-    for repo_url in REPOSITORIES:
+    for idx, repo_url in enumerate(REPOSITORIES, 1):
+        print(f"\n[{idx}/{len(REPOSITORIES)}] Processing repository...")
         repo_name = repo_url.split("/")[-1]
 
         samples, bug_types = mine_repo(repo_url)
 
         if samples:
             repo_stats[repo_name] = len(samples)
-
-        all_samples.extend(samples)
+            all_samples.extend(samples)
 
         for bug_type, count in bug_types.items():
             all_bug_types[bug_type] = all_bug_types.get(bug_type, 0) + count
@@ -305,22 +316,22 @@ def main():
         with open(OUTPUT_FILE, "w") as f:
             json.dump(all_samples, f, indent=2)
 
-        print(f"Total samples so far: {len(all_samples)}")
+        print(f"\n💾 Saved progress: {len(all_samples)} total samples")
 
     with open(OUTPUT_FILE, "w") as f:
         json.dump(all_samples, f, indent=2)
 
     print("\n" + "=" * 70)
-    print("RESULTS")
+    print("🎉 MINING COMPLETE - RESULTS")
     print("=" * 70)
-    print(f"Total samples: {len(all_samples)}")
-    print(f"\nBug types found:")
+    print(f"📊 Total samples: {len(all_samples)}")
+    print(f"\n🐛 Bug types found:")
     for bug_type, count in sorted(all_bug_types.items(), key=lambda x: -x[1]):
-        print(f"  {bug_type:25s} {count}")
-    print(f"\nSamples per repository:")
+        print(f"   {bug_type:25s} : {count:4d} samples")
+    print(f"\n📦 Samples per repository:")
     for repo, count in sorted(repo_stats.items(), key=lambda x: -x[1]):
-        print(f"  {repo:30s} {count}")
-    print(f"\nOutput: {OUTPUT_FILE}")
+        print(f"   {repo:30s} : {count:4d} samples")
+    print(f"\n💾 Output saved to: {OUTPUT_FILE}")
     print("=" * 70)
 
 

@@ -1,0 +1,16 @@
+torch>=2.0.0
+transformers>=4.30.0
+datasets>=2.12.0
+
+# Evaluation metrics
+evaluate>=0.4.0
+rouge-score>=0.1.2
+sacrebleu>=2.3.1
+
+# Utilities
+numpy>=1.24.0
+tqdm>=4.65.0
+
+# Data mining 
+pydriller
+jsonlines

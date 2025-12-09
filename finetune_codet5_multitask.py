@@ -1,25 +1,46 @@
+"""
+Fine-tuning CodeT5 for Multi-Task Learning
+
+This script fine-tunes CodeT5-base on 4 code-related tasks:
+1. Code Repair (fix bug)
+2. Bug Detection (classify code)
+3. Code Summarization (summarize code)
+4. Code Search (search code)
+
+The model is trained on the balanced dataset from final_data/
+"""
+
 import json
+import torch
 from dataclasses import dataclass
 from typing import Dict, List
+from collections import Counter
+from tqdm import tqdm
 
 from transformers import (
     AutoTokenizer,
     AutoModelForSeq2SeqLM,
     Trainer,
     TrainingArguments,
+    TrainerCallback,
 )
 from torch.utils.data import Dataset
 
-MODEL_NAME = "Salesforce/codet5-base"  # o el checkpoint que estés usando
+# Configuration
+MODEL_NAME = "Salesforce/codet5-base"
+TRAIN_PATH = "final_data/train.jsonl"
+VAL_PATH = "final_data/val.jsonl"
+TEST_PATH = "final_data/test.jsonl"
 
-TRAIN_PATH = "multitask_datasett/train.jsonl"
-VAL_PATH = "multitask_datasett/val.jsonl"
-TEST_PATH = "multitask_datasett/test.jsonl"
 
+# ============================================
+# Dataset
+# ============================================
 
-# -------- Dataset --------
 
 class JsonlSeq2SeqDataset(Dataset):
+    """Dataset for loading JSONL files with input/output pairs"""
+
     def __init__(self, path: str, tokenizer, max_input_len=512, max_output_len=128):
         self.examples = []
         with open(path, "r", encoding="utf8") as f:
@@ -41,6 +62,7 @@ class JsonlSeq2SeqDataset(Dataset):
         inp = ex["input"]
         out = ex["output"]
 
+        # Tokenize input
         model_inputs = self.tokenizer(
             inp,
             max_length=self.max_input_len,
@@ -48,6 +70,7 @@ class JsonlSeq2SeqDataset(Dataset):
             padding=False,
         )
 
+        # Tokenize output (labels)
         with self.tokenizer.as_target_tokenizer():
             labels = self.tokenizer(
                 out,
@@ -60,23 +83,30 @@ class JsonlSeq2SeqDataset(Dataset):
         return model_inputs
 
 
-# -------- Collator simple (pad a batch) --------
+# ============================================
+# Data Collator
+# ============================================
+
 
 @dataclass
 class DataCollator:
+    """Collator to pad batches dynamically"""
+
     tokenizer: AutoTokenizer
     label_pad_token_id: int = -100
 
     def __call__(self, features: List[Dict]) -> Dict[str, List[int]]:
-        # padding para inputs
+        # Pad inputs
         batch = self.tokenizer.pad(
-            {"input_ids": [f["input_ids"] for f in features],
-             "attention_mask": [f["attention_mask"] for f in features]},
+            {
+                "input_ids": [f["input_ids"] for f in features],
+                "attention_mask": [f["attention_mask"] for f in features],
+            },
             padding=True,
             return_tensors="pt",
         )
 
-        # padding para labels
+        # Pad labels
         labels = [f["labels"] for f in features]
         labels_batch = self.tokenizer.pad(
             {"input_ids": labels},
@@ -84,34 +114,149 @@ class DataCollator:
             return_tensors="pt",
         )["input_ids"]
 
-        # reemplazar pad_token_id por -100 para que no cuenten en la loss
-        labels_batch[labels_batch == self.tokenizer.pad_token_id] = self.label_pad_token_id
+        # Replace pad_token_id with -100 so they don't contribute to loss
+        labels_batch[labels_batch == self.tokenizer.pad_token_id] = (
+            self.label_pad_token_id
+        )
         batch["labels"] = labels_batch
         return batch
 
 
+# ============================================
+# Progress Callback
+# ============================================
+
+
+class ProgressCallback(TrainerCallback):
+    """Custom callback for better progress logging"""
+
+    def __init__(self, total_steps):
+        self.total_steps = total_steps
+        self.pbar = None
+
+    def on_train_begin(self, args, state, control, **kwargs):
+        self.pbar = tqdm(total=self.total_steps, desc="Training", unit="step")
+
+    def on_log(self, args, state, control, logs=None, **kwargs):
+        if self.pbar and logs:
+            # Update progress bar
+            current_step = state.global_step
+            self.pbar.n = current_step
+            self.pbar.refresh()
+
+            # Log key metrics
+            if "loss" in logs:
+                self.pbar.set_postfix({"loss": f"{logs['loss']:.4f}"})
+
+            if "eval_loss" in logs:
+                print(f"\n📊 Eval at step {current_step}: loss={logs['eval_loss']:.4f}")
+
+    def on_train_end(self, args, state, control, **kwargs):
+        if self.pbar:
+            self.pbar.close()
+
+
+# ============================================
+# Main Training Function
+# ============================================
+
+
 def main():
+    print("=" * 70)
+    print("🚀 Fine-tuning CodeT5 for Multi-Task Learning")
+    print("=" * 70)
+
+    # Check CUDA
+    print("\n💻 System Information:")
+    print(f"   • PyTorch version: {torch.__version__}")
+    print(f"   • CUDA available: {torch.cuda.is_available()}")
+    if torch.cuda.is_available():
+        print(f"   • CUDA version: {torch.version.cuda}")
+        print(f"   • GPU: {torch.cuda.get_device_name(0)}")
+        print(
+            f"   • GPU memory: {torch.cuda.get_device_properties(0).total_memory / 1024**3:.1f} GB"
+        )
+    else:
+        print("   ⚠️  Warning: CUDA not available, training will be slow!")
+
+    # Load tokenizer and model
+    print("\n📥 Loading model and tokenizer...")
     tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
     model = AutoModelForSeq2SeqLM.from_pretrained(MODEL_NAME)
 
-    # datasets
+    # Count parameters
+    total_params = sum(p.numel() for p in model.parameters())
+    trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
+    print(f"   ✅ Model: {MODEL_NAME}")
+    print(f"   • Total parameters: {total_params:,}")
+    print(f"   • Trainable parameters: {trainable_params:,}")
+
+    # Load datasets
+    print("\n📂 Loading datasets...")
     train_dataset = JsonlSeq2SeqDataset(TRAIN_PATH, tokenizer)
     val_dataset = JsonlSeq2SeqDataset(VAL_PATH, tokenizer)
+    print(f"   ✅ Train: {len(train_dataset)} samples")
+    print(f"   ✅ Val:   {len(val_dataset)} samples")
 
+    # Analyze task distribution
+    print("\n📊 Task distribution in training set:")
+    task_counts = Counter(ex["task"] for ex in train_dataset.examples)
+    for task, count in sorted(task_counts.items()):
+        percentage = (count / len(train_dataset)) * 100
+        print(f"   • {task:12s}: {count:4d} samples ({percentage:.1f}%)")
+
+    # Data collator
     data_collator = DataCollator(tokenizer=tokenizer)
 
+    # Training arguments
+    print("\n⚙️  Training configuration:")
     training_args = TrainingArguments(
-        output_dir="codet5_multitask_ckptt",
-        per_device_train_batch_size=2,   # súbelo si tu GPU aguanta
+        output_dir="codet5_multitask_checkpoint",
+        per_device_train_batch_size=2,  # Increase if GPU allows
         per_device_eval_batch_size=2,
-        gradient_accumulation_steps=4,   # batch efectivo = 2 * 4 = 8
+        gradient_accumulation_steps=4,  # Effective batch size = 2 * 4 = 8
         learning_rate=5e-5,
         num_train_epochs=3,
+        warmup_steps=100,
+        weight_decay=0.01,
         logging_steps=50,
-        report_to="none",    
-        # OJO: sin evaluation_strategy, eval_steps, save_steps,
-        # save_total_limit, predict_with_generate, fp16
+        # logging_dir="./logs",
+        # evaluation_strategy="steps",
+        # eval_steps=200,
+        # save_steps=500,
+        # save_total_limit=3,
+        report_to="none",
+        # fp16=torch.cuda.is_available(),  # Enable only if CUDA available
+        # load_best_model_at_end=True,
+        # metric_for_best_model="eval_loss",
     )
+
+    print(f"   • Batch size per device: {training_args.per_device_train_batch_size}")
+    print(f"   • Gradient accumulation: {training_args.gradient_accumulation_steps}")
+    print(
+        f"   • Effective batch size: {training_args.per_device_train_batch_size * training_args.gradient_accumulation_steps}"
+    )
+    print(f"   • Learning rate: {training_args.learning_rate}")
+    print(f"   • Warmup steps: {training_args.warmup_steps}")
+    print(f"   • Weight decay: {training_args.weight_decay}")
+    print(f"   • Epochs: {training_args.num_train_epochs}")
+    print(f"   • Mixed precision (fp16): {training_args.fp16}")
+
+    # Calculate training steps
+    steps_per_epoch = len(train_dataset) // (
+        training_args.per_device_train_batch_size
+        * training_args.gradient_accumulation_steps
+    )
+    total_steps = steps_per_epoch * training_args.num_train_epochs
+    print(f"\n📈 Training plan:")
+    print(f"   • Steps per epoch: ~{steps_per_epoch}")
+    print(f"   • Total training steps: ~{total_steps}")
+    print(f"   • Evaluations: every {training_args.eval_steps} steps")
+    print(f"   • Checkpoints: every {training_args.save_steps} steps")
+
+    # Initialize trainer with progress callback
+    print("\n🔧 Initializing trainer...")
+    progress_callback = ProgressCallback(total_steps)
 
     trainer = Trainer(
         model=model,
@@ -120,10 +265,47 @@ def main():
         eval_dataset=val_dataset,
         data_collator=data_collator,
         tokenizer=tokenizer,
+        callbacks=[progress_callback],
     )
 
-    trainer.train()
-    trainer.save_model("codet5_multitask_finetunedd")
+    # Train
+    print("\n" + "=" * 70)
+    print("🏋️  Starting training...")
+    print("=" * 70)
+
+    try:
+        trainer.train()
+    except KeyboardInterrupt:
+        print("\n\n⚠️  Training interrupted by user!")
+        print("💾 Saving current model state...")
+        trainer.save_model("codet5_multitask_interrupted")
+        print("   ✅ Model saved to: codet5_multitask_interrupted")
+        return
+    except Exception as e:
+        print(f"\n\n❌ Training failed with error: {e}")
+        raise
+
+    # Save final model
+    print("\n" + "=" * 70)
+    print("💾 Saving final model...")
+    trainer.save_model("codet5_multitask_final")
+    tokenizer.save_pretrained("codet5_multitask_final")
+    print(f"   ✅ Model saved to: codet5_multitask_final/")
+
+    # Final summary
+    print("\n" + "=" * 70)
+    print("✨ Training completed successfully!")
+    print("=" * 70)
+    print(f"\n📊 Training summary:")
+    print(f"   • Total steps completed: {trainer.state.global_step}")
+    print(f"   • Best eval loss: {trainer.state.best_metric:.4f}")
+    print(f"   • Checkpoints saved in: codet5_multitask_checkpoint/")
+    print(f"   • Final model saved in: codet5_multitask_final/")
+
+    print(f"\n🎯 Next steps:")
+    print(f"   1. Evaluate the model: python evaluate_model.py")
+    print(f"   2. Check results in: eval_outputs/")
+    print("\n" + "=" * 70)
 
 
 if __name__ == "__main__":
