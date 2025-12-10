@@ -14,3 +14,4 @@ tqdm>=4.65.0
 # Data mining 
 pydriller
 jsonlines
+accelerate>=0.26.0

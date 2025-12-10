@@ -1,25 +1,73 @@
 [
   {
-    "input": "search code:\nGenerate a random graph\n\nChoices:\n0: def horn_schunck(     image0: np.ndarray,     image1: np.ndarray,     num_iter: SupportsIndex,     alpha: float | None = None, ) -> tuple[np.ndarray, ",
-    "gold": "1",
-    "pred_raw": "0",
-    "pred_digit": "0"
-  },
-  {
-    "input": "search code:\nAdds new strings (curr_string + \"0\", curr_string + \"1\") to the lexicon\n\nChoices:\n0: def mutate(child: str, genes: list[str]) -> str:     child_list = list(child)     if random.uniform(0, ",
+    "input": "search code:\nUsed to review all the votes (list result prediction)\n\nChoices:\n0: def largest_divisible_subset(items: list[int]) -> list[int]:     # Sort the array in ascending order as the sequence doe",
     "gold": "2",
     "pred_raw": "0",
     "pred_digit": "0"
   },
   {
-    "input": "search code:\nTake in 1 integer, return a number that is\n\nChoices:\n0: def arithmetic_right_shift(number: int, shift_amount: int) -> str:     if number >= 0:  # Get binary representation of positive num",
+    "input": "search code:\nReturn overlapping triplets from *iterable*.\n\nChoices:\n0: def selection_sort(collection: list[int]) -> list[int]:      length = len(collection)     for i in range(length - 1):         min",
     "gold": "2",
     "pred_raw": "1",
     "pred_digit": "1"
   },
   {
-    "input": "search code:\nThis function finds an empty location so that we can assign a number\n\nChoices:\n0: def compute_transform_tables(     source_string: str,     destination_string: str,     copy_cost: int,   ",
+    "input": "search code:\nPseudo-Code\n\nChoices:\n0: def util_color(     graph: list[list[int]], max_colors: int, colored_vertices: list[int], index: int ) -> bool:      # Base Case     if index == len(graph):      ",
+    "gold": "0",
+    "pred_raw": "1",
+    "pred_digit": "1"
+  },
+  {
+    "input": "search code:\nReturns the number of values of nCr, for 1 \u2264 n \u2264 100, are greater than\n\nChoices:\n0: def solution(n: int = 200) -> int:     return two_pound(n)\n1: def solution():     total = 0      for i ",
+    "gold": "1",
+    "pred_raw": "0",
+    "pred_digit": "0"
+  },
+  {
+    "input": "search code:\nCalculate the length of the chain of non-repeating terms starting with n.\n\nChoices:\n0: def pheromone_update(     pheromone: list[list[float]],     cities: dict[int, list[int]],     pherom",
     "gold": "2",
+    "pred_raw": "0",
+    "pred_digit": "0"
+  },
+  {
+    "input": "search code:\nDecrypts the ciphertext using the Running Key Cipher.\n\nChoices:\n0: def merge(arr: list[int]) -> list[int]:     if len(arr) > 1:         middle_length = len(arr) // 2  # Finds the middle o",
+    "gold": "2",
+    "pred_raw": "0",
+    "pred_digit": "0"
+  },
+  {
+    "input": "search code:\n| Randomly generate a clause.\n\nChoices:\n0: def build_sparse_table(number_list: list[int]) -> list[list[int]]:     if not number_list:         raise ValueError(\"empty number list not allow",
+    "gold": "2",
+    "pred_raw": "1",
+    "pred_digit": "1"
+  },
+  {
+    "input": "search code:\nCount the number of vowels in a given string.\n\nChoices:\n0: def calc_profit(profit: list, weight: list, max_weight: int) -> int:     if len(profit) != len(weight):         raise ValueError",
+    "gold": "1",
+    "pred_raw": "0",
+    "pred_digit": "0"
+  },
+  {
+    "input": "search code:\nFind m for which the proportion of perfect partitions to total partitions is lower\n\nChoices:\n0: def solution(n: int = 600851475143) -> int:      try:         n = int(n)     except (TypeEr",
+    "gold": "2",
+    "pred_raw": "0",
+    "pred_digit": "0"
+  },
+  {
+    "input": "search code:\nReturn an integer denoting the importance\n\nChoices:\n0: def inverse_document_frequency(df: int, n: int, smoothing=False) -> float:     if smoothing:         if n == 0:             raise Va",
+    "gold": "0",
+    "pred_raw": "1",
+    "pred_digit": "1"
+  },
+  {
+    "input": "search code:\nReturns\n\nChoices:\n0: def fetch_pharmacy_and_price_list(drug_name: str, zip_code: str) -> list | None:      try:         # Has user provided both inputs?         if not drug_name or not zi",
+    "gold": "1",
+    "pred_raw": "0",
+    "pred_digit": "0"
+  },
+  {
+    "input": "search code:\nSorts a list using the Cocktail Shaker Sort algorithm.\n\nChoices:\n0: def calc_profit(profit: list, weight: list, max_weight: int) -> int:     if len(profit) != len(weight):         raise V",
+    "gold": "1",
     "pred_raw": "0",
     "pred_digit": "0"
   },
@@ -30,27 +78,15 @@
     "pred_digit": "2"
   },
   {
-    "input": "search code:\nReturns the side length of the square spiral of odd length greater\n\nChoices:\n0: def carrier_concentration(     electron_conc: float,     hole_conc: float,     intrinsic_conc: float, ) -> ",
-    "gold": "1",
-    "pred_raw": "2",
-    "pred_digit": "2"
-  },
-  {
-    "input": "search code:\nReturns the last 10 digits of the series, 1^1 + 2^2 + 3^3 + ... + 1000^1000.\n\nChoices:\n0: def solution():     total = 0     for i in range(1, 1001):         total += i**i     return str(t",
+    "input": "search code:\nReturns a list with all prime numbers up to n.\n\nChoices:\n0: def prime_sieve(num: int) -> list[int]:      if num <= 0:         msg = f\"{num}: Invalid input, please enter a positive integer",
     "gold": "0",
     "pred_raw": "1",
     "pred_digit": "1"
   },
   {
-    "input": "search code:\nReturn the median of the input list\n\nChoices:\n0: def split_before(iterable, pred, maxsplit=-1):     if maxsplit == 0:         yield list(iterable)         return      buf = []     it = it",
-    "gold": "1",
-    "pred_raw": "2",
-    "pred_digit": "2"
-  },
-  {
-    "input": "search code:\nInput Param:\n\nChoices:\n0: def capture_area(capture_radius: float) -> float:      if capture_radius < 0:         raise ValueError(\"Cannot have a capture radius less than 0\")     sigma = pi",
-    "gold": "0",
-    "pred_raw": "1",
-    "pred_digit": "1"
+    "input": "search code:\nReturns the number of blue discs for the first arrangement to contain\n\nChoices:\n0: def emitter_converter(size_par, data):     if size_par + len(data) <= 2**size_par - (len(data) - 1):    ",
+    "gold": "2",
+    "pred_raw": "0",
+    "pred_digit": "0"
   }
 ]

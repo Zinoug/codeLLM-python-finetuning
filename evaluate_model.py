@@ -101,6 +101,38 @@ def predict_text(inp: str, max_new_tokens: int = 32) -> str:
     return text.strip()
 
 
+def predict_detection(inp: str) -> str:
+    """Specialized prediction for bug detection using constrained decoding"""
+    inputs = tokenizer(inp, return_tensors="pt", truncation=True).to(device)
+    
+    # Get token IDs for BUGGY and CORRECT
+    buggy_ids = tokenizer.encode("BUGGY", add_special_tokens=False)
+    correct_ids = tokenizer.encode("CORRECT", add_special_tokens=False)
+    
+    with torch.no_grad():
+        # Generate with return of scores
+        outputs = model.generate(
+            **inputs,
+            max_new_tokens=4,
+            num_beams=1,  # Greedy for speed
+            output_scores=True,
+            return_dict_in_generate=True,
+        )
+        
+        # Decode the result
+        text = tokenizer.decode(outputs.sequences[0], skip_special_tokens=True).strip().upper()
+        
+        # If unclear, use first token logits to decide
+        if "BUGGY" not in text and "CORRECT" not in text:
+            if outputs.scores:
+                first_logits = outputs.scores[0][0]  # First generated token logits
+                buggy_score = first_logits[buggy_ids[0]].item() if buggy_ids else -float('inf')
+                correct_score = first_logits[correct_ids[0]].item() if correct_ids else -float('inf')
+                return "BUGGY" if buggy_score > correct_score else "CORRECT"
+        
+        return text
+
+
 # ===============================
 # UTILITY: TEST EXECUTION
 # ===============================
@@ -249,7 +281,8 @@ errors_detection = []
 
 for s in detection_samples:
     gold = s["output"].strip().upper()
-    pred_text = predict_text(s["input"], max_new_tokens=4)
+    # Use specialized detection function
+    pred_text = predict_detection(s["input"])
     pred_norm = normalize_bug_label(pred_text)
 
     total += 1
@@ -336,7 +369,7 @@ repair_results = []
 
 print("   Generating code repairs...")
 for i, (inp, sample) in enumerate(zip(repair_inputs, repair_samples)):
-    pred = predict_text(inp, max_new_tokens=256)
+    pred = predict_text(inp, max_new_tokens=512)  # Increased for longer functions
     repair_preds.append(pred)
 
     # Execute tests if available

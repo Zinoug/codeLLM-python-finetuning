@@ -41,8 +41,9 @@ TEST_PATH = "final_data/test.jsonl"  # por si luego quieres usarlo aquí tambié
 class JsonlSeq2SeqDataset(Dataset):
     """Dataset for loading JSONL files with input/output pairs"""
 
-    def __init__(self, path: str, tokenizer, max_input_len=512, max_output_len=128):
-        # Cargamos todos los ejemplos crudos
+    def __init__(self, path: str, tokenizer, max_input_len=768, max_output_len=256, 
+                 oversample_detection: int = 3):
+        # Load all raw examples
         raw_examples = []
         with open(path, "r", encoding="utf8") as f:
             for line in f:
@@ -51,15 +52,15 @@ class JsonlSeq2SeqDataset(Dataset):
                 obj = json.loads(line)
                 raw_examples.append(obj)
 
-        # Oversampling opcional para tareas difíciles
+        # Oversample detection task (hardest task, needs more exposure)
         examples = []
         for ex in raw_examples:
-            examples.append(ex)  # siempre uno
-
-            # duplicar bug_detection y code_repair para darles más peso
-            if ex.get("task") in ["bug_detection", "code_repair"]:
-                examples.append(ex)
-
+            examples.append(ex)
+            # Add extra copies of detection samples
+            if ex.get("task") == "detection" and oversample_detection > 1:
+                for _ in range(oversample_detection - 1):
+                    examples.append(ex)
+        
         self.examples = examples
         self.tokenizer = tokenizer
         self.max_input_len = max_input_len
@@ -73,24 +74,19 @@ class JsonlSeq2SeqDataset(Dataset):
         inp = ex["input"]
         out = ex["output"]
 
-        # Tokenize input
+        # Tokenize input and output together
         model_inputs = self.tokenizer(
             inp,
+            text_target=out,
             max_length=self.max_input_len,
             truncation=True,
             padding=False,
         )
-
-        # Tokenize output (labels)
-        with self.tokenizer.as_target_tokenizer():
-            labels = self.tokenizer(
-                out,
-                max_length=self.max_output_len,
-                truncation=True,
-                padding=False,
-            )
-
-        model_inputs["labels"] = labels["input_ids"]
+        
+        # Truncate labels separately if needed
+        if len(model_inputs["labels"]) > self.max_output_len:
+            model_inputs["labels"] = model_inputs["labels"][:self.max_output_len]
+        
         return model_inputs
 
 
@@ -200,11 +196,11 @@ def main():
     print(f"   • Total parameters: {total_params:,}")
     print(f"   • Trainable parameters: {trainable_params:,}")
 
-    # Load datasets
+    # Load datasets (unbalanced - using ALL available data)
     print("\n📂 Loading datasets...")
-    train_dataset = JsonlSeq2SeqDataset(TRAIN_PATH, tokenizer)
-    val_dataset = JsonlSeq2SeqDataset(VAL_PATH, tokenizer)
-    print(f"   ✅ Train: {len(train_dataset)} samples (with oversampling)")
+    train_dataset = JsonlSeq2SeqDataset(TRAIN_PATH, tokenizer, oversample_detection=1)
+    val_dataset = JsonlSeq2SeqDataset(VAL_PATH, tokenizer, oversample_detection=1)
+    print(f"   ✅ Train: {len(train_dataset)} samples")
     print(f"   ✅ Val:   {len(val_dataset)} samples")
 
     # Analyze task distribution (sobre el dataset ya oversampleado)
@@ -217,35 +213,46 @@ def main():
     # Data collator
     data_collator = DataCollator(tokenizer=tokenizer)
 
-    # Training arguments (ajustados para mejor accuracy)
+    # Training arguments (optimized for ~2649 samples, unbalanced tasks)
     print("\n⚙️  Training configuration:")
     training_args = TrainingArguments(
         output_dir="codet5_multitask_checkpoint",
 
         # Batch & grad accumulation
-        per_device_train_batch_size=2,
-        per_device_eval_batch_size=2,
-        gradient_accumulation_steps=8,  # Effective batch size = 16
+        per_device_train_batch_size=4,          # ↑ Increased (more data = can use larger batch)
+        per_device_eval_batch_size=8,           # ↑ Increased for faster eval
+        gradient_accumulation_steps=4,          # Effective batch size = 16
 
         # Optimization
-        learning_rate=3e-5,
-        num_train_epochs=8,
-        warmup_steps=100,
+        learning_rate=5e-5,                     # Higher LR for larger dataset
+        num_train_epochs=5,                     # ↓ Reduced (2.3x more data)
+        warmup_ratio=0.06,                      # ~100 warmup steps
         weight_decay=0.01,
+        lr_scheduler_type="cosine",             # Smoother convergence
+        optim="adamw_torch",                    # Native PyTorch optimizer
+        max_grad_norm=1.0,                      # Gradient clipping
+        # Note: label_smoothing_factor removed - incompatible with T5 + fp16
 
         # Logging / reporting
-        logging_steps=50,
+        logging_steps=50,                       # Log every 50 steps
         report_to="none",
 
-        # Evaluation & checkpoints
-        eval_strategy="epoch",
-        save_strategy="epoch",
-        save_total_limit=2,
+        # Evaluation & checkpoints (step-based for better model selection)
+        eval_strategy="steps",
+        eval_steps=165,                         # ~1x per epoch (2649/16=165)
+        save_strategy="steps",
+        save_steps=165,
+        save_total_limit=3,
         load_best_model_at_end=True,
         metric_for_best_model="eval_loss",
+        greater_is_better=False,
 
         # Mixed precision
         fp16=torch.cuda.is_available(),
+        
+        # Reproducibility
+        seed=42,
+        data_seed=42,
     )
 
     print(f"   • Batch size per device: {training_args.per_device_train_batch_size}")
@@ -254,9 +261,11 @@ def main():
         f"   • Effective batch size: {training_args.per_device_train_batch_size * training_args.gradient_accumulation_steps}"
     )
     print(f"   • Learning rate: {training_args.learning_rate}")
-    print(f"   • Warmup steps: {training_args.warmup_steps}")
+    print(f"   • Warmup ratio: {training_args.warmup_ratio}")
+    print(f"   • LR scheduler: {training_args.lr_scheduler_type}")
     print(f"   • Weight decay: {training_args.weight_decay}")
     print(f"   • Epochs: {training_args.num_train_epochs}")
+    print(f"   • Max grad norm: {training_args.max_grad_norm}")
     print(f"   • Mixed precision (fp16): {training_args.fp16}")
 
     # Calculate training steps (aproximado)

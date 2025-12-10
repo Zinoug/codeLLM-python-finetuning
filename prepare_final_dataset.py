@@ -192,42 +192,78 @@ def create_search_samples(
     return samples
 
 
-def balance_tasks(task_samples: Dict[str, List[Dict]]) -> Dict[str, List[Dict]]:
-    """Balance tasks to have the same number of samples"""
-    # Find minimum
-    min_samples = min(len(samples) for samples in task_samples.values())
+def balance_tasks(task_samples: Dict[str, List[Dict]], keep_all: bool = True) -> Dict[str, List[Dict]]:
+    """Balance tasks or keep all samples
+    
+    Args:
+        task_samples: Dictionary of task -> samples
+        keep_all: If True, keep ALL samples for ALL tasks (no balancing)
+    """
+    if keep_all:
+        # Keep ALL samples for ALL tasks - maximize training data!
+        print(f"\n📊 Keeping ALL samples for ALL tasks (no balancing)")
+        
+        total = 0
+        for task, samples in task_samples.items():
+            random.shuffle(samples)
+            print(f"  {task}: {len(samples)} samples (ALL kept)")
+            total += len(samples)
+        
+        print(f"  TOTAL: {total} samples")
+        return task_samples
+    else:
+        # Original behavior: balance all tasks to minimum
+        min_samples = min(len(samples) for samples in task_samples.values())
 
-    print(f"\n📊 Balancing tasks to minimum: {min_samples} samples per task")
+        print(f"\n📊 Balancing tasks to minimum: {min_samples} samples per task")
 
-    # Limit each task to minimum
-    balanced = {}
-    for task, samples in task_samples.items():
-        random.shuffle(samples)
-        balanced[task] = samples[:min_samples]
-        print(f"  {task}: {len(task_samples[task])} → {len(balanced[task])}")
+        balanced = {}
+        for task, samples in task_samples.items():
+            random.shuffle(samples)
+            balanced[task] = samples[:min_samples]
+            print(f"  {task}: {len(task_samples[task])} → {len(balanced[task])}")
 
-    return balanced
+        return balanced
 
 
 def create_batches(task_samples: Dict[str, List[Dict]]) -> List[Dict]:
-    """Create batches of 4 samples (1 per task) shuffled"""
+    """Create shuffled samples, handling unequal task sizes"""
     tasks = list(task_samples.keys())
-    num_samples = len(task_samples[tasks[0]])  # All tasks have the same size
-
+    
+    # Find max samples across all tasks
+    max_samples = max(len(task_samples[task]) for task in tasks)
+    
     all_samples = []
-
-    # Create batches of 4 (1 from each task)
-    for i in range(num_samples):
+    
+    # Create batches, cycling through smaller tasks if needed
+    for i in range(max_samples):
         batch = []
         for task in tasks:
-            if i < len(task_samples[task]):
-                batch.append(task_samples[task][i])
-
-        # Shuffle the 4 samples in the batch
+            task_len = len(task_samples[task])
+            if task_len > 0:
+                # Use modulo to cycle through smaller tasks
+                idx = i % task_len
+                batch.append(task_samples[task][idx])
+        
+        # Shuffle the samples in the batch
         random.shuffle(batch)
         all_samples.extend(batch)
-
-    return all_samples
+    
+    # Remove duplicates that may have been created by cycling
+    # Keep unique samples only, preserving order
+    seen = set()
+    unique_samples = []
+    for sample in all_samples:
+        # Create a hashable key from the sample
+        key = (sample["task"], sample["input"][:100], sample["output"][:50])
+        if key not in seen:
+            seen.add(key)
+            unique_samples.append(sample)
+    
+    # Final shuffle
+    random.shuffle(unique_samples)
+    
+    return unique_samples
 
 
 def split_dataset(

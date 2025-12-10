@@ -29,3 +29,6 @@ codet5_multitask_finetuned/
 Thumbs.db
 codet5_multitask_checkpoint/
 codet5_multitask_final/
+codet5_multitask_interrupted/
+eval_outputs/
+test_output/

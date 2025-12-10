@@ -1,246 +1,878 @@
 [
   {
-    "pred": "Returns the sum of 3-digit numbers of the form [1, 2, 3, 5, 0])",
+    "pred": "Calculate the force of a second law of motion.",
+    "ref": "Calculates force from `mass` and `acceleration`"
+  },
+  {
+    "pred": "Returns True if n is a carmichael number or False if it is not.",
+    "ref": "Examples:"
+  },
+  {
+    "pred": "Computes a^b mod n.",
+    "ref": "Computes a^b % c iteratively, where a is the base, b is the exponent, and c is the"
+  },
+  {
+    "pred": "Returns the number of chains with the exact desired length.",
+    "ref": "Returns the number of numbers below number_limit that produce chains with exactly"
+  },
+  {
+    "pred": "Calculate the difference between two points.",
+    "ref": "Computes the sign perpendicular distance of a 2d point c from a line segment"
+  },
+  {
+    "pred": "Return a number of times n times.",
+    "ref": "Returns an iterable with *n* elements for efficient looping."
+  },
+  {
+    "pred": "Returns the twos complement of a number.",
+    "ref": "Take in a negative integer 'number'."
+  },
+  {
+    "pred": "Display the values in the form",
+    "ref": "Display these values as a 2-D grid."
+  },
+  {
+    "pred": "Singularizes a word.",
+    "ref": "Semi-intelligently converts an English plural *word* to its"
+  },
+  {
+    "pred": "Get the point key for a given position.",
+    "ref": "Returns the hash key of matrix indexes."
+  },
+  {
+    "pred": "Mutates a list of strings.",
+    "ref": "Mutate a random gene of a child with another one from the list."
+  },
+  {
+    "pred": "Returns the sum of all even numbers less than n.",
     "ref": "Returns the sum of all the multiples of 3 or 5 below n."
   },
   {
-    "pred": "Check if a phone number is valid.",
-    "ref": "Determine whether the string is a valid phone number or not"
+    "pred": "Returns the number of elements in *sized_iterable*.",
+    "ref": "Returns a plain-English description of an iterable's"
   },
   {
-    "pred": "Return the sum of the chain lengths of the first number of terms.",
-    "ref": "Return the number of chains with a starting number below one million which"
+    "pred": "Returns the factorial of a number.",
+    "ref": "Calculate the factorial of specified number (n!)."
   },
   {
-    "pred": "Returns the nth most significant number of prime numbers.",
-    "ref": "Returns the n-th prime number."
+    "pred": "Return the maximum revenue of a rod.",
+    "ref": "Constructs a bottom-up dynamic programming solution for the rod-cutting problem"
   },
   {
-    "pred": "Returns the ordinal of a given number in the given gender.",
-    "ref": "Converts an integer to its ordinal as a string."
+    "pred": "Escape shell arguments.",
+    "ref": "Returns an escaped version of each string in *args*, according to"
   },
   {
-    "pred": "Returns the bottom side view of a binary tree.",
-    "ref": "Function returns the bottom side view of binary tree"
+    "pred": "Pure implementation of the quick sort algorithm in Python",
+    "ref": "A pure Python implementation of quicksort algorithm."
   },
   {
-    "pred": "Find the minimum number in a list from left to right.",
+    "pred": "This function swaps two integers.",
+    "ref": "Return a tuple (b, a) when given two integers a and b"
+  },
+  {
+    "pred": "Returns the index of the first prime in the sequence",
+    "ref": "Returns the side length of the square spiral of odd length greater"
+  },
+  {
+    "pred": "Calculate the Surface Area of a Cuboid.",
+    "ref": "Calculate the Surface Area of a Cuboid."
+  },
+  {
+    "pred": "Calculate the transformation matrix",
+    "ref": "Calculate the Lorentz transformation matrix for movement in the x direction:"
+  },
+  {
+    "pred": "Returns the height of the root node.",
+    "ref": "Recursive function for calculating the height of the binary tree."
+  },
+  {
+    "pred": "Returns the sum of all the possible frequencies in the Euclid sequence that",
+    "ref": "Return the number of values of L <= limit such that a wire of length L can be"
+  },
+  {
+    "pred": "Check that the area under curve is under line.",
+    "ref": "Checks estimation error for area_under_curve_estimator function"
+  },
+  {
+    "pred": "Validates string and returns tuple of rotor positions, rotor selection,",
+    "ref": "Checks if the values can be used for the ``enigma`` function"
+  },
+  {
+    "pred": "Get nodes from right to left",
+    "ref": "Returns a list of nodes value from a particular level:"
+  },
+  {
+    "pred": "Collect the dataset from Yash Ladha's ADRVS Rating file",
+    "ref": "Collect dataset of CSGO"
+  },
+  {
+    "pred": "Divide the length of an iterable by n.",
+    "ref": "Divide the elements from *iterable* into *n* parts, maintaining"
+  },
+  {
+    "pred": "Check if a word is valid.",
+    "ref": "Check if a word can be placed at the given position."
+  },
+  {
+    "pred": "This function can calculate any one of the three -",
+    "ref": "Calculate inductive reactance, frequency or inductance from two given electrical"
+  },
+  {
+    "pred": "Convert a camel case string to snake case.",
+    "ref": "Transforms a camelCase (or PascalCase) string to snake_case"
+  },
+  {
+    "pred": "Yield the first *n* items from *iterable*.",
+    "ref": "Return a 2-tuple with a list containing the first *n* elements of"
+  },
+  {
+    "pred": "Print the board as a string.",
+    "ref": "Prints the boards that have a successful combination."
+  },
+  {
+    "pred": "Check if n is perfect cube.",
+    "ref": "Check if a number is a perfect cube or not."
+  },
+  {
+    "pred": "Return a sliding window of length *size*.",
+    "ref": "Returns tuples with length *size* which represent a sliding"
+  },
+  {
+    "pred": "Fix print exception handler.",
+    "ref": "Sets the default exception hook :func:`sys.excepthook` to the"
+  },
+  {
+    "pred": "Split a format string into two lists.",
+    "ref": "Does very basic splitting of a format string, returns a list of"
+  },
+  {
+    "pred": "Get the parent position of a node.",
+    "ref": "heap helper function get the position of the parent of the current node"
+  },
+  {
+    "pred": "Parse a query string into a list of tuples.",
+    "ref": "Converts a query string into a list of (key, value) pairs."
+  },
+  {
+    "pred": "Returns the number of odd periods in a continuous period.",
+    "ref": "Returns the count of numbers <= 10000 with odd periods."
+  },
+  {
+    "pred": "Prepend an iterator to the beginning of a list.",
+    "ref": "Yield *value*, followed by the elements in *iterator*."
+  },
+  {
+    "pred": "Returns the sum of all the numbers below m.",
+    "ref": "Returns the number of different ways the number m can be written as a"
+  },
+  {
+    "pred": "Find the median of two sorted arrays.",
+    "ref": "Find the median of two arrays."
+  },
+  {
+    "pred": "Generate a random formula.",
+    "ref": "Randomly generate a formula."
+  },
+  {
+    "pred": "Returns the index of the item in array.",
+    "ref": "Retrieves the value of the one-dimensional index from a two-dimensional array."
+  },
+  {
+    "pred": "Implements the Knapsack algorithm.",
+    "ref": "Returns the maximum value that can be put in a knapsack of a capacity cap,"
+  },
+  {
+    "pred": "Returns the maximum possible prime number in the list.",
+    "ref": "Return the solution of the problem."
+  },
+  {
+    "pred": "Find all primes less than or equal to num.",
+    "ref": "Print the prime numbers up to n"
+  },
+  {
+    "pred": "Get the frequency order of a message.",
+    "ref": "Get the frequency order of the letters in the given string"
+  },
+  {
+    "pred": "Returns the value of a constant in the range [0,9,99,999,99999,999999]",
+    "ref": "Returns"
+  },
+  {
+    "pred": "Calculate the average of the waiting time and turn around time",
+    "ref": "This function calculates the average of the waiting & turnaround times"
+  },
+  {
+    "pred": "Converts a string to a BWT transform.",
+    "ref": "rotations and the index of the original string at ordered rotations list"
+  },
+  {
+    "pred": "Returns a list of all possible solution file paths.",
+    "ref": "Collects all the solution file path in the Project Euler directory"
+  },
+  {
+    "pred": "Returns the smallest pandigital number that can be found.",
+    "ref": "Return the largest 1 to 9 pandigital 9-digital number that can be formed as the"
+  },
+  {
+    "pred": "Find the maximum profit and the count of jobs",
+    "ref": "Function to find the maximum profit by doing jobs in a given time frame"
+  },
+  {
+    "pred": "Implementation of the Modulo Function.",
+    "ref": "Returns the modular exponentiation, that is the value"
+  },
+  {
+    "pred": "Return the proth of a number.",
+    "ref": ":param number: nth number to calculate in the sequence"
+  },
+  {
+    "pred": "Converts a pressure value from one of the three",
+    "ref": "Conversion between pressure units."
+  },
+  {
+    "pred": "Return the RMSE score of two values.",
+    "ref": "Examples(rounded for precision):"
+  },
+  {
+    "pred": "Return the top side view of a binary tree.",
+    "ref": "Function returns the top side view of binary tree."
+  },
+  {
+    "pred": "Pure implementation of the MSD radix sort algorithm in Python",
+    "ref": "Inplace implementation of the MSD radix sort algorithm."
+  },
+  {
+    "pred": "Find the even tree in the tree.",
+    "ref": "2 1"
+  },
+  {
+    "pred": "Implements the outer product function.",
+    "ref": "A generalized outer product that applies a binary function to all"
+  },
+  {
+    "pred": "Pure implementation of power iteration algorithm.",
+    "ref": "Power Iteration."
+  },
+  {
+    "pred": "Calculate the area of a trapezium.",
+    "ref": "Calculate the area of a trapezium."
+  },
+  {
+    "pred": "Extended GCD algorithm.",
+    "ref": "Extended Euclid's Algorithm : If d divides a and b and d = a*x + b*y for integers"
+  },
+  {
+    "pred": "This function merges two nodes.",
+    "ref": "We merge 2 trees into one."
+  },
+  {
+    "pred": "Returns the sum of all even numbers less than n.",
+    "ref": "Returns the sum of all the multiples of 3 or 5 below n."
+  },
+  {
+    "pred": "Recursive implementation of depth first search algorithm in Python",
+    "ref": "Recursive Backtracking Depth First Search Algorithm"
+  },
+  {
+    "pred": "Pure implementation of the fractional cover algorithm in Python",
+    "ref": "Solve the Fractional Cover Problem."
+  },
+  {
+    "pred": "Strip values from the beginning and end of an iterable.",
+    "ref": "Strips values from the end of an iterable. Stripped items will"
+  },
+  {
+    "pred": "Search anime eposiodes for an episode list.",
+    "ref": "[summary]"
+  },
+  {
+    "pred": "Yield the items from *iterable*, suppressing any exceptions.",
+    "ref": "Yield each of the items from *iterable*. If the iteration raises one of"
+  },
+  {
+    "pred": "Get the files url for a pull request.",
+    "ref": "Return the pull request number which triggered this action."
+  },
+  {
+    "pred": "Convert a length value to the corresponding unit.",
+    "ref": "Conversion between astronomical length units."
+  },
+  {
+    "pred": "Returns the lcm(g, n)",
+    "ref": "Returns the smallest positive number that is evenly divisible (divisible"
+  },
+  {
+    "pred": "Calculate the covariance matrix for the given features and labels",
+    "ref": "Function to compute the covariance matrix inside each class."
+  },
+  {
+    "pred": "Returns the first n fibonacci sequence elements",
+    "ref": "Calculates the first n (0-indexed) Fibonacci numbers using iteration"
+  },
+  {
+    "pred": "Find the value of a knapsack.",
+    "ref": "This code involves the concept of memory functions. Here we solve the subproblems"
+  },
+  {
+    "pred": "Return a triple-wise version of :func:`zip`.",
+    "ref": "Return overlapping triplets from *iterable*."
+  },
+  {
+    "pred": "Returns the sum of the non-bouncy numbers up to n.",
+    "ref": "Calculate the number of non-bouncy numbers with at most n digits."
+  },
+  {
+    "pred": "Function returns the score of two characters.",
+    "ref": "Calculate the score for a character pair based on whether they match or mismatch."
+  },
+  {
+    "pred": "Generate a random graph of vertices with probability probability.",
+    "ref": "Generate a random graph"
+  },
+  {
+    "pred": "Convert a gray image to binary data.",
+    "ref": "Return binary image from gray image"
+  },
+  {
+    "pred": "Find the minimum value in a list.",
+    "ref": "Find Minimum Number in a List"
+  },
+  {
+    "pred": "Map items from *iterable* to their corresponding function.",
+    "ref": "Evaluate each item from *iterable* using *pred*. If the result is"
+  },
+  {
+    "pred": "Find the index of search_item in array.",
+    "ref": "Iterate through the array from both sides to find the index of search_item."
+  },
+  {
+    "pred": "Returns the maximum product of n.",
+    "ref": "Returns the largest palindrome made from the product of two 3-digit"
+  },
+  {
+    "pred": "Return a binary and b as a string.",
+    "ref": "Take in 2 integers, convert them to binary,"
+  },
+  {
+    "pred": "Check if a number is perfect or not.",
+    "ref": "Check if a number is a perfect number."
+  },
+  {
+    "pred": "Returns the sum of the fractions of n.",
+    "ref": "Return the solution to the problem"
+  },
+  {
+    "pred": "Adds a vector to each node in the graph.",
+    "ref": "Performs multiplication of a graph's adjacency list representation with a vector."
+  },
+  {
+    "pred": "Return the number of reversible numbers less than length.",
+    "ref": "Count the number of reversible numbers of given length."
+  },
+  {
+    "pred": "Parse a range string into a list of integers.",
+    "ref": "Returns a sorted list of positive integers based on"
+  },
+  {
+    "pred": "Yield all the elements from *iterator*.",
+    "ref": "Arbitrary index order, greedily consumed"
+  },
+  {
+    "pred": "Benchmark code for is_pangram() and is_pangram_faster()",
+    "ref": "Benchmark code comparing different version."
+  },
+  {
+    "pred": "Create a vector from a two points.",
+    "ref": "Pass two points to get the vector from them in the form (x, y, z)."
+  },
+  {
+    "pred": "Convert a value to a date and a delta.",
+    "ref": "Turn a value into a date and a timedelta which represents how long ago it was."
+  },
+  {
+    "pred": "Yield the items from *iterable*, but strip any from the beginning",
+    "ref": "Strips values from the end of an iterable. Stripped items will"
+  },
+  {
+    "pred": "Read the matrix from a file.",
+    "ref": "Returns the minimal path sum from the top left to the bottom right of the matrix."
+  },
+  {
+    "pred": "A pure Python implementation of :func:`doublestarmap`.",
+    "ref": "Apply *func* to every item of *iterable* by dictionary unpacking"
+  },
+  {
+    "pred": "Parse a format string and return a list of format fields.",
+    "ref": "Takes a format string, turns it into a list of alternating string"
+  },
+  {
+    "pred": "Print the volume of a sphere.",
+    "ref": "Print the Results of Various Volume Calculations."
+  },
+  {
+    "pred": "Generate sum of subsets solutions",
+    "ref": "The main function. For list of numbers 'nums' find the subsets with sum"
+  },
+  {
+    "pred": "Equivalent to :func:`zip` but with strict mode.",
+    "ref": "Swap the rows and columns of the input matrix."
+  },
+  {
+    "pred": "Return the nth power of two.",
+    "ref": ":param number: nth number to calculate in the sequence"
+  },
+  {
+    "pred": "Find the floor and ceiling of a binary tree.",
+    "ref": "Find the floor and ceiling values for a given key in a Binary Search Tree (BST)."
+  },
+  {
+    "pred": "Convert a decimal number to a fraction.",
+    "ref": "Return a decimal number in its simplest fraction form"
+  },
+  {
+    "pred": "Update the image and anno from a list of images.",
+    "ref": "- img_list <type: list>: list of all images"
+  },
+  {
+    "pred": "Crossover the two parents",
+    "ref": "Slice and combine two strings at a random point."
+  },
+  {
+    "pred": "Returns the number of continuous fractions in a period.",
+    "ref": "Returns the continued fraction period of a number n."
+  },
+  {
+    "pred": "Return the result of the power of a matrix.",
+    "ref": "Raises a matrix to the power of 'power' using binary exponentiation."
+  },
+  {
+    "pred": "Cross product of two lists.",
+    "ref": "Cross product of elements in A and elements in B."
+  },
+  {
+    "pred": "Calculates the sum of possible combinations of the elements in array.",
+    "ref": "Function checks the all possible combinations, and returns the count"
+  },
+  {
+    "pred": "Returns the nth fibonacci sequence that",
+    "ref": "Finds fibonacci number in index k."
+  },
+  {
+    "pred": "Yield the first *n* items from *iterable*.",
+    "ref": "Break *iterable* into lists of length *n*:"
+  },
+  {
+    "pred": "Split an iterable into lists of *sizes*.",
+    "ref": "Yield a list of sequential items from *iterable* of length 'n' for each"
+  },
+  {
+    "pred": "Implements the exponential linear unit.",
+    "ref": "Implements the ELU activation function."
+  },
+  {
+    "pred": "Infer positional format args from a string.",
+    "ref": "Takes format strings with anonymous positional arguments, (e.g.,"
+  },
+  {
+    "pred": "Check if a vector is zero.",
+    "ref": "Check if vector is equal to (0, 0, 0) or not."
+  },
+  {
+    "pred": "Create all the states in the given level.",
+    "ref": "Helper function to recursively build all combinations."
+  },
+  {
+    "pred": "Get the citation from a given URL.",
+    "ref": "Return the citation number."
+  },
+  {
+    "pred": "Pure implementation of the bubble sort algorithm in Python",
+    "ref": "Pure implementation of bubble sort algorithm in Python"
+  },
+  {
+    "pred": "Returns the number of numbers in the words file.",
+    "ref": "Finds the amount of triangular words in the words file."
+  },
+  {
+    "pred": "Return a dictionary with all the properties of an object.",
+    "ref": "Return a dictionary of attribute names to values for a given"
+  },
+  {
+    "pred": "Find the maximum pooling matrix for an array of length *size*.",
+    "ref": "This function is used to perform maxpooling on the input array of 2D matrix(image)"
+  },
+  {
+    "pred": "Returns the least divisible repunit of limit.",
+    "ref": "Return the least value of n for which least_divisible_repunit(n)"
+  },
+  {
+    "pred": "Return the f(x) = x**2 + x**3.",
+    "ref": "This is the function to integrate, f(x) = (x - 0)^2 = x^2."
+  },
+  {
+    "pred": "Return a suitable minimum unit.",
+    "ref": "Return a minimum unit suitable that is not suppressed."
+  },
+  {
+    "pred": "Generates an image from a list of integers.",
+    "ref": "Convert the cells into a greyscale PIL.Image.Image and return it to the caller."
+  },
+  {
+    "pred": "Get the pattern for a given word.",
+    "ref": "Returns numerical pattern of character appearances in given word"
+  },
+  {
+    "pred": "Compute the pairwise affinity matrix",
+    "ref": "Compute high-dimensional affinities (P matrix) using a Gaussian kernel."
+  },
+  {
+    "pred": "Calculates the sum of possible combinations of values in a list.",
+    "ref": "Function checks the all possible combinations, and returns the count"
+  },
+  {
+    "pred": "Returns the sum of the factorial of a number.",
+    "ref": "Function to perform the sum of the factorial of all the digits in number"
+  },
+  {
+    "pred": "Calculate Xnor of the input values",
+    "ref": "Calculate XOR of the input values"
+  },
+  {
+    "pred": "Check if a number is a prime number.",
+    "ref": "Determines whether number is prime"
+  },
+  {
+    "pred": "Equivalent to :func:`itertools.groupby`.",
+    "ref": "Return an iterable over `(bool, item)` tuples where the `item` is"
+  },
+  {
+    "pred": "Returns the weight matrix for a given point",
+    "ref": "Calculate the weight of every point in the training data around a given"
+  },
+  {
+    "pred": "Decode the given string.",
+    "ref": "Decodes from Baconian cipher"
+  },
+  {
+    "pred": "Find the minimum value in a list.",
     "ref": "find min value in list"
   },
   {
-    "pred": "Calculate the vol_spheres_intersect function for a given radius and radius distance.",
-    "ref": "Calculate the volume of the intersection of two spheres."
+    "pred": "Partition an iterable based on a predicate.",
+    "ref": "Returns a 2-tuple of iterables derived from the input iterable."
   },
   {
-    "pred": "Encrypt a plaintext with a key.",
-    "ref": "Encrypt a given `plaintext` (string) and `key` (string), returning the"
+    "pred": "Returns the number of positive integers below limit.",
+    "ref": "returns the values of n less than or equal to the limit"
+  },
+  {
+    "pred": "Generates a dictionary of all the possible neighbours in a file.",
+    "ref": "Pure implementation of generating a dictionary of neighbors and the cost with each"
+  },
+  {
+    "pred": "Return the nth number of ugly numbers less than n.",
+    "ref": "Returns the nth ugly number."
+  },
+  {
+    "pred": "Benchmark code.",
+    "ref": "Let's benchmark our functions side-by-side..."
+  },
+  {
+    "pred": "Replace the items in *iterable* with *substitutes*.",
+    "ref": "Yield the items from *iterable*, replacing the items for which *pred*"
+  },
+  {
+    "pred": "Evaluate a string and return the product.",
+    "ref": "Returns product of digits in given string n"
+  },
+  {
+    "pred": "Return an iterator over the items in *obj*.",
+    "ref": "If *obj* is iterable, return an iterator over its items::"
+  },
+  {
+    "pred": "Equivalent to ``product(element, *args)``.",
+    "ref": "Equivalent to ``list(product(*args)).index(element)``"
+  },
+  {
+    "pred": "This function rotates the left of a binary tree.",
+    "ref": "A A Br"
+  },
+  {
+    "pred": "Returns a list of lists of combinations of k consecutive elements.",
+    "ref": "Generates all possible combinations of k numbers out of 1 ... n using itertools."
+  },
+  {
+    "pred": "Compress the file.",
+    "ref": "Reads source file, compresses it and writes the compressed result in destination"
+  },
+  {
+    "pred": "Check if an integer is an Armstrong number.",
+    "ref": "Request that user input an integer and tell them if it is Armstrong number."
+  },
+  {
+    "pred": "Return the softmax of a vector.",
+    "ref": "Implements the softmax function"
+  },
+  {
+    "pred": "Apply transformation method to a given image.",
+    "ref": "Simple image transformation using one of two available filter functions:"
+  },
+  {
+    "pred": "Make a linked list from a list of elements.",
+    "ref": "Creates a Linked List from the elements of the given sequence"
+  },
+  {
+    "pred": "Return the bottom side view of a binary tree.",
+    "ref": "Function returns the bottom side view of binary tree"
+  },
+  {
+    "pred": "Remove the prefix from a string.",
+    "ref": "Remove `prefix` from start of `text` if present."
+  },
+  {
+    "pred": "Returns the product sum of an array.",
+    "ref": "Calculates the product sum of an array."
+  },
+  {
+    "pred": "Return the index of the first occurrence of target in sequence.",
+    "ref": "A pure Python implementation of a linear search algorithm"
+  },
+  {
+    "pred": "Filter possibles by common_word.",
+    "ref": "Given a list of possible decoded messages, narrow down the possibilities"
+  },
+  {
+    "pred": "Main function to update the image and anno files.",
+    "ref": "Get images list and annotations list from input dir."
+  },
+  {
+    "pred": "Implements the gaussian error linear unit.",
+    "ref": "Implements the Gaussian Error Linear Unit (GELU) function"
+  },
+  {
+    "pred": "Pure implementation of the shell sort algorithm in Python",
+    "ref": "Implementation of shell sort algorithm in Python"
+  },
+  {
+    "pred": "Pure implementation of Krusk algorithm.",
+    "ref": "Sort edges on the basis of distance"
+  },
+  {
+    "pred": "Yield the trues and after elements of *it*.",
+    "ref": "A variant of :func:`takewhile` that allows complete access to the"
+  },
+  {
+    "pred": "Returns the sum of the quantified values in *iterable*.",
+    "ref": "Return the how many times the predicate is true."
+  },
+  {
+    "pred": "Return a list of all the possible subclasses of cls.",
+    "ref": "Recursively finds and returns a :class:`list` of all types"
+  },
+  {
+    "pred": "Return the index of the first occurrence of target in sequence.",
+    "ref": "Pure implementation of sentinel linear search algorithm in Python"
   },
   {
     "pred": "Parse roman numerals.",
     "ref": "Converts a string of roman numerals to an integer."
   },
   {
-    "pred": "Calculate the relu of a list of numbers.",
-    "ref": "Implements the relu function"
+    "pred": "Returns the sum of even fibonacci sequence elements.",
+    "ref": "Returns the sum of all even fibonacci sequence elements that are lower"
   },
   {
-    "pred": "Return the sigmoid function of a given value.",
-    "ref": "Return the sigmoid function of a float."
+    "pred": "Implements the axpy function.",
+    "ref": "input: a 'scalar' and two vectors 'x' and 'y'"
   },
   {
-    "pred": "Returns the number of inputs and their gate.",
-    "ref": "Calculate AND of a list of input values"
-  },
-  {
-    "pred": "Returns the median of the items in the list.",
-    "ref": "One common application of Quickselect is finding the median, which is"
-  },
-  {
-    "pred": "Returns the largest divisible subset of an array.",
-    "ref": "Algorithm to find the biggest subset in the given array such that for any 2 elements"
-  },
-  {
-    "pred": "Returns the sum of the first element of a list that is equal to target.",
-    "ref": "Returns a triplet in the array with sum equal to target,"
-  },
-  {
-    "pred": "Show the Julia set of ${function_label}$, $c={function_params}$",
-    "ref": "Plots of whether the absolute value of z_final is greater than"
-  },
-  {
-    "pred": "Recursive function to depth-first search.",
-    "ref": "Depth First Search on Graph"
-  },
-  {
-    "pred": "Calculate the sum of the fractions of a number.",
-    "ref": "Return the solution to the problem"
-  },
-  {
-    "pred": "Perform the permutation of a list of integers.",
-    "ref": "Return all permutations."
-  },
-  {
-    "pred": "Recursive Lucas Number function.",
-    "ref": "Returns the nth lucas number"
-  },
-  {
-    "pred": "Calculates the largest_square_area in the matrix top down approch",
-    "ref": "Function updates the largest_square_area[0], if recursive call found"
-  },
-  {
-    "pred": "Returns the index of the first n digits of the number.",
-    "ref": "Returns the index of the first term in the Fibonacci sequence to contain"
-  },
-  {
-    "pred": "Returns a list of chunks of size *size*.",
-    "ref": "Returns a list of *count* chunks, each with *size* elements,"
-  },
-  {
-    "pred": "Function to krusk a sequence of integers.",
-    "ref": "Sort edges on the basis of distance"
-  },
-  {
-    "pred": "Make a linked list of nodes.",
-    "ref": "Creates a Linked List from the elements of the given sequence"
-  },
-  {
-    "pred": "Returns the items of the mro of the given type.",
-    "ref": "Takes a type and returns an iterator over all class variables"
-  },
-  {
-    "pred": "Returns True if number is perfect.",
-    "ref": "Check if a number is a perfect number."
-  },
-  {
-    "pred": "Calculate the average speed of a molecule.",
-    "ref": "Takes the temperature (in K) and molar mass (in kg/mol) of a gas"
-  },
-  {
-    "pred": "Return the set of lower units that suppress the given unit.",
-    "ref": "Extend suppressed units (if any) with all units lower than the minimum unit."
-  },
-  {
-    "pred": "Returns a list of combinations of n and k.",
-    "ref": "Generates all possible combinations of k numbers out of 1 ... n using itertools."
-  },
-  {
-    "pred": "Crossover the two parent nodes.",
-    "ref": "Slice and combine two strings at a random point."
-  },
-  {
-    "pred": "Count the number of cross-inversions between two lists.",
-    "ref": "Counts the inversions across two sorted arrays."
-  },
-  {
-    "pred": "Calculates the number of prime sieve eratosthenes for a given number.",
-    "ref": "Print the prime numbers up to n"
-  },
-  {
-    "pred": "Main function.",
-    "ref": "Print the Results of Various Volume Calculations."
-  },
-  {
-    "pred": "Solve a number of numbers up to a certain depth.",
-    "ref": "Checks if nums can have a sum equal to goal, given that length of nums does"
-  },
-  {
-    "pred": "Returns a sorted list of integers sorted by ascending ascending order.",
-    "ref": "A pure Python implementation of circle sort algorithm"
-  },
-  {
-    "pred": "Returns the gaussian elimination of the given coefficients and vector.",
-    "ref": "This function performs Gaussian elimination method"
-  },
-  {
-    "pred": "Backtrack the list of candidates at the given index.",
-    "ref": "A recursive function that searches for possible combinations. Backtracks in case"
-  },
-  {
-    "pred": "Returns the number of semiprimes that are less than max_number.",
-    "ref": "Returns the number of composite integers below max_number have precisely two,"
-  },
-  {
-    "pred": "Take the first n elements of *iterable*.",
-    "ref": "Return first *n* items of the *iterable* as a list."
-  },
-  {
-    "pred": "Return the index of the search item in the given array.",
-    "ref": "Iterate through the array from both sides to find the index of search_item."
-  },
-  {
-    "pred": "Decode a string.",
-    "ref": "Decodes from Baconian cipher"
-  },
-  {
-    "pred": "Fetch the pharmacy and price list for a given drug and zip code.",
-    "ref": "[summary]"
-  },
-  {
-    "pred": "Calculate the sum of all digits of a number.",
-    "ref": "Returns the sum of every digit in num."
-  },
-  {
-    "pred": "Returns a square zero matrix with n elements.",
-    "ref": "returns a square zero-matrix of dimension NxN"
-  },
-  {
-    "pred": "Returns a new generation for the given cells.",
-    "ref": "Generates the next generation for a given state of Conway's Game of Life."
-  },
-  {
-    "pred": "Converts a decimal number to its binary representation.",
-    "ref": "Take a positive integer value and return its binary equivalent."
-  },
-  {
-    "pred": "Quick sort algorithm.",
-    "ref": "\""
-  },
-  {
-    "pred": "Return True if source node is visited. Otherwise return False.",
-    "ref": "This function returns True if there is a node that has not iterated."
-  },
-  {
-    "pred": "Return the longest prefix of the input string.",
-    "ref": "Prefix-function use case"
-  },
-  {
-    "pred": "Returns the index of the first occurrence of value in array.",
-    "ref": "This function carries out Binary search on a 1d array and"
-  },
-  {
-    "pred": "Returns the number of digits of the number of digits.",
+    "pred": "Returns the sum of 9 digits of n_digits.",
     "ref": "Solves the problem for n_digits number of digits."
   },
   {
-    "pred": "Return True if n is palindrome.",
-    "ref": "Check if an integer is palindromic."
+    "pred": "Calculate the local binary value of a pixel.",
+    "ref": "It takes an image, an x and y coordinate, and returns the"
   },
   {
-    "pred": "Calculate the sum of all possible combinations of a list.",
-    "ref": "Function checks the all possible combinations, and returns the count"
+    "pred": "Calculate the modular division of two integers.",
+    "ref": "This function used the above inversion of a to find x = (b*a^(-1))mod n"
   },
   {
-    "pred": "Generate all combinations of n and k.",
-    "ref": "Generates all possible combinations of k numbers out of 1 ... n using backtracking."
+    "pred": "Return a series of p(nth_term, power)",
+    "ref": "Pure Python implementation of P-Series algorithm"
   },
   {
-    "pred": "Find the parent of a set.",
-    "ref": "Return the parent of x"
+    "pred": "Find the empty location of a grid.",
+    "ref": "This function finds an empty location so that we can assign a number"
   },
   {
-    "pred": "Returns the number of palindrome numbers in the range [1, n]",
-    "ref": "Return the sum of all numbers, less than n , which are palindromic in"
+    "pred": "Returns the sum of digits of a number.",
+    "ref": "Calculate the sum of digit values in a positive integer"
   },
   {
-    "pred": "Returns the frequency subgraphs edge list",
-    "ref": "returns Edge list for frequent subgraphs"
+    "pred": "Calculate the maximum height of a motion.",
+    "ref": "Returns the maximum height that the object reach"
   },
   {
-    "pred": "Returns the number of cardinalities of a given unit.",
-    "ref": "Conditionally pluralizes a singular word *unit_noun* if"
+    "pred": "Calculate the waiting time of processes",
+    "ref": "Calculate the waiting time of each processes"
   },
   {
-    "pred": "Return the concurrent tee of *iterable*, *n* times, *iterable*.",
-    "ref": "Variant of itertools.tee() but with guaranteed threading semantics."
+    "pred": "Pure implementation of the circle sort algorithm in Python",
+    "ref": "A pure Python implementation of circle sort algorithm"
+  },
+  {
+    "pred": "Yield chunks of length *n* from *iterable*.",
+    "ref": "Break *iterable* into sub-iterables with *n* elements each."
+  },
+  {
+    "pred": "Find the longest palindromic subsequence in a string.",
+    "ref": "This function returns the longest palindromic subsequence in a string"
+  },
+  {
+    "pred": "Find frequency subgraph given support.",
+    "ref": "find edges of multiple frequent subgraphs"
+  },
+  {
+    "pred": "Split a string of whitespaces in a single word.",
+    "ref": "While :meth:`str.split` will split on whitespace,"
+  },
+  {
+    "pred": "Partition data by pivot.",
+    "ref": "Three way partition the data into smaller, equal and greater lists,"
+  },
+  {
+    "pred": "Decipher the given message using the given cipher map.",
+    "ref": "Deciphers a message given a cipher map"
+  },
+  {
+    "pred": "Get the number of set bits count using modulo operator.",
+    "ref": "Count the number of set bits in a 32 bit integer"
+  },
+  {
+    "pred": "Decrypts the input string using the given key.",
+    "ref": "Generates a template based on the key and fills it in with"
+  },
+  {
+    "pred": "Get the cluster from a dict of nodes",
+    "ref": "Returns cluster"
+  },
+  {
+    "pred": "Pad the elements of *iterable* into *n* batches.",
+    "ref": "Yield the elements from *iterable*, followed by *fillvalue*, such that"
+  },
+  {
+    "pred": "Calculates the sum of all the capacitors in parallel.",
+    "ref": "Ceq = C1 + C2 + ... + Cn"
+  },
+  {
+    "pred": "Returns the number of non-bouncy digits below num_digits.",
+    "ref": "Calculate the number of non-bouncy numbers less than a googol."
+  },
+  {
+    "pred": "Returns the first digit of the string.",
+    "ref": "Returns the millionth lexicographic permutation of the digits 0, 1, 2,"
+  },
+  {
+    "pred": "Download an image to a file.",
+    "ref": "Saves the image of anime character"
+  },
+  {
+    "pred": "Returns the sum of the digits in the given number.",
+    "ref": "Split number digits and add them."
+  },
+  {
+    "pred": "Decode a base64 encoded string.",
+    "ref": "Decodes data according to RFC4648."
+  },
+  {
+    "pred": "Returns the number of non-zero checkouts less than limit.",
+    "ref": "Count the number of distinct ways a player can checkout with a score"
+  },
+  {
+    "pred": "Calculates the minimum cost path of a matrix.",
+    "ref": "Find the minimum cost traced by all possible paths from top left to bottom right in"
+  },
+  {
+    "pred": "Get the filter points and frequency values for a given sample rate.",
+    "ref": "Calculate the filter points and frequencies for mel frequency filters."
+  },
+  {
+    "pred": "Returns the unique elements in *iterable*.",
+    "ref": "Yields unique elements in sorted order."
+  },
+  {
+    "pred": "Generate images from given cells and frames.",
+    "ref": "Generates a list of images of subsequent Game of Life states."
+  },
+  {
+    "pred": "Returns the binomial coefficient of n and r.",
+    "ref": "Find binomial coefficient using Pascal's triangle."
+  },
+  {
+    "pred": "Decrypts the given ciphertext using the given key.",
+    "ref": "Decrypt a given `ciphertext` (string) and `key` (string), returning the decrypted"
+  },
+  {
+    "pred": "Encode the run length of a string.",
+    "ref": "Performs Run Length Encoding"
+  },
+  {
+    "pred": "Finds the lowest common ancestor of u,v",
+    "ref": "Return the lowest common ancestor between u and v"
+  },
+  {
+    "pred": "Trapezoidal Rule.",
+    "ref": "Implements the extended trapezoidal rule for numerical integration."
+  },
+  {
+    "pred": "Return a list of all bell numbers up to max.",
+    "ref": "Calculate Bell numbers for the sets of lengths from 0 to max_set_length."
+  },
+  {
+    "pred": "Calculate the power of base and exponent.",
+    "ref": "Calculate the power of a base raised to an exponent."
+  },
+  {
+    "pred": "Convert an under-string to camelCase.",
+    "ref": "Converts an underscored string to camelcased. Useful for turning a"
+  },
+  {
+    "pred": "Benchmark code.",
+    "ref": "Benchmark our functions next to each other"
+  },
+  {
+    "pred": "Input Parameters:",
+    "ref": "Input Parameters:"
+  },
+  {
+    "pred": "Calculate the trapezoidal area of a curve.",
+    "ref": "Treats curve as a collection of linear lines and sums the area of the"
+  },
+  {
+    "pred": "Recursive implementation of depth first search algorithm in Python",
+    "ref": "Recur for all neighbours."
+  },
+  {
+    "pred": "Function that returns a time-based version of a function.",
+    "ref": "Times the execution of a function with parameters"
+  },
+  {
+    "pred": "Check if the barcode is valid.",
+    "ref": "Checks for length of barcode and last-digit"
+  },
+  {
+    "pred": "Find the mean threshold of an image.",
+    "ref": "image: is a grayscale PIL image object"
+  },
+  {
+    "pred": "Pure implementation of the binary search algorithm in Python",
+    "ref": "Pure implementation of a binary search algorithm in Python using stdlib"
+  },
+  {
+    "pred": "Find the Hill Climbing problem for a given state.",
+    "ref": "Implementation of the hill climbling algorithm."
   }
 ]
