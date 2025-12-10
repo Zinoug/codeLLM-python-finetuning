@@ -1,0 +1,56 @@
+[
+  {
+    "input": "search code:\nGenerate a random graph\n\nChoices:\n0: def horn_schunck(     image0: np.ndarray,     image1: np.ndarray,     num_iter: SupportsIndex,     alpha: float | None = None, ) -> tuple[np.ndarray, ",
+    "gold": "1",
+    "pred_raw": "0",
+    "pred_digit": "0"
+  },
+  {
+    "input": "search code:\nAdds new strings (curr_string + \"0\", curr_string + \"1\") to the lexicon\n\nChoices:\n0: def mutate(child: str, genes: list[str]) -> str:     child_list = list(child)     if random.uniform(0, ",
+    "gold": "2",
+    "pred_raw": "0",
+    "pred_digit": "0"
+  },
+  {
+    "input": "search code:\nTake in 1 integer, return a number that is\n\nChoices:\n0: def arithmetic_right_shift(number: int, shift_amount: int) -> str:     if number >= 0:  # Get binary representation of positive num",
+    "gold": "2",
+    "pred_raw": "1",
+    "pred_digit": "1"
+  },
+  {
+    "input": "search code:\nThis function finds an empty location so that we can assign a number\n\nChoices:\n0: def compute_transform_tables(     source_string: str,     destination_string: str,     copy_cost: int,   ",
+    "gold": "2",
+    "pred_raw": "0",
+    "pred_digit": "0"
+  },
+  {
+    "input": "search code:\nTo evaluate the sum, Used decimal python module to calculate the decimal\n\nChoices:\n0: def main() -> None:     img_paths, annos = get_dataset(LABEL_DIR, IMAGE_DIR)     print(\"Processing...",
+    "gold": "1",
+    "pred_raw": "2",
+    "pred_digit": "2"
+  },
+  {
+    "input": "search code:\nReturns the side length of the square spiral of odd length greater\n\nChoices:\n0: def carrier_concentration(     electron_conc: float,     hole_conc: float,     intrinsic_conc: float, ) -> ",
+    "gold": "1",
+    "pred_raw": "2",
+    "pred_digit": "2"
+  },
+  {
+    "input": "search code:\nReturns the last 10 digits of the series, 1^1 + 2^2 + 3^3 + ... + 1000^1000.\n\nChoices:\n0: def solution():     total = 0     for i in range(1, 1001):         total += i**i     return str(t",
+    "gold": "0",
+    "pred_raw": "1",
+    "pred_digit": "1"
+  },
+  {
+    "input": "search code:\nReturn the median of the input list\n\nChoices:\n0: def split_before(iterable, pred, maxsplit=-1):     if maxsplit == 0:         yield list(iterable)         return      buf = []     it = it",
+    "gold": "1",
+    "pred_raw": "2",
+    "pred_digit": "2"
+  },
+  {
+    "input": "search code:\nInput Param:\n\nChoices:\n0: def capture_area(capture_radius: float) -> float:      if capture_radius < 0:         raise ValueError(\"Cannot have a capture radius less than 0\")     sigma = pi",
+    "gold": "0",
+    "pred_raw": "1",
+    "pred_digit": "1"
+  }
+]

@@ -1,0 +1,194 @@
+[
+  {
+    "input": "classify code:\ndef kth_permutation(k, n):\n    \"\"\"\n    Finds k'th lexicographic permutation (in increasing order) of\n    0,1,2,...n-1 in O(n^2) time.\n\n    Examples:\n    First permutation is always 0,1,",
+    "gold": "CORRECT",
+    "pred_raw": "BUGGY",
+    "pred_norm": "BUGGY"
+  },
+  {
+    "input": "classify code:\ndef largest_square_area_in_matrix_bottom_up_space_optimization(\n    rows: int, cols: int, mat: list[list[int]]\n) -> int:\n    \"\"\"\n    Function updates the largest_square_area, using bott",
+    "gold": "BUGGY",
+    "pred_raw": "CORRECT",
+    "pred_norm": "CORRECT"
+  },
+  {
+    "input": "classify code:\ndef minimum_waiting_time(queries: list[int]) -> int:\n    \"\"\"\n    This function takes a list of query times and returns the minimum waiting time\n    for all queries to be completed.\n\n   ",
+    "gold": "CORRECT",
+    "pred_raw": "BUGGY",
+    "pred_norm": "BUGGY"
+  },
+  {
+    "input": "classify code:\ndef gnome_sort(lst: list) -> list:\n    \"\"\"\n    Pure implementation of the gnome sort algorithm in Python\n\n    Take some mutable ordered collection with heterogeneous comparable items in",
+    "gold": "CORRECT",
+    "pred_raw": "BUGGY",
+    "pred_norm": "BUGGY"
+  },
+  {
+    "input": "classify code:\ndef rec_linear_search(sequence: list, low: int, high: int, target: int) -> int:\n    \"\"\"\n    A pure Python implementation of a recursive linear search algorithm\n\n    :param sequence: a c",
+    "gold": "CORRECT",
+    "pred_raw": "BUGGY",
+    "pred_norm": "BUGGY"
+  },
+  {
+    "input": "classify code:\ndef extended_euclid(a: int, b: int) -> Tuple[int, int]:\n    \"\"\"\n    >>> extended_euclid(10, 6)\n    (-1, 2)\n\n    >>> extended_euclid(7, 5)\n    (-2, 3)\n\n    \"\"\"\n    if b == 0:\n        ret",
+    "gold": "BUGGY",
+    "pred_raw": "CORRECT",
+    "pred_norm": "CORRECT"
+  },
+  {
+    "input": "classify code:\ndef extended_gcd(a: int, b: int) -> tuple[int, int, int]:\n    \"\"\"\n    Extended Euclid's Algorithm : If d divides a and b and d = a*x + b*y for integers x\n    and y, then d = gcd(a,b)\n  ",
+    "gold": "CORRECT",
+    "pred_raw": "BUGGY",
+    "pred_norm": "BUGGY"
+  },
+  {
+    "input": "classify code:\ndef is_palindrome(n: int | str) -> bool:\n    \"\"\"\n    Return true if the input n is a palindrome.\n    Otherwise return false. n can be an integer or a string.\n\n    >>> is_palindrome(909)",
+    "gold": "CORRECT",
+    "pred_raw": "BUGGY",
+    "pred_norm": "BUGGY"
+  },
+  {
+    "input": "classify code:\ndef levenshtein_distance_optimized(first_word: str, second_word: str) -> int:\n    \"\"\"\n    Compute the Levenshtein distance between two words (strings).\n    The function is optimized for",
+    "gold": "CORRECT",
+    "pred_raw": "BUGGY",
+    "pred_norm": "BUGGY"
+  },
+  {
+    "input": "classify code:\ndef merge_sort(collection: list) -> list:\n    \"\"\"\n    Sorts a list using the merge sort algorithm.\n\n    :param collection: A mutable ordered collection with comparable items.\n    :retur",
+    "gold": "CORRECT",
+    "pred_raw": "BUGGY",
+    "pred_norm": "BUGGY"
+  },
+  {
+    "input": "classify code:\ndef base16_encode(data: bytes) -> str:\n    \"\"\"\n    Encodes the given bytes into base16.\n\n    >>> base16_encode(b'Hello World!')\n    '48656C6C6F20576F726C6421'\n    >>> base16_encode(b'HE",
+    "gold": "CORRECT",
+    "pred_raw": "BUGGY",
+    "pred_norm": "BUGGY"
+  },
+  {
+    "input": "classify code:\ndef exits_word(\n    board: list[list[str]],\n    word: str,\n    row: int,\n    column: int,\n    word_index: int,\n    visited_points_set: set[int],\n) -> bool:\n    \"\"\"\n    Return True if it",
+    "gold": "CORRECT",
+    "pred_raw": "BUGGY",
+    "pred_norm": "BUGGY"
+  },
+  {
+    "input": "classify code:\ndef get_mid(p1: tuple[float, float], p2: tuple[float, float]) -> tuple[float, float]:\n    \"\"\"\n    Find the midpoint of two points\n\n    >>> get_mid((0, 0), (2, 2))\n    (1.0, 1.0)\n    >>>",
+    "gold": "BUGGY",
+    "pred_raw": "CORRECT",
+    "pred_norm": "CORRECT"
+  },
+  {
+    "input": "classify code:\ndef gnome_sort(lst: list) -> list:\n    \"\"\"\n    Pure implementation of the gnome sort algorithm in Python\n\n    Take some mutable ordered collection with heterogeneous comparable items in",
+    "gold": "CORRECT",
+    "pred_raw": "BUGGY",
+    "pred_norm": "BUGGY"
+  },
+  {
+    "input": "classify code:\ndef longest_subsequence(array: list[int]) -> list[int]:  # This function is recursive\n    \"\"\"\n    Some examples\n    >>> longest_subsequence([10, 22, 9, 33, 21, 50, 41, 60, 80])\n    [10,",
+    "gold": "CORRECT",
+    "pred_raw": "BUGGY",
+    "pred_norm": "BUGGY"
+  },
+  {
+    "input": "classify code:\ndef actual_power(a: int, b: int) -> int:\n    \"\"\"\n    Function using divide and conquer to calculate a^b.\n    It only works for integer a,b.\n\n    :param a: The base of the power operatio",
+    "gold": "BUGGY",
+    "pred_raw": "CORRECT",
+    "pred_norm": "CORRECT"
+  },
+  {
+    "input": "classify code:\ndef cyclic_sort(nums: list[int]) -> list[int]:\n    \"\"\"\n    Sorts the input list of n integers from 1 to n in-place\n    using the Cyclic Sort algorithm.\n\n    :param nums: List of n integ",
+    "gold": "CORRECT",
+    "pred_raw": "BUGGY",
+    "pred_norm": "BUGGY"
+  },
+  {
+    "input": "classify code:\ndef _msd_radix_sort(list_of_ints: list[int], bit_position: int) -> list[int]:\n    \"\"\"\n    Sort the given list based on the bit at bit_position. Numbers with a\n    0 at that position wil",
+    "gold": "CORRECT",
+    "pred_raw": "BUGGY",
+    "pred_norm": "BUGGY"
+  },
+  {
+    "input": "classify code:\ndef str_eval(s: str) -> int:\n    \"\"\"\n    Returns product of digits in given string n\n\n    >>> str_eval(\"987654321\")\n    362880\n    >>> str_eval(\"22222222\")\n    256\n    \"\"\"\n\n    product ",
+    "gold": "CORRECT",
+    "pred_raw": "BUGGY",
+    "pred_norm": "BUGGY"
+  },
+  {
+    "input": "classify code:\ndef calculate_waiting_times(burst_times: list[int]) -> list[int]:\r\n    \"\"\"\r\n    Calculate the waiting times of a list of processes that have a specified duration.\r\n\r\n    Return: The wai",
+    "gold": "CORRECT",
+    "pred_raw": "BUGGY",
+    "pred_norm": "BUGGY"
+  },
+  {
+    "input": "classify code:\ndef geometric_series(\n    nth_term: float | int,\n    start_term_a: float | int,\n    common_ratio_r: float | int,\n) -> list[float | int]:\n    \"\"\"\n    Pure Python implementation of Geomet",
+    "gold": "CORRECT",
+    "pred_raw": "BUGGY",
+    "pred_norm": "BUGGY"
+  },
+  {
+    "input": "classify code:\ndef wave(txt: str) -> list:\n    \"\"\"\n    Returns a so called 'wave' of a given string\n    >>> wave('cat')\n    ['Cat', 'cAt', 'caT']\n    >>> wave('one')\n    ['One', 'oNe', 'onE']\n    >>> ",
+    "gold": "BUGGY",
+    "pred_raw": "CORRECT",
+    "pred_norm": "CORRECT"
+  },
+  {
+    "input": "classify code:\ndef molarity_to_normality(nfactor: int, moles: float, volume: float) -> float:\n    \"\"\"\n    Convert molarity to normality.\n      Volume is taken in litres.\n\n      Wikipedia reference: ht",
+    "gold": "CORRECT",
+    "pred_raw": "BUGGY",
+    "pred_norm": "BUGGY"
+  },
+  {
+    "input": "classify code:\ndef reverse_words(input_str: str) -> str:\n    \"\"\"\n    Reverses words in a given string\n    >>> reverse_words(\"I love Python\")\n    'Python love I'\n    >>> reverse_words(\"I     Love      ",
+    "gold": "CORRECT",
+    "pred_raw": "BUGGY",
+    "pred_norm": "BUGGY"
+  },
+  {
+    "input": "classify code:\ndef is_substring_divisible(num: tuple) -> bool:\n    \"\"\"\n    Returns True if the pandigital number passes\n    all the divisibility tests.\n    >>> is_substring_divisible((0, 1, 2, 4, 6, 5",
+    "gold": "CORRECT",
+    "pred_raw": "BUGGY",
+    "pred_norm": "BUGGY"
+  },
+  {
+    "input": "classify code:\ndef find_min(arr: list[int]) -> int:\n    \"\"\"\n    >>> find_min([1, 2, 3, 4, 5])\n    1\n    >>> find_min([5, 5, 5, 5, 5])\n    5\n    >>> find_min([5, 5, 5, 5])\n    0\n    >>> find_min([3])\n ",
+    "gold": "CORRECT",
+    "pred_raw": "BUGGY",
+    "pred_norm": "BUGGY"
+  },
+  {
+    "input": "classify code:\ndef is_ip_v4_address_valid(ip: str) -> bool:\n    \"\"\"\n    print \"Valid IP address\" If IP is valid.\n    or\n    print \"Invalid IP address\" If IP is invalid.\n\n    >>> is_ip_v4_address_valid",
+    "gold": "CORRECT",
+    "pred_raw": "BUGGY",
+    "pred_norm": "BUGGY"
+  },
+  {
+    "input": "classify code:\ndef odd_even_transposition(arr: list) -> list:\n    \"\"\"\n    >>> odd_even_transposition([5, 4, 3, 2, 1])\n    [1, 2, 3, 4, 5]\n\n    >>> odd_even_transposition([13, 11, 18, 0, -1])\n    [-1, ",
+    "gold": "CORRECT",
+    "pred_raw": "BUGGY",
+    "pred_norm": "BUGGY"
+  },
+  {
+    "input": "classify code:\ndef check_pangram_faster(\n    input_str: str = \"The quick brown fox jumps over the lazy dog\",\n) -> bool:\n    \"\"\"\n    >>> check_pangram_faster(\"The quick brown fox jumps over the lazy do",
+    "gold": "CORRECT",
+    "pred_raw": "BUGGY",
+    "pred_norm": "BUGGY"
+  },
+  {
+    "input": "classify code:\ndef solve(nums: list[int], goal: int, depth: int) -> bool:\n    \"\"\"\n    Checks if nums can have a sum equal to goal, given that length of nums does\n    not exceed depth.\n\n    >>> solve([",
+    "gold": "CORRECT",
+    "pred_raw": "BUGGY",
+    "pred_norm": "BUGGY"
+  },
+  {
+    "input": "classify code:\ndef evaluate(item: str, main_target: str) -> tuple[str, float]:\n    \"\"\"\n    Evaluate how similar the item is with the target by just\n    counting each char in the right position\n    >>>",
+    "gold": "BUGGY",
+    "pred_raw": "CORRECT",
+    "pred_norm": "CORRECT"
+  },
+  {
+    "input": "classify code:\ndef is_int_palindrome(num: int) -> bool:\n    \"\"\"\n    Returns whether `num` is a palindrome or not\n    (see for reference https://en.wikipedia.org/wiki/Palindromic_number).\n\n    >>> is_i",
+    "gold": "BUGGY",
+    "pred_raw": "CORRECT",
+    "pred_norm": "CORRECT"
+  }
+]

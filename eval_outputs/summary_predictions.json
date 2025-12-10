@@ -1,0 +1,246 @@
+[
+  {
+    "pred": "Returns the sum of 3-digit numbers of the form [1, 2, 3, 5, 0])",
+    "ref": "Returns the sum of all the multiples of 3 or 5 below n."
+  },
+  {
+    "pred": "Check if a phone number is valid.",
+    "ref": "Determine whether the string is a valid phone number or not"
+  },
+  {
+    "pred": "Return the sum of the chain lengths of the first number of terms.",
+    "ref": "Return the number of chains with a starting number below one million which"
+  },
+  {
+    "pred": "Returns the nth most significant number of prime numbers.",
+    "ref": "Returns the n-th prime number."
+  },
+  {
+    "pred": "Returns the ordinal of a given number in the given gender.",
+    "ref": "Converts an integer to its ordinal as a string."
+  },
+  {
+    "pred": "Returns the bottom side view of a binary tree.",
+    "ref": "Function returns the bottom side view of binary tree"
+  },
+  {
+    "pred": "Find the minimum number in a list from left to right.",
+    "ref": "find min value in list"
+  },
+  {
+    "pred": "Calculate the vol_spheres_intersect function for a given radius and radius distance.",
+    "ref": "Calculate the volume of the intersection of two spheres."
+  },
+  {
+    "pred": "Encrypt a plaintext with a key.",
+    "ref": "Encrypt a given `plaintext` (string) and `key` (string), returning the"
+  },
+  {
+    "pred": "Parse roman numerals.",
+    "ref": "Converts a string of roman numerals to an integer."
+  },
+  {
+    "pred": "Calculate the relu of a list of numbers.",
+    "ref": "Implements the relu function"
+  },
+  {
+    "pred": "Return the sigmoid function of a given value.",
+    "ref": "Return the sigmoid function of a float."
+  },
+  {
+    "pred": "Returns the number of inputs and their gate.",
+    "ref": "Calculate AND of a list of input values"
+  },
+  {
+    "pred": "Returns the median of the items in the list.",
+    "ref": "One common application of Quickselect is finding the median, which is"
+  },
+  {
+    "pred": "Returns the largest divisible subset of an array.",
+    "ref": "Algorithm to find the biggest subset in the given array such that for any 2 elements"
+  },
+  {
+    "pred": "Returns the sum of the first element of a list that is equal to target.",
+    "ref": "Returns a triplet in the array with sum equal to target,"
+  },
+  {
+    "pred": "Show the Julia set of ${function_label}$, $c={function_params}$",
+    "ref": "Plots of whether the absolute value of z_final is greater than"
+  },
+  {
+    "pred": "Recursive function to depth-first search.",
+    "ref": "Depth First Search on Graph"
+  },
+  {
+    "pred": "Calculate the sum of the fractions of a number.",
+    "ref": "Return the solution to the problem"
+  },
+  {
+    "pred": "Perform the permutation of a list of integers.",
+    "ref": "Return all permutations."
+  },
+  {
+    "pred": "Recursive Lucas Number function.",
+    "ref": "Returns the nth lucas number"
+  },
+  {
+    "pred": "Calculates the largest_square_area in the matrix top down approch",
+    "ref": "Function updates the largest_square_area[0], if recursive call found"
+  },
+  {
+    "pred": "Returns the index of the first n digits of the number.",
+    "ref": "Returns the index of the first term in the Fibonacci sequence to contain"
+  },
+  {
+    "pred": "Returns a list of chunks of size *size*.",
+    "ref": "Returns a list of *count* chunks, each with *size* elements,"
+  },
+  {
+    "pred": "Function to krusk a sequence of integers.",
+    "ref": "Sort edges on the basis of distance"
+  },
+  {
+    "pred": "Make a linked list of nodes.",
+    "ref": "Creates a Linked List from the elements of the given sequence"
+  },
+  {
+    "pred": "Returns the items of the mro of the given type.",
+    "ref": "Takes a type and returns an iterator over all class variables"
+  },
+  {
+    "pred": "Returns True if number is perfect.",
+    "ref": "Check if a number is a perfect number."
+  },
+  {
+    "pred": "Calculate the average speed of a molecule.",
+    "ref": "Takes the temperature (in K) and molar mass (in kg/mol) of a gas"
+  },
+  {
+    "pred": "Return the set of lower units that suppress the given unit.",
+    "ref": "Extend suppressed units (if any) with all units lower than the minimum unit."
+  },
+  {
+    "pred": "Returns a list of combinations of n and k.",
+    "ref": "Generates all possible combinations of k numbers out of 1 ... n using itertools."
+  },
+  {
+    "pred": "Crossover the two parent nodes.",
+    "ref": "Slice and combine two strings at a random point."
+  },
+  {
+    "pred": "Count the number of cross-inversions between two lists.",
+    "ref": "Counts the inversions across two sorted arrays."
+  },
+  {
+    "pred": "Calculates the number of prime sieve eratosthenes for a given number.",
+    "ref": "Print the prime numbers up to n"
+  },
+  {
+    "pred": "Main function.",
+    "ref": "Print the Results of Various Volume Calculations."
+  },
+  {
+    "pred": "Solve a number of numbers up to a certain depth.",
+    "ref": "Checks if nums can have a sum equal to goal, given that length of nums does"
+  },
+  {
+    "pred": "Returns a sorted list of integers sorted by ascending ascending order.",
+    "ref": "A pure Python implementation of circle sort algorithm"
+  },
+  {
+    "pred": "Returns the gaussian elimination of the given coefficients and vector.",
+    "ref": "This function performs Gaussian elimination method"
+  },
+  {
+    "pred": "Backtrack the list of candidates at the given index.",
+    "ref": "A recursive function that searches for possible combinations. Backtracks in case"
+  },
+  {
+    "pred": "Returns the number of semiprimes that are less than max_number.",
+    "ref": "Returns the number of composite integers below max_number have precisely two,"
+  },
+  {
+    "pred": "Take the first n elements of *iterable*.",
+    "ref": "Return first *n* items of the *iterable* as a list."
+  },
+  {
+    "pred": "Return the index of the search item in the given array.",
+    "ref": "Iterate through the array from both sides to find the index of search_item."
+  },
+  {
+    "pred": "Decode a string.",
+    "ref": "Decodes from Baconian cipher"
+  },
+  {
+    "pred": "Fetch the pharmacy and price list for a given drug and zip code.",
+    "ref": "[summary]"
+  },
+  {
+    "pred": "Calculate the sum of all digits of a number.",
+    "ref": "Returns the sum of every digit in num."
+  },
+  {
+    "pred": "Returns a square zero matrix with n elements.",
+    "ref": "returns a square zero-matrix of dimension NxN"
+  },
+  {
+    "pred": "Returns a new generation for the given cells.",
+    "ref": "Generates the next generation for a given state of Conway's Game of Life."
+  },
+  {
+    "pred": "Converts a decimal number to its binary representation.",
+    "ref": "Take a positive integer value and return its binary equivalent."
+  },
+  {
+    "pred": "Quick sort algorithm.",
+    "ref": "\""
+  },
+  {
+    "pred": "Return True if source node is visited. Otherwise return False.",
+    "ref": "This function returns True if there is a node that has not iterated."
+  },
+  {
+    "pred": "Return the longest prefix of the input string.",
+    "ref": "Prefix-function use case"
+  },
+  {
+    "pred": "Returns the index of the first occurrence of value in array.",
+    "ref": "This function carries out Binary search on a 1d array and"
+  },
+  {
+    "pred": "Returns the number of digits of the number of digits.",
+    "ref": "Solves the problem for n_digits number of digits."
+  },
+  {
+    "pred": "Return True if n is palindrome.",
+    "ref": "Check if an integer is palindromic."
+  },
+  {
+    "pred": "Calculate the sum of all possible combinations of a list.",
+    "ref": "Function checks the all possible combinations, and returns the count"
+  },
+  {
+    "pred": "Generate all combinations of n and k.",
+    "ref": "Generates all possible combinations of k numbers out of 1 ... n using backtracking."
+  },
+  {
+    "pred": "Find the parent of a set.",
+    "ref": "Return the parent of x"
+  },
+  {
+    "pred": "Returns the number of palindrome numbers in the range [1, n]",
+    "ref": "Return the sum of all numbers, less than n , which are palindromic in"
+  },
+  {
+    "pred": "Returns the frequency subgraphs edge list",
+    "ref": "returns Edge list for frequent subgraphs"
+  },
+  {
+    "pred": "Returns the number of cardinalities of a given unit.",
+    "ref": "Conditionally pluralizes a singular word *unit_noun* if"
+  },
+  {
+    "pred": "Return the concurrent tee of *iterable*, *n* times, *iterable*.",
+    "ref": "Variant of itertools.tee() but with guaranteed threading semantics."
+  }
+]

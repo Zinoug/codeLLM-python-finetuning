@@ -27,3 +27,5 @@ codet5_multitask_finetuned/
 # OS garbage
 .DS_Store
 Thumbs.db
+codet5_multitask_checkpoint/
+codet5_multitask_final/
