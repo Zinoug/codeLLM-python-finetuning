@@ -67,7 +67,6 @@ December 11, 2025
 ### Multi-Task Benefits
 - **Shared knowledge** between related tasks
 - **One model** instead of four → efficient
-- **Practical** for IDE integration
 
 ---
 
